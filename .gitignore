@@ -1,0 +1,6 @@
+*.log
+/.git
+/.vs
+bin/
+obj/
+TestResults/

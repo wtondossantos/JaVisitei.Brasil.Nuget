@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Copyright>Copyright Wellington dos Santos Castor</Copyright>
+    <PackageProjectUrl>https://Javisitei.com.br/api/documentacao/license.htm</PackageProjectUrl>
+    <PackageIcon>35299879_10209526975771193_793061068346753024_n.jpg</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <NeutralLanguage>pt-BR</NeutralLanguage>
+    <PackageTags>JaVisitei;Brasil;JaVisitei.Brasil;wtondossantos</PackageTags>
+    <Description>Pacote para Projeto JaVisitei</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="5.0.8" />
+  </ItemGroup>
+
+</Project>
