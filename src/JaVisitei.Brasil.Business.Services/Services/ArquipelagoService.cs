@@ -19,5 +19,6 @@ namespace JaVisitei.Brasil.Service.Services
         {
             return _repository.PesquisarPorEstado(id);
         }
+
     }
 }
