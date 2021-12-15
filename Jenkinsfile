@@ -31,11 +31,11 @@ pipeline {
         }
         stage('Deploy'){
              steps{
-               sh '''for pid in $(lsof -t -i:9090); do
+               sh '''for pid in $(lsof -t -i:3000); do
                        kill -9 $pid
                done'''
                sh 'cd src/JaVisitei.Brasil.Nuget/bin/Release/netcoreapp3.1/publish/'
-               sh 'nohup dotnet JaVisitei.Brasil.Nuget.dll --urls="http://104.128.91.189:9090" --ip="104.128.91.189" --port=9090 --no-restore > /dev/null 2>&1 &'
+               sh 'nohup dotnet JaVisitei.Brasil.Nuget.dll --urls="http://3.230.193.223:3000/" --ip="3.230.193.223" --port=3000 --no-restore > /dev/null 2>&1 &'
              }
         }        
     }
