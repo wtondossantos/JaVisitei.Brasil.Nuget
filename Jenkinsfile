@@ -4,6 +4,11 @@ pipeline {
         githubPush()
       }
     stages {
+        stage('LS'){
+           steps{
+               sh 'ls'
+            }
+         }      
         stage('Restore packages'){
            steps{
                sh 'dotnet restore JaVisitei.Brasil.Nuget.sln'
