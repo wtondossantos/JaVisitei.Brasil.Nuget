@@ -2,6 +2,9 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base
 MAINTAINER Wellington dos Santos Castor
+
+WORKDIR /dotnet31
+
 WORKDIR /src
 COPY . .
 COPY NuGet.Config ./
@@ -13,6 +16,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base
 WORKDIR /nuget
 COPY --from=build /output /nuget
 ENTRYPOINT ["dotnet", "JaVisitei.Brasil.Nuget.dll"]
+>>>>>>>>> Temporary merge branch 2
 EXPOSE 80
 EXPOSE 443
 
