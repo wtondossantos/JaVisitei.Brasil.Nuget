@@ -9,9 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    
-    - name: Exibir versões do NET
-      run: dotnet --list -sdks
       
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
