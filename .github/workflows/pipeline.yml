@@ -2,16 +2,13 @@ on:
   push: 
     branches:
       - release
-name: Deploy Nuget
+name: Build Nuget
 jobs:
   deploy:
-    name: Deploy    
+    name: Build    
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    
-    - name: Exibir versões do NET
-      run: dotnet --list -sdks
       
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
@@ -23,7 +20,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
+        aws-region: us-east-1
       
     - name: Build and publish
       run: |
