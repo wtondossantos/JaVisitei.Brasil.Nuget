@@ -47,14 +47,12 @@ jobs:
       run: |
         export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`
         dotnet nuget add source ${{ secrets.AWS_PACKAGE }} -n ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }} -u "aws" -p "${CODEARTIFACT_AUTH_TOKEN}" --store-password-in-clear-text
+        dotnet build
         
     - name: List Package
       run: aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }}
 
-    - name: build package
-      run: dotnet add packageName --source packageSourceName
-
-    - name: build pach
+    - name: build pack
       run: |
         dotnet pack -o .
         dotnet nuget push *.nupkg -s codeartifact
