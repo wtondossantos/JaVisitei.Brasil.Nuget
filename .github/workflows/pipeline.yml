@@ -49,7 +49,7 @@ jobs:
         dotnet nuget add source ${{ secrets.AWS_PACKAGE }} -n ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }} -u "aws" -p "${CODEARTIFACT_AUTH_TOKEN}" --store-password-in-clear-text
         
     - name: List Package
-      run: aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository my_repo
+      run: aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }}
 
     - name: build package
       run: dotnet add packageName --source packageSourceName
