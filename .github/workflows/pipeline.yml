@@ -2,6 +2,10 @@ on:
   push: 
     branches:
       - release
+  pull_request:
+    branches:
+      - release
+
 name: Build Nuget
 jobs:
   build:
@@ -13,6 +17,16 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+    - name: Pack
+      run: dotnet pack --configuration Release
+    - name: nugetPush
+      run: dotnet nuget push "src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg" --source "github"
       
   deploy:
     name: Deploy  
