@@ -52,7 +52,7 @@ jobs:
     #  run: dotnet add packageName --source packageSourceName
       
     - name: List Package 1
-      run: aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository my_repo
+      run: aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }}
 
     - name: build pack
       run: |
@@ -60,4 +60,4 @@ jobs:
         dotnet nuget push *.nupkg -s codeartifact
         
     - name: List Package 1
-      run: aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository my_repo
+      run: aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }}
