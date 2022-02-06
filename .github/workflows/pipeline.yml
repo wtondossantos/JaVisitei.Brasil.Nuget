@@ -51,6 +51,9 @@ jobs:
         
     # - name: build package
     #  run: dotnet add packageName --source packageSourceName
+    - name: build package
+      run: dotnet add ./src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg --source ./src/JaVisitei.Brasil.Nuget
+
     - name: Push nuget
       run: dotnet nuget push ./src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg --source ./src/JaVisitei.Brasil.Nuget
       
