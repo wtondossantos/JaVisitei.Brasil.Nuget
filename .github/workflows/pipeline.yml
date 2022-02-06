@@ -33,10 +33,6 @@ jobs:
         role-to-assume: ${{ secrets.AWS_ARN_IAM_ROLE }}
         role-duration-seconds: 1200
         aws-region: us-east-1
-        
-    - name: Copy files to the test website with the AWS CLI
-      run: |
-        aws s3 sync . ${{ secrets.AWS_ARN_S3 }}
 
     - name: Deploy and publish dev
       run: |
