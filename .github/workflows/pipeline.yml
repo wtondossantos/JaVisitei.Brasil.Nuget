@@ -29,7 +29,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: prd
-      url: 'javisitei.com.br'
     needs: build
     steps:
     - name: Checkout
@@ -46,5 +45,6 @@ jobs:
   
     - name: Deploy and publish
       run: |
+        export CODEARTIFACT_PACKAGE $(aws codeartifact get-repository-endpoint --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget)
         export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text)
-        nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}" -username "aws" -password "${CODEARTIFACT_AUTH_TOKEN}"
+        nuget sources add -name ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }} -Source "${CODEARTIFACT_PACKAGE}v3/index.json -password ${CODEARTIFACT_AUTH_TOKEN} -username aws
