@@ -14,14 +14,11 @@ jobs:
       with:
         dotnet-version: 3.1.x
       
-  deploy-dev:
+  deploy:
     name: Deploy  
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     environment:
-      name: dev
+      name: prd
       url: 'javisitei.com.br'
     needs: build
     steps:
@@ -39,37 +36,6 @@ jobs:
         aws s3 sync . ${{ secrets.AWS_ARN_S3 }}
 
     - name: Deploy and publish dev
-      run: |
-        # nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}"
-        # aws codeartifact login --tool nuget --repository ${{ secrets.AWS_REPOSITORY }} --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }}
-        export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`)
-        nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}" -username "aws" -password "${CODEARTIFACT_AUTH_TOKEN}"
-
-  deploy-prd:
-    name: Deploy  
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-    environment:
-      name: prd
-      url: 'javisitei.com.br'
-    needs: deploy-dev
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-
-    - name: Configure AWS credentials from Test account
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        role-to-assume: ${{ secrets.AWS_ARN_IAM }}
-        aws-region: us-east-1
-        
-    - name: Copy files to the test website with the AWS CLI
-      run: |
-        aws s3 sync . ${{ secrets.AWS_ARN_S3 }}
-
-    - name: Deploy and publish prod
       run: |
         # nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}"
         # aws codeartifact login --tool nuget --repository ${{ secrets.AWS_REPOSITORY }} --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }}
