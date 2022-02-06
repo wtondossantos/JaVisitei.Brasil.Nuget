@@ -23,22 +23,12 @@ jobs:
       run: dotnet build --configuration Release --no-restore ./src/
     - name: Test
       run: dotnet test --no-restore --verbosity normal ./src/JaVisitei.Brasil.Test
-
-    # - name: Pack
-    #  run: dotnet pack --configuration Release
-    # - name: nugetPush
-    #  run: dotnet nuget push "src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg" --source "github" 
-    # - name: nugetPushAWS
-    #  run: |
-    #    export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text)
-    #    nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}" -username "aws" -password "${CODEARTIFACT_AUTH_TOKEN}"
       
   deploy:
     name: Deploy  
     runs-on: ubuntu-latest
     environment:
       name: prd
-      url: 'javisitei.com.br'
     needs: build
     steps:
     - name: Checkout
@@ -53,12 +43,8 @@ jobs:
         role-duration-seconds: 1200
         aws-region: us-east-1
   
-    #- name: Deploy and teste
-    #  run: |
-    #    nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}"
-    #    aws codeartifact login --tool nuget --repository ${{ secrets.AWS_REPOSITORY }} --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }}
-
     - name: Deploy and publish
       run: |
+        export CODEARTIFACT_PACKAGE $(aws codeartifact get-repository-endpoint --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget)
         export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text)
-        nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}" -username "aws" -password "${CODEARTIFACT_AUTH_TOKEN}"
+        nuget sources add -name ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }} -Source "${CODEARTIFACT_PACKAGE}v3/index.json -password ${CODEARTIFACT_AUTH_TOKEN} -username aws
