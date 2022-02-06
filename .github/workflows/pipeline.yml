@@ -51,6 +51,8 @@ jobs:
         
     # - name: build package
     #  run: dotnet add packageName --source packageSourceName
+    - name: Push nuget
+      run: dotnet nuget push src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg --source JaVisitei.Brasil.Nuget
       
     - name: List Package 1
       run: aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }}
