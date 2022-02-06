@@ -23,7 +23,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore ./src/
     - name: Test
       run: dotnet test --no-restore --verbosity normal ./src/JaVisitei.Brasil.Test
-      
+
     # - name: Pack
     #  run: dotnet pack --configuration Release
     # - name: nugetPush
@@ -43,7 +43,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-  
+
     - name: Configure AWS credentials from Test account
       uses: aws-actions/configure-aws-credentials@v1
       with:
