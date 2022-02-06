@@ -35,7 +35,7 @@ jobs:
     # - name: Pack
     #  run: dotnet pack --configuration Release
     # - name: nugetPush
-    #  run: dotnet nuget push "src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg" --source "github"
+    #  run: dotnet nuget push "src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg" --source "github" 
     - name: nugetPushAWS
       run: |
         export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`)
