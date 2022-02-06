@@ -14,11 +14,6 @@ jobs:
     steps:
     - name: Checkout
     - uses: actions/checkout@v2
-    - name: Install Credential Provider
-      run:
-        export PATH="$PATH:/root/.dotnet/tools"
-        dotnet tool install -g AWS.CodeArtifact.NuGet.CredentialProvider
-        dotnet codeartifact-creds install
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
