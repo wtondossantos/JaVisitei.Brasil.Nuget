@@ -46,7 +46,7 @@ jobs:
     #  run: dotnet nuget push "src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg" --source "github" 
     - name: nugetPushAWS
       run: |
-        export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`)
+        export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text)
         nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}" -username "aws" -password "${CODEARTIFACT_AUTH_TOKEN}"
       
   #deploy:
