@@ -48,12 +48,6 @@ jobs:
       run: |
         export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`
         dotnet nuget add source ${{ secrets.AWS_PACKAGE }} -n ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }} -u "aws" -p "${CODEARTIFACT_AUTH_TOKEN}" --store-password-in-clear-text
-   
-    - name: build package
-      run: dotnet add --configuration Release --no-restore ./src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg --source ./src/JaVisitei.Brasil.Nuget
-
-    - name: Push nuget
-      run: dotnet nuget push --configuration Release --no-restore ./src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg --source ./src/JaVisitei.Brasil.Nuget
 
     - name: List Package 1
       run: aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }}
