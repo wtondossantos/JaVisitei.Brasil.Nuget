@@ -31,6 +31,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         role-to-assume: ${{ secrets.AWS_ARN_IAM_ROLE }}
+        role-duration-seconds: 1200
         aws-region: us-east-1
         
     - name: Copy files to the test website with the AWS CLI
