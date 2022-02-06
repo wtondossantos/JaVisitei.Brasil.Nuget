@@ -23,7 +23,27 @@ jobs:
       run: dotnet build --configuration Release --no-restore ./src/
     - name: Test
       run: dotnet test --no-restore --verbosity normal ./src/JaVisitei.Brasil.Test
-
+      
+    # - name: Pack
+    #  run: dotnet pack --configuration Release
+    # - name: nugetPush
+    #  run: dotnet nuget push "src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg" --source "github" 
+    # - name: nugetPushAWS
+    #  run: |
+    #    export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text)
+    #    nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}" -username "aws" -password "${CODEARTIFACT_AUTH_TOKEN}"
+      
+  deploy:
+    name: Deploy  
+    runs-on: ubuntu-latest
+    environment:
+      name: prd
+      url: 'javisitei.com.br'
+    needs: build
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+  
     - name: Configure AWS credentials from Test account
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -32,41 +52,13 @@ jobs:
         role-to-assume: ${{ secrets.AWS_ARN_IAM_ROLE }}
         role-duration-seconds: 1200
         aws-region: us-east-1
-    # - name: Pack
-    #  run: dotnet pack --configuration Release
-    # - name: nugetPush
-    #  run: dotnet nuget push "src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg" --source "github" 
-    - name: nugetPushAWS
+  
+    - name: Deploy and teste
+      run: |
+        nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}"
+        aws codeartifact login --tool nuget --repository ${{ secrets.AWS_REPOSITORY }} --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }}
+        
+    - name: Deploy and publish
       run: |
         export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text)
         nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}" -username "aws" -password "${CODEARTIFACT_AUTH_TOKEN}"
-      
-  #deploy:
-  #  name: Deploy  
-  #  runs-on: ubuntu-latest
-  #  environment:
-  #    name: prd
-  #    url: 'javisitei.com.br'
-  #  needs: build
-  #  steps:
-  #  - name: Checkout
-  #    uses: actions/checkout@v2
-  #
-  #  - name: Configure AWS credentials from Test account
-  #    uses: aws-actions/configure-aws-credentials@v1
-  #    with:
-  #      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #      role-to-assume: ${{ secrets.AWS_ARN_IAM_ROLE }}
-  #      role-duration-seconds: 1200
-  #      aws-region: us-east-1
-  #
-  #  - name: Deploy and teste
-  #    run: |
-  #      nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}"
-  #      aws codeartifact login --tool nuget --repository ${{ secrets.AWS_REPOSITORY }} --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }}
-  #      
-  #  - name: Deploy and publish
-  #    run: |
-  #      export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`)
-  #      nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}" -username "aws" -password "${CODEARTIFACT_AUTH_TOKEN}"
