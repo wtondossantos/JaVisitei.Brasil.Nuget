@@ -23,15 +23,6 @@ jobs:
       run: dotnet build --configuration Release --no-restore ./src/
     - name: Test
       run: dotnet test --no-restore --verbosity normal ./src/JaVisitei.Brasil.Test
-    # - name: Pack
-    #  run: dotnet pack --configuration Release
-    # - name: nugetPush
-    #  run: dotnet nuget push "src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg" --source "github"
-    - name: nugetPushAWS
-      run: |
-        export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`)
-        nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}" -username "aws" -password "${CODEARTIFACT_AUTH_TOKEN}"
-    
     - name: Configure AWS credentials from Test account
       uses: aws-actions/configure-aws-credentials@v1
       with:
