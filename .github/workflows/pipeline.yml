@@ -4,7 +4,7 @@ on:
       - release
 name: Build Nuget
 jobs:
-  deploy:
+  build:
     name: Build    
     runs-on: ubuntu-latest
     steps:
@@ -22,7 +22,31 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
       
-    - name: Build and publish
+  deploy-dev:
+    name: Deploy  
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+      url: 'javisitei.com.br'
+    needs: build
+    steps:
+    - name: Deploy and publish dev
+      run: |
+        # nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}"
+        # aws codeartifact login --tool nuget --repository ${{ secrets.AWS_REPOSITORY }} --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }}
+        export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`)
+        nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}" -username "aws" -password "${CODEARTIFACT_AUTH_TOKEN}"
+
+        
+  deploy-prd:
+    name: Deploy  
+    runs-on: ubuntu-latest
+    environment:
+      name: prd
+      url: 'javisitei.com.br'
+    needs: deploy-dev
+    steps:
+    - name: Deploy and publish prod
       run: |
         # nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}"
         # aws codeartifact login --tool nuget --repository ${{ secrets.AWS_REPOSITORY }} --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }}
