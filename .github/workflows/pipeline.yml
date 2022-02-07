@@ -1,30 +1,68 @@
+name: Build Nuget
+
 on: 
   push: 
     branches:
-      - release
-name: Build Nuget
+  pull_request:
+    branches:
+
 jobs:
-  deploy:
+  build:
     name: Build    
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
-        
-    - name: Configure AWS credentials
+    - name: Restore dependencies
+      run: dotnet restore ./src/JaVisitei.Brasil.Nuget
+    - name: Build
+      run: dotnet build --configuration Release --no-restore ./src/JaVisitei.Brasil.Nuget
+    - name: Package
+      run: |
+        export PATH="$PATH:/root/.dotnet/tools"
+        dotnet tool install -g AWS.CodeArtifact.NuGet.CredentialProvider
+        dotnet codeartifact-creds install
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal ./src/JaVisitei.Brasil.Test
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: deploy-package.zip
+        path: ./src/JaVisitei.Brasil.Nuget/bin/Release/
+
+  deploy:
+    name: Deploy  
+    runs-on: ubuntu-latest
+    environment:
+      name: prd
+    needs: build
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials from Test account
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        role-to-assume: ${{ secrets.AWS_ARN_IAM_ROLE }}
+        role-duration-seconds: 1200
         aws-region: us-east-1
-      
-    - name: Build and publish
+
+    - name: Download artifact  
+      uses: actions/download-artifact@v2
+      with:
+        name: deploy-package.zip
+        path: ./src/JaVisitei.Brasil.Nuget/bin/Release/
+
+    - name: Deploy and publish
       run: |
-        # nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}"
-        # aws codeartifact login --tool nuget --repository ${{ secrets.AWS_REPOSITORY }} --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }}
-        export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`)
-        nuget sources add -name "${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}" -Source "${{env.AWS_PROJECT }}" -username "aws" -password "${CODEARTIFACT_AUTH_TOKEN}"
+        export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`
+        dotnet nuget add source ${{ secrets.AWS_PACKAGE }} -n ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }} -u ${{ secrets.AWS_USER }} -p "${CODEARTIFACT_AUTH_TOKEN}" --store-password-in-clear-text
+        
+    - name: List Package 1
+      run: aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }}
+    
