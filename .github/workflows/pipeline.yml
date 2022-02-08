@@ -67,7 +67,7 @@ jobs:
     - name: Deploy
       run: |
         export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`
-        dotnet nuget add source ${{ secrets.AWS_PACKAGE }} -n ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }} -u ${{ secrets.AWS_USER }} -p "${CODEARTIFACT_AUTH_TOKEN}" --store-password-in-clear-text --name "ja-visitei-brasil-nuget"
+        dotnet nuget add source ${{ secrets.AWS_PACKAGE }} --name "ja-visitei-brasil-nuget" -n ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }} -u ${{ secrets.AWS_USER }} -p "${CODEARTIFACT_AUTH_TOKEN}" --store-password-in-clear-text
         
     - name: Publish
       run: |
