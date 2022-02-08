@@ -3,8 +3,10 @@ name: Build Nuget
 on: 
   push: 
     branches:
+      - release
   pull_request:
     branches:
+      - release
 
 jobs:
   build:
@@ -58,11 +60,19 @@ jobs:
         name: deploy-package.zip
         path: ./src/JaVisitei.Brasil.Nuget/bin/Release/
 
+    - name: Display structure of downloaded files
+      run: ls -R
+      working-directory: ./src/JaVisitei.Brasil.Nuget/bin/Release
+
     - name: Deploy and publish
       run: |
         export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`
         dotnet nuget add source ${{ secrets.AWS_PACKAGE }} -n ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }} -u ${{ secrets.AWS_USER }} -p "${CODEARTIFACT_AUTH_TOKEN}" --store-password-in-clear-text
         
+    - name: Deploy
+      run: |
+        dotnet nuget push ./src/JaVisitei.Brasil.Nuget/JaVisitei.Brasil.Nuget.1.0.0.nupkg --source "ja-visitei-brasil-nuget"
+
     - name: List Package 1
       run: aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }}
     
