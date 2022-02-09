@@ -29,11 +29,11 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal ./src/JaVisitei.Brasil.Test
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: deploy-package.zip
-        path: ./src/JaVisitei.Brasil.Nuget/bin/Release/
+    #- name: Upload artifact
+    #  uses: actions/upload-artifact@v2
+    #  with:
+    #    name: deploy-package.zip
+    #    path: ./src/JaVisitei.Brasil.Nuget/bin/Release/
 
   deploy:
     name: Deploy  
@@ -54,11 +54,11 @@ jobs:
         role-duration-seconds: 1200
         aws-region: us-east-1
       
-    - name: Download artifact  
-      uses: actions/download-artifact@v2
-      with:
-        name: deploy-package.zip
-        path: ./src/JaVisitei.Brasil.Nuget/bin/Release/
+    #- name: Download artifact  
+    #  uses: actions/download-artifact@v2
+    #  with:
+    #    name: deploy-package.zip
+    #    path: ./src/JaVisitei.Brasil.Nuget/bin/Release/
         
     - name: Deploy
       run: |
