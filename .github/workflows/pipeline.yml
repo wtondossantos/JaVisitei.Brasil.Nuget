@@ -67,6 +67,7 @@ jobs:
         
     - name: Publish
       run: |
+        dotnet nuget remove ./src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg
         dotnet nuget push ./src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg --source ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}
 
     - name: List Package 1
