@@ -54,10 +54,7 @@ jobs:
         role-to-assume: ${{ secrets.AWS_ARN_IAM_ROLE }}
         role-duration-seconds: 1200
         aws-region: us-east-1
-        
-    - name: Remove old package
-      run: dotnet nuget remove ./src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.1.nupkg
-
+      
     - name: Download artifact  
       uses: actions/download-artifact@v2
       with:
@@ -71,6 +68,7 @@ jobs:
         
     - name: Publish
       run: |
+        aws codeartifact remove-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }}
         dotnet nuget push ./src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.1.nupkg --source ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}
         aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }}
         
