@@ -18,8 +18,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
-    - name: Remove old package
-      run: dotnet nuget remove ./src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.1.nupkg
         
     - name: Restore dependencies
       run: dotnet restore ./src/JaVisitei.Brasil.Nuget
@@ -56,6 +54,9 @@ jobs:
         role-to-assume: ${{ secrets.AWS_ARN_IAM_ROLE }}
         role-duration-seconds: 1200
         aws-region: us-east-1
+        
+    - name: Remove old package
+      run: dotnet nuget remove ./src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.1.nupkg
 
     - name: Download artifact  
       uses: actions/download-artifact@v2
