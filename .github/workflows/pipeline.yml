@@ -45,14 +45,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Configure AWS credentials from Test account
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        role-to-assume: ${{ secrets.AWS_ARN_IAM_ROLE }}
-        role-duration-seconds: 1200
-        aws-region: us-east-1
+    #- name: Configure AWS credentials from Test account
+    #  uses: aws-actions/configure-aws-credentials@v1
+    #  with:
+    #    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #    role-to-assume: ${{ secrets.AWS_ARN_IAM_ROLE }}
+    #    role-duration-seconds: 1200
+    #    aws-region: us-east-1
       
     - name: Download artifact  
       uses: actions/download-artifact@v2
