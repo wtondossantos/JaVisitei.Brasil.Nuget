@@ -59,11 +59,7 @@ jobs:
       with:
         name: deploy-package.zip
         path: ./src/JaVisitei.Brasil.Nuget/bin/Release/
-
-    - name: Display structure of downloaded files
-      run: ls -R
-      working-directory: ./src/JaVisitei.Brasil.Nuget/bin/Release
-
+        
     - name: Deploy
       run: |
         export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`
