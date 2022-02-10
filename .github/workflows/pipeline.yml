@@ -68,7 +68,7 @@ jobs:
         
     - name: Publish
       run: |
-        aws codeartifact delete-package-versions --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget --package javisitei.brasil.nuget --versions 1.0.2
-        dotnet nuget push ./src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.2.nupkg --source ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}
+        aws codeartifact delete-package-versions --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget --package javisitei.brasil.nuget --versions 1.0.*
+        dotnet nuget push ./src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg --source ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}
         aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }}
         
