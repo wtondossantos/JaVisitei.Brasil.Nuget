@@ -11,8 +11,10 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <FileVersion></FileVersion>
     <AssemblyVersion></AssemblyVersion>
-    <Version>1.0.2</Version>
+    <Version>1.0.0</Version>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+	<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	<Deterministic>true</Deterministic>
     <SignAssembly>False</SignAssembly>
   </PropertyGroup>
 
