@@ -22,10 +22,10 @@ jobs:
         dotnet-version: 3.1.x
         
     - name: Restore dependencies
-      run: dotnet restore ./src/JaVisitei.Brasil.Nuget
+      run: dotnet restore ./src/JaVisitei.Brasil.*
 
     - name: Build
-      run: dotnet build --configuration Release --no-restore ./src/JaVisitei.Brasil.Nuget
+      run: dotnet build --configuration Release --no-restore ./src/JaVisitei.Brasil.*
 
     - name: Tests
       run: dotnet test --no-restore --verbosity normal ./src/JaVisitei.Brasil.Test
@@ -34,7 +34,6 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: deploy-package.zip
-      #  path: ./src/JaVisitei.Brasil.Nuget/bin/Release/
         path: ./artifacts/Release/
 
   deploy:
@@ -60,7 +59,6 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: deploy-package.zip
-        #path: ./src/JaVisitei.Brasil.Nuget/bin/Release/
         path: ./artifacts/Release/
         
     - name: Deploy
@@ -70,8 +68,7 @@ jobs:
         
     - name: Publish
       run: |
-        aws codeartifact delete-package-versions --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget --package javisitei.brasil.nuget --versions 1.0.0
+        aws codeartifact delete-package-versions --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget --package javisitei.brasil.* --versions 1.0.0
         dotnet nuget push ./artifacts/Release/*.nupkg --source ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}
-        #dotnet nuget push ./src/JaVisitei.Brasil.Nuget/bin/Release/JaVisitei.Brasil.Nuget.1.0.0.nupkg --source ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }}
         aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }}
         

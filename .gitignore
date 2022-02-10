@@ -3,6 +3,7 @@
 *.git
 bin/
 obj/
+artifacts/
 TestResults/
 /src/.vs
 *.vs
