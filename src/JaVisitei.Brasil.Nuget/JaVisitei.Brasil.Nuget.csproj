@@ -41,15 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JaVisitei.Brasil.Business.Services\JaVisitei.Brasil.Business.Service.csproj" />
-    <ProjectReference Include="..\JaVisitei.Brasil.Business\JaVisitei.Brasil.Business.csproj" />
-    <ProjectReference Include="..\JaVisitei.Brasil.Data.Repository\JaVisitei.Brasil.Data.Repository.csproj" />
-    <ProjectReference Include="..\JaVisitei.Brasil.Data\JaVisitei.Brasil.Data.csproj" />
-    <ProjectReference Include="..\JaVisitei.Brasil.Helper\JaVisitei.Brasil.Helper.csproj" />
-    <ProjectReference Include="..\JaVisitei.Brasil.Security\JaVisitei.Brasil.Security.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -58,6 +49,15 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JaVisitei.Brasil.Business.Services\JaVisitei.Brasil.Business.Service.csproj"  Version="1.0.1" />
+    <ProjectReference Include="..\JaVisitei.Brasil.Business\JaVisitei.Brasil.Business.csproj"  Version="1.0.1" />
+    <ProjectReference Include="..\JaVisitei.Brasil.Data.Repository\JaVisitei.Brasil.Data.Repository.csproj"  Version="1.0.1" />
+    <ProjectReference Include="..\JaVisitei.Brasil.Data\JaVisitei.Brasil.Data.csproj"  Version="1.0.1" />
+    <ProjectReference Include="..\JaVisitei.Brasil.Helper\JaVisitei.Brasil.Helper.csproj"  Version="1.0.1" />
+    <ProjectReference Include="..\JaVisitei.Brasil.Security\JaVisitei.Brasil.Security.csproj"  Version="1.0.1" />
   </ItemGroup>
 
 </Project>
