@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace JaVisitei.Brasil.Data.Entities
 {
     [Table("TbTipoRegiao")]
-    public partial class TipoRegiaoEntity
+    public partial class TipoRegiao
     {
-        public TipoRegiaoEntity()
+        public TipoRegiao()
         {
-            Visitas = new HashSet<VisitaEntity>();
+            Visitas = new HashSet<Visita>();
         }
 
         [Column("Id")]
@@ -17,7 +17,7 @@ namespace JaVisitei.Brasil.Data.Entities
         [Column("Nome")]
         public string Nome { get; set; }
 
-        internal virtual ICollection<VisitaEntity> Visitas { get; set; }
+        internal virtual ICollection<Visita> Visitas { get; set; }
 
     }
 }

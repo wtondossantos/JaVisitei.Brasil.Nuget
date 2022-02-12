@@ -1,10 +1,11 @@
-﻿using JaVisitei.Brasil.Model.Models;
+﻿using JaVisitei.Brasil.Data.Entities;
+using JaVisitei.Brasil.Data.Entities;
 using JaVisitei.Brasil.Service.Base;
 
 namespace JaVisitei.Brasil.Service.Interfaces
 {
-    public interface IUsuarioService : IBaseService<Usuario>
+    public interface IUsuarioService : IBaseService<Data.Entities.Usuario>
     {
-        Usuario Autenticacao(Usuario usuario);
+        Data.Entities.Usuario Autenticacao(Data.Entities.Usuario usuario);
     }
 }

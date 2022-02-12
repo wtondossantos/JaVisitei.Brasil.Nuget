@@ -10,16 +10,16 @@ namespace JaVisitei.Brasil.Data.Base
             : base(options)
         { }
 
-        public virtual DbSet<ArquipelagoEntity> Arquipelagos { get; set; }
-        public virtual DbSet<EstadoEntity> Estados { get; set; }
-        public virtual DbSet<IlhaEntity> Ilhas { get; set; }
-        public virtual DbSet<MesorregiaoEntity> Mesorregiaos { get; set; }
-        public virtual DbSet<MicrorregiaoEntity> Microrregiaos { get; set; }
-        public virtual DbSet<MunicipioEntity> Municipios { get; set; }
-        public virtual DbSet<PaisEntity> Paises { get; set; }
-        public virtual DbSet<UsuarioEntity> Usuarios { get; set; }
-        public virtual DbSet<TipoRegiaoEntity> TipoRegioes { get; set; }
-        public virtual DbSet<VisitaEntity> Visitas { get; set; }
+        public virtual DbSet<Arquipelago> Arquipelagos { get; set; }
+        public virtual DbSet<Estado> Estados { get; set; }
+        public virtual DbSet<Ilha> Ilhas { get; set; }
+        public virtual DbSet<Mesorregiao> Mesorregiaos { get; set; }
+        public virtual DbSet<Microrregiao> Microrregiaos { get; set; }
+        public virtual DbSet<Municipio> Municipios { get; set; }
+        public virtual DbSet<Pais> Paises { get; set; }
+        public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<TipoRegiao> TipoRegioes { get; set; }
+        public virtual DbSet<Visita> Visitas { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,7 +31,7 @@ namespace JaVisitei.Brasil.Data.Base
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<VisitaEntity>(entity =>
+            modelBuilder.Entity<Visita>(entity =>
             {
                 entity.ToTable("TbVisita");
 
@@ -75,7 +75,7 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasConstraintName("Fk_TbVisitaIdTipoRegiao_TbTipoRegiaoId");
             });
 
-            modelBuilder.Entity<TipoRegiaoEntity>(entity =>
+            modelBuilder.Entity<TipoRegiao>(entity =>
             {
                 entity.ToTable("TbTipoRegiao");
 
@@ -90,7 +90,7 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasMaxLength(60);
             });
 
-            modelBuilder.Entity<UsuarioEntity>(entity =>
+            modelBuilder.Entity<Usuario>(entity =>
             {
                 entity.ToTable("TbUsuario");
 
@@ -120,7 +120,7 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<ArquipelagoEntity>(entity =>
+            modelBuilder.Entity<Arquipelago>(entity =>
             {
                 entity.ToTable("TbArquipelago");
 
@@ -147,7 +147,7 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasConstraintName("Fk_TbArquipelagoIdMesorregiao_TbMesorregiaoId");
             });
 
-            modelBuilder.Entity<EstadoEntity>(entity =>
+            modelBuilder.Entity<Estado>(entity =>
             {
                 entity.ToTable("TbEstado");
 
@@ -178,7 +178,7 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasConstraintName("Fk_TbEstadoIdPais_TbPaisId");
             });
 
-            modelBuilder.Entity<IlhaEntity>(entity =>
+            modelBuilder.Entity<Ilha>(entity =>
             {
                 entity.ToTable("TbIlha");
 
@@ -209,7 +209,7 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasConstraintName("Fk_TbIlhaIdArquipelago_TbArquipelagoId");
             });
 
-            modelBuilder.Entity<MesorregiaoEntity>(entity =>
+            modelBuilder.Entity<Mesorregiao>(entity =>
             {
                 entity.ToTable("TbMesorregiao");
 
@@ -240,7 +240,7 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasConstraintName("Fk_TbMesorregiaoIdEstado_TdEstadoId");
             });
 
-            modelBuilder.Entity<MicrorregiaoEntity>(entity =>
+            modelBuilder.Entity<Microrregiao>(entity =>
             {
                 entity.ToTable("TbMicrorregiao");
 
@@ -271,7 +271,7 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasConstraintName("Fk_TbMicrorregiaoIdMesorregiao_TbMesorregiaoId");
             });
 
-            modelBuilder.Entity<MunicipioEntity>(entity =>
+            modelBuilder.Entity<Municipio>(entity =>
             {
                 entity.ToTable("TbMunicipio");
 
@@ -302,7 +302,7 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasConstraintName("Fk_TbMunicipioIdMicrorregiao_TbMicrorregiaoId");
             });
 
-            modelBuilder.Entity<PaisEntity>(entity =>
+            modelBuilder.Entity<Pais>(entity =>
             {
                 entity.Property(e => e.Id)
                     .HasMaxLength(50)

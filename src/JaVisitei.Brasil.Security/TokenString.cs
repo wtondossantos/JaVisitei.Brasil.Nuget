@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using JaVisitei.Brasil.Model.Models;
+using JaVisitei.Brasil.Data.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System;
+using JaVisitei.Brasil.Data.Entities;
 
 namespace JaVisitei.Brasil.Security
 {

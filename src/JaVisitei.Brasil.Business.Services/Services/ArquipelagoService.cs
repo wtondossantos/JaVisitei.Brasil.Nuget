@@ -1,4 +1,4 @@
-﻿using JaVisitei.Brasil.Model.Models;
+﻿using JaVisitei.Brasil.Data.Entities;
 using JaVisitei.Brasil.Service.Base;
 using JaVisitei.Brasil.Service.Interfaces;
 using JaVisitei.Brasil.Data.Repository.Interfaces;

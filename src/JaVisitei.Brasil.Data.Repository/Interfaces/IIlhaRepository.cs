@@ -1,4 +1,4 @@
-﻿using JaVisitei.Brasil.Model.Models;
+﻿using JaVisitei.Brasil.Data.Entities;
 using JaVisitei.Brasil.Data.Repository.Base;
 using System.Collections.Generic;
 

@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace JaVisitei.Brasil.Data.Entities
 {
     [Table("TbArquipelago")]
-    public partial class ArquipelagoEntity
+    public partial class Arquipelago
     {
 
-        public ArquipelagoEntity()
+        public Arquipelago()
         {
-            Ilhas = new HashSet<IlhaEntity>();
+            Ilhas = new HashSet<Ilha>();
         }
 
         [Column("Id")]
@@ -21,8 +21,8 @@ namespace JaVisitei.Brasil.Data.Entities
         [Column("Nome")]
         public string Nome { get; set; }
 
-        internal virtual MesorregiaoEntity IdMesorregiaoNavigation { get; set; }
+        internal virtual Mesorregiao IdMesorregiaoNavigation { get; set; }
 
-        internal virtual ICollection<IlhaEntity> Ilhas { get; set; }
+        internal virtual ICollection<Ilha> Ilhas { get; set; }
     }
 }

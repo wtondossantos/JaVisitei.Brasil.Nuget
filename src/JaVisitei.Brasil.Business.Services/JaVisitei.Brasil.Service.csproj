@@ -28,8 +28,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="bin\**" />
+	  <EmbeddedResource Remove="bin\**" />
+	  <None Remove="bin\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\JaVisitei.Brasil.Data.Repository\JaVisitei.Brasil.Data.Repository.csproj" />
-		<ProjectReference Include="..\JaVisitei.Brasil.Model\JaVisitei.Brasil.Model.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>

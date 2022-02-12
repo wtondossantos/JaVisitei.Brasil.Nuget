@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace JaVisitei.Brasil.Data.Entities
 {
     [Table("TbMesorregiao")]
-    public partial class MesorregiaoEntity
+    public partial class Mesorregiao
     {
-        public MesorregiaoEntity()
+        public Mesorregiao()
         {
-            Arquipelagos = new HashSet<ArquipelagoEntity>();
-            Microrregiaos = new HashSet<MicrorregiaoEntity>();
+            Arquipelagos = new HashSet<Arquipelago>();
+            Microrregiaos = new HashSet<Microrregiao>();
         }
 
         [Column("Id")]
@@ -24,10 +24,10 @@ namespace JaVisitei.Brasil.Data.Entities
         [Column("Desenho")]
         public string Desenho { get; set; }
 
-        internal virtual EstadoEntity IdEstadoNavigation { get; set; }
+        internal virtual Estado IdEstadoNavigation { get; set; }
 
-        internal virtual ICollection<ArquipelagoEntity> Arquipelagos { get; set; }
+        internal virtual ICollection<Arquipelago> Arquipelagos { get; set; }
 
-        internal virtual ICollection<MicrorregiaoEntity> Microrregiaos { get; set; }
+        internal virtual ICollection<Microrregiao> Microrregiaos { get; set; }
     }
 }
