@@ -68,5 +68,5 @@ jobs:
         
     - name: Publish
       run: |
-        dotnet nuget push ./artifacts/Release/*.nupkg --source ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }} #--skip-duplicate
+        dotnet nuget push ./artifacts/Release/*.nupkg --source ${{ secrets.AWS_DOMAIN }}/${{ secrets.AWS_REPOSITORY }} --skip-duplicate
         aws codeartifact list-packages --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }}        
