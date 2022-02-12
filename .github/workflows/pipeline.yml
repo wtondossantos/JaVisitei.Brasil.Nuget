@@ -63,6 +63,8 @@ jobs:
         
     - name: Remove
       run:
+        aws codeartifact delete-package-versions --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget --package javisitei.brasil.nuget --versions 1.0.0
+        aws codeartifact delete-package-versions --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget --package javisitei.brasil.nuget --versions 1.0.1
         aws codeartifact delete-package-versions --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget --package javisitei.brasil.model --versions 1.0.0
         aws codeartifact delete-package-versions --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget --package javisitei.brasil.service --versions 1.0.0
 
