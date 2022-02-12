@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace JaVisitei.Brasil.Service.Base
+namespace JaVisitei.Brasil.Business.Service.Base
 {
     public interface IBaseService<T> where T : class
     {

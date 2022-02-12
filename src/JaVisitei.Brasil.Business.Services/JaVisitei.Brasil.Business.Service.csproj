@@ -35,6 +35,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\JaVisitei.Brasil.Data.Repository\JaVisitei.Brasil.Data.Repository.csproj" />
+		<ProjectReference Include="..\JaVisitei.Brasil.Data\JaVisitei.Brasil.Data.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>
