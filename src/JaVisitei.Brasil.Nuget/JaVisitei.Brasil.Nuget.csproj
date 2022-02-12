@@ -46,7 +46,6 @@
     <ProjectReference Include="..\JaVisitei.Brasil.Data.Repository\JaVisitei.Brasil.Data.Repository.csproj" />
     <ProjectReference Include="..\JaVisitei.Brasil.Data\JaVisitei.Brasil.Data.csproj" />
     <ProjectReference Include="..\JaVisitei.Brasil.Helper\JaVisitei.Brasil.Helper.csproj" />
-    <ProjectReference Include="..\JaVisitei.Brasil.Model\JaVisitei.Brasil.Model.csproj" />
     <ProjectReference Include="..\JaVisitei.Brasil.Security\JaVisitei.Brasil.Security.csproj" />
   </ItemGroup>
 

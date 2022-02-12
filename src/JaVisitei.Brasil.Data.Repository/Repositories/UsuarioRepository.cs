@@ -1,13 +1,14 @@
-﻿using JaVisitei.Brasil.Model.Models;
+﻿using JaVisitei.Brasil.Data.Entities;
 using JaVisitei.Brasil.Data.Base;
 using JaVisitei.Brasil.Data.Repository.Base;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
 using JaVisitei.Brasil.Helper;
 using System.Linq;
+using JaVisitei.Brasil.Data.Entities;
 
 namespace JaVisitei.Brasil.Data.Repository.Repositories
 {
-    public class UsuarioRepository : BaseRepository<Usuario>, IUsuarioRepository
+    public class UsuarioRepository : BaseRepository<Entities.Usuario>, IUsuarioRepository
     {
         private new readonly DbJaVisiteiBrasilContext _context;
 
@@ -16,7 +17,7 @@ namespace JaVisitei.Brasil.Data.Repository.Repositories
             _context = context;
         }
 
-        public Usuario Autenticacao(Usuario usuario)
+        public Entities.Usuario Autenticacao(Entities.Usuario usuario)
         {
             var senha = Encriptar.Sha256encrypt(usuario.Senha);
             

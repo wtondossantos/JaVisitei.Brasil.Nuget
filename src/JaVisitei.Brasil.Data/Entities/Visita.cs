@@ -6,7 +6,7 @@ using System.Text;
 namespace JaVisitei.Brasil.Data.Entities
 {
     [Table("TbVisita")]
-    public partial class VisitaEntity
+    public partial class Visita
     {
         [Column("Id")]
         public int Id { get; set; }
@@ -26,8 +26,8 @@ namespace JaVisitei.Brasil.Data.Entities
         [Column("Data")]
         public DateTime Data { get; set; }
 
-        internal virtual UsuarioEntity IdUsuarioNavigation { get; set; }
+        internal virtual Usuario IdUsuarioNavigation { get; set; }
 
-        internal virtual TipoRegiaoEntity IdTipoRegiaoNavigation { get; set; }
+        internal virtual TipoRegiao IdTipoRegiaoNavigation { get; set; }
     }
 }

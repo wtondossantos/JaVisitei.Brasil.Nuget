@@ -1,11 +1,12 @@
-﻿using JaVisitei.Brasil.Model.Models;
+﻿using JaVisitei.Brasil.Data.Entities;
 using JaVisitei.Brasil.Service.Base;
 using JaVisitei.Brasil.Service.Interfaces;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
+using JaVisitei.Brasil.Data.Entities;
 
 namespace JaVisitei.Brasil.Service.Services
 {
-    public class UsuarioService : BaseService<Usuario>, IUsuarioService
+    public class UsuarioService : BaseService<Data.Entities.Usuario>, IUsuarioService
     {
         private readonly IUsuarioRepository _repository;
 
@@ -14,7 +15,7 @@ namespace JaVisitei.Brasil.Service.Services
             _repository = repository;
         }
 
-        public Usuario Autenticacao(Usuario usuario)
+        public Data.Entities.Usuario Autenticacao(Data.Entities.Usuario usuario)
         {
             return _repository.Autenticacao(usuario);
         }
