@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JaVisitei.Brasil.Business.Services\JaVisitei.Brasil.Business.Service.csproj" />
+    <ProjectReference Include="..\JaVisitei.Brasil.Business\JaVisitei.Brasil.Business.csproj" />
+    <ProjectReference Include="..\JaVisitei.Brasil.Data.Repository\JaVisitei.Brasil.Data.Repository.csproj" />
+    <ProjectReference Include="..\JaVisitei.Brasil.Data\JaVisitei.Brasil.Data.csproj" />
+    <ProjectReference Include="..\JaVisitei.Brasil.Helper\JaVisitei.Brasil.Helper.csproj" />
+    <ProjectReference Include="..\JaVisitei.Brasil.Security\JaVisitei.Brasil.Security.csproj" />
+  </ItemGroup>
+
+</Project>

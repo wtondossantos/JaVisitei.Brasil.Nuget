@@ -25,6 +25,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaVisitei.Brasil.Security",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaVisitei.Brasil.Test", "JaVisitei.Brasil.Test\JaVisitei.Brasil.Test.csproj", "{BC52DFE2-C3AA-4A6D-B25B-3A777A1CA76D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Nuget", "3 - Nuget", "{05573EB0-1E3F-43FA-8BF0-676ADA7EA30F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaVisitei.Brasil.Nuget", "JaVisitei.Brasil.Nuget\JaVisitei.Brasil.Nuget.csproj", "{D4B2527C-4A28-41F6-9EF6-421A32A70CFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +63,10 @@ Global
 		{BC52DFE2-C3AA-4A6D-B25B-3A777A1CA76D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC52DFE2-C3AA-4A6D-B25B-3A777A1CA76D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC52DFE2-C3AA-4A6D-B25B-3A777A1CA76D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4B2527C-4A28-41F6-9EF6-421A32A70CFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4B2527C-4A28-41F6-9EF6-421A32A70CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4B2527C-4A28-41F6-9EF6-421A32A70CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4B2527C-4A28-41F6-9EF6-421A32A70CFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +79,7 @@ Global
 		{D9E97E9B-A53F-423A-B620-0C5E39479E0D} = {0DE933E1-07F9-479B-AF24-703193912153}
 		{99723250-BE67-470D-8D0A-CB502F1C3245} = {0DE933E1-07F9-479B-AF24-703193912153}
 		{BC52DFE2-C3AA-4A6D-B25B-3A777A1CA76D} = {509245FF-9A39-4F8D-9D4C-D72AE0521AD7}
+		{D4B2527C-4A28-41F6-9EF6-421A32A70CFF} = {05573EB0-1E3F-43FA-8BF0-676ADA7EA30F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A9C053D-9786-4D01-8ED7-3E89720211E9}
