@@ -1,10 +1,8 @@
 ﻿using JaVisitei.Brasil.Data.Entities;
-using JaVisitei.Brasil.Service.Base;
-using JaVisitei.Brasil.Service.Interfaces;
+using JaVisitei.Brasil.Business.Service.Base;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
-using JaVisitei.Brasil.Data.Entities;
 
-namespace JaVisitei.Brasil.Service.Services
+namespace JaVisitei.Brasil.Business.Service
 {
     public class UsuarioService : BaseService<Data.Entities.Usuario>, IUsuarioService
     {

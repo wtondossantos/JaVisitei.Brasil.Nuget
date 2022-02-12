@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace JaVisitei.Brasil.Service.Base
+namespace JaVisitei.Brasil.Business.Service.Base
 {
     public class BaseService<T> : IBaseService<T> where T : class
     {

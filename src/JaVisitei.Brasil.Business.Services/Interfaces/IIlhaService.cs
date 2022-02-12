@@ -1,8 +1,8 @@
 ﻿using JaVisitei.Brasil.Data.Entities;
-using JaVisitei.Brasil.Service.Base;
+using JaVisitei.Brasil.Business.Service.Base;
 using System.Collections.Generic;
 
-namespace JaVisitei.Brasil.Service.Interfaces
+namespace JaVisitei.Brasil.Business.Service
 {
     public interface IIlhaService : IBaseService<Ilha>
     {

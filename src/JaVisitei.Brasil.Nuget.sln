@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaVisitei.Brasil.Data.Repos
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaVisitei.Brasil.Business", "JaVisitei.Brasil.Business\JaVisitei.Brasil.Business.csproj", "{33543E6D-09EA-4989-B5E7-CE03245570B6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaVisitei.Brasil.Service", "JaVisitei.Brasil.Business.Services\JaVisitei.Brasil.Service.csproj", "{48D226CE-8477-478F-A6B9-220F2DD205D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaVisitei.Brasil.Business.Service", "JaVisitei.Brasil.Business.Services\JaVisitei.Brasil.Business.Service.csproj", "{48D226CE-8477-478F-A6B9-220F2DD205D9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaVisitei.Brasil.Helper", "JaVisitei.Brasil.Helper\JaVisitei.Brasil.Helper.csproj", "{D9E97E9B-A53F-423A-B620-0C5E39479E0D}"
 EndProject
