@@ -61,13 +61,6 @@ jobs:
         name: deploy-package.zip
         path: ./artifacts/Release/
         
-    - name: Remove
-      run:
-        aws codeartifact delete-package-versions --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget --package javisitei.brasil.nuget --versions 1.0.0
-        aws codeartifact delete-package-versions --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget --package javisitei.brasil.nuget --versions 1.0.1
-        aws codeartifact delete-package-versions --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget --package javisitei.brasil.model --versions 1.0.0
-        aws codeartifact delete-package-versions --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --repository ${{ secrets.AWS_REPOSITORY }} --format nuget --package javisitei.brasil.service --versions 1.0.0
-
     - name: Deploy
       run: |
         export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain ${{ secrets.AWS_DOMAIN }} --domain-owner ${{ secrets.AWS_OWNER }} --query authorizationToken --output text`
