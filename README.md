@@ -1,2 +1,2 @@
-# JaVisitei.Brasil.Helper
-Projeto Helper .Net para Já Visitei
+# JaVisitei.Brasil.Nuget
+Projeto Nuget .Net para Já Visitei
