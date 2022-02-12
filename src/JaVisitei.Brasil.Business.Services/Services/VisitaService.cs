@@ -1,6 +1,7 @@
 ﻿using JaVisitei.Brasil.Data.Entities;
 using JaVisitei.Brasil.Business.Service.Base;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
+using JaVisitei.Brasil.Business.Service.Interfaces;
 
 namespace JaVisitei.Brasil.Business.Service
 {

@@ -1,7 +1,7 @@
 ﻿using JaVisitei.Brasil.Data.Entities;
 using JaVisitei.Brasil.Business.Service.Base;
 
-namespace JaVisitei.Brasil.Business.Service
+namespace JaVisitei.Brasil.Business.Service.Interfaces
 {
     public interface IUsuarioService : IBaseService<Data.Entities.Usuario>
     {

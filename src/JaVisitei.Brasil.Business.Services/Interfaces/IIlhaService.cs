@@ -2,7 +2,7 @@
 using JaVisitei.Brasil.Business.Service.Base;
 using System.Collections.Generic;
 
-namespace JaVisitei.Brasil.Business.Service
+namespace JaVisitei.Brasil.Business.Service.Interfaces
 {
     public interface IIlhaService : IBaseService<Ilha>
     {
