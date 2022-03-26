@@ -5,7 +5,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System;
-using JaVisitei.Brasil.Data.Entities;
 
 namespace JaVisitei.Brasil.Security
 {
