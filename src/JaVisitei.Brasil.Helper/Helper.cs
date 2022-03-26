@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JaVisitei.Brasil.Helper
 {
-    public class Default
+    public class Helper
     {
         public string RandomHexString()
         {
