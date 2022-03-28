@@ -4,9 +4,9 @@ using System.Text;
 
 namespace JaVisitei.Brasil.Helper
 {
-    public class Util
+    public static class Helper
     {
-        public string RandomHexString()
+        public static string RandomHexString()
         {
             Random rdm = new Random();
             string hexValue = string.Empty;
