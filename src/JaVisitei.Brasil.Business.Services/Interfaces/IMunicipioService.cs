@@ -7,5 +7,6 @@ namespace JaVisitei.Brasil.Business.Service.Interfaces
     public interface IMunicipioService : IBaseService<Municipio>
     {
         IEnumerable<Municipio> PesquisarPorEstado(string id);
+        IEnumerable<Municipio> PesquisarPorMesorregiao(string id);
     }
 }

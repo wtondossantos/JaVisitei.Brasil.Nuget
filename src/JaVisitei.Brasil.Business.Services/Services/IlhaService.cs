@@ -19,5 +19,10 @@ namespace JaVisitei.Brasil.Business.Service
         {
             return _repository.PesquisarPorEstado(id);
         }
+
+        public IEnumerable<Ilha> PesquisarPorMesorregiao(string id)
+        {
+            return _repository.PesquisarPorMesorregiao(id);
+        }
     }
 }

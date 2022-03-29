@@ -7,5 +7,6 @@ namespace JaVisitei.Brasil.Data.Repository.Interfaces
     public interface IIlhaRepository : IBaseRepository<Ilha>
     {
         IEnumerable<Ilha> PesquisarPorEstado(string id);
+        IEnumerable<Ilha> PesquisarPorMesorregiao(string id);
     }
 }
