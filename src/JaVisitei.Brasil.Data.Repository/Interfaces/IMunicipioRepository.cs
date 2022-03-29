@@ -7,5 +7,6 @@ namespace JaVisitei.Brasil.Data.Repository.Interfaces
     public interface IMunicipioRepository : IBaseRepository<Municipio>
     {
         IEnumerable<Municipio> PesquisarPorEstado(string id);
+        IEnumerable<Municipio> PesquisarPorMesorregiao(string id);
     }
 }
