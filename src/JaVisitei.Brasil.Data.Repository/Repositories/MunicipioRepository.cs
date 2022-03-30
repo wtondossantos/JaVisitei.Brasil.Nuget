@@ -25,7 +25,7 @@ namespace JaVisitei.Brasil.Data.Repository.Repositories
 
         public IEnumerable<Municipio> PesquisarPorMesorregiao(string id)
         {
-            var micro = _microregiao.Pesquisar(x => x.Id == id).ToList();
+            var micro = _microregiao.Pesquisar(x => x.IdMesorregiao == id).ToList();
             var model = new List<Municipio>();
 
             foreach (var m in micro)

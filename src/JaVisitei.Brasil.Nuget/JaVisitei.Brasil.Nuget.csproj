@@ -15,7 +15,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<FileVersion></FileVersion>
 		<AssemblyVersion></AssemblyVersion>
-		<Version>1.0.7</Version>
+		<Version>1.1.0</Version>
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 		<EmbedUntrackedSources>True</EmbedUntrackedSources>
 		<ContinuousIntegrationBuild>True</ContinuousIntegrationBuild>
