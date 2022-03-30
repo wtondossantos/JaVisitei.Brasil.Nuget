@@ -26,7 +26,7 @@ namespace JaVisitei.Brasil.Business.Validations
             return retorno;
         }
 
-        public List<string> ValidaAlteracaoUsuario(UsuarioAlterarRequest model, string email)
+        public List<string> ValidaAlteracaoUsuario(UsuarioAlterarRequest model)
         {
             var retorno = new List<string>();
             Validar validar = new Validar();
@@ -34,7 +34,7 @@ namespace JaVisitei.Brasil.Business.Validations
             if (!validar.ValidarEmail(model.Email))
                 retorno.Add("Email inválido.");
 
-            else if (model.Email != email && model.Email != model.ConfirmarEmail)
+            else if (model.Email != model.ConfirmarEmail)
                 retorno.Add("Confirmação do e-mail não confere.");
 
             else if (!string.IsNullOrEmpty(model.Senha))
