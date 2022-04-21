@@ -1,11 +1,12 @@
 ﻿using JaVisitei.Brasil.Data.Entities;
 using JaVisitei.Brasil.Data.Repository.Base;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Data.Repository.Interfaces
 {
     public interface IMicrorregiaoRepository : IBaseRepository<Microrregiao>
     {
-        IEnumerable<Microrregiao> PesquisarPorEstado(string id);
+        Task<IEnumerable<Microrregiao>> PesquisarPorEstadoAsync(string id);
     }
 }

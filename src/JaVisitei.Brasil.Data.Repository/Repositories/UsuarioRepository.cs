@@ -4,6 +4,7 @@ using JaVisitei.Brasil.Data.Repository.Base;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
 using JaVisitei.Brasil.Helper;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Data.Repository.Repositories
 {
@@ -16,11 +17,12 @@ namespace JaVisitei.Brasil.Data.Repository.Repositories
             _context = context;
         }
 
-        public Usuario Autenticacao(Usuario usuario)
+        public async Task<Usuario> AutenticacaoAsync(Usuario usuario)
         {
             var senha = Encriptar.Sha256encrypt(usuario.Senha);
-            
-            return Pesquisar(x => x.Senha == senha && x.Email == usuario.Email).FirstOrDefault();
+            var resultado = await PesquisarAsync(x => x.Senha == senha && x.Email == usuario.Email);
+
+            return resultado.FirstOrDefault();    
         }
 
     }

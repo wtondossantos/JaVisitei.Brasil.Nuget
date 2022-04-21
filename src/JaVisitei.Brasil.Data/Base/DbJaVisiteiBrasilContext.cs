@@ -143,7 +143,7 @@ namespace JaVisitei.Brasil.Data.Base
                 entity.HasOne(d => d.IdMesorregiaoNavigation)
                     .WithMany(p => p.Arquipelagos)
                     .HasForeignKey(d => d.IdMesorregiao)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("Fk_TbArquipelagoIdMesorregiao_TbMesorregiaoId");
             });
 
@@ -174,7 +174,7 @@ namespace JaVisitei.Brasil.Data.Base
                 entity.HasOne(d => d.IdPaisNavigation)
                     .WithMany(p => p.Estados)
                     .HasForeignKey(d => d.IdPais)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("Fk_TbEstadoIdPais_TbPaisId");
             });
 
@@ -205,7 +205,7 @@ namespace JaVisitei.Brasil.Data.Base
                 entity.HasOne(d => d.IdArquipelagoNavigation)
                     .WithMany(p => p.Ilhas)
                     .HasForeignKey(d => d.IdArquipelago)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("Fk_TbIlhaIdArquipelago_TbArquipelagoId");
             });
 
@@ -236,7 +236,7 @@ namespace JaVisitei.Brasil.Data.Base
                 entity.HasOne(d => d.IdEstadoNavigation)
                     .WithMany(p => p.Mesorregiaos)
                     .HasForeignKey(d => d.IdEstado)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("Fk_TbMesorregiaoIdEstado_TdEstadoId");
             });
 
@@ -267,7 +267,7 @@ namespace JaVisitei.Brasil.Data.Base
                 entity.HasOne(d => d.IdMesorregiaoNavigation)
                     .WithMany(p => p.Microrregiaos)
                     .HasForeignKey(d => d.IdMesorregiao)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("Fk_TbMicrorregiaoIdMesorregiao_TbMesorregiaoId");
             });
 
@@ -298,7 +298,7 @@ namespace JaVisitei.Brasil.Data.Base
                 entity.HasOne(d => d.IdMicrorregiaoNavigation)
                     .WithMany(p => p.Municipios)
                     .HasForeignKey(d => d.IdMicrorregiao)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("Fk_TbMunicipioIdMicrorregiao_TbMicrorregiaoId");
             });
 

@@ -25,6 +25,7 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request
 
         [Required(ErrorMessage = "Informe a confirmação de Email")]
         [DataType(DataType.EmailAddress)]
+        [Compare("Email")]
         [Display(Name = "ConfirmarEmail")]
         public string ConfirmarEmail { get; set; }
 
@@ -40,6 +41,7 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request
 
         [Required(ErrorMessage = "Informe a confirmação de Senha")]
         [DataType(DataType.Password)]
+        [Compare("Senha")]
         [Display(Name = "ConfirmarSenha")]
         public string ConfirmarSenha { get; set; }
     }

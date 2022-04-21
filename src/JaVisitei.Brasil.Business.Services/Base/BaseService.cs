@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Business.Service.Base
 {
@@ -14,29 +15,29 @@ namespace JaVisitei.Brasil.Business.Service.Base
             _repository = repository;
         }
 
-        public void Adicionar(T entity)
+        public async void AdicionarAsync(T entity)
         {
-            _repository.Adicionar(entity);
+            _repository.AdicionarAsync(entity);
         }
 
-        public void Alterar(T entity)
+        public async void AlterarAsync(T entity)
         {
-            _repository.Alterar(entity);
+            _repository.AlterarAsync(entity);
         }
 
-        public void Excluir(Func<T, bool> predicate)
+        public async void ExcluirAsync(Func<T, bool> predicate)
         {
-            _repository.Excluir(predicate);
+            _repository.ExcluirAsync(predicate);
         }
 
-        public IEnumerable<T> Pesquisar(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<T>> PesquisarAsync(Expression<Func<T, bool>> predicate)
         {
-            return _repository.Pesquisar(predicate);
+            return await _repository.PesquisarAsync(predicate);
         }
 
-        public IEnumerable<T> Pesquisar()
+        public async Task<IEnumerable<T>> PesquisarAsync()
         {
-            return _repository.Pesquisar();
+            return await _repository.PesquisarAsync();
         }
     }
 }

@@ -3,6 +3,7 @@ using JaVisitei.Brasil.Business.Service.Base;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
 using JaVisitei.Brasil.Business.Service.Interfaces;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Business.Service
 {
@@ -15,14 +16,14 @@ namespace JaVisitei.Brasil.Business.Service
             _repository = repository;
         }
 
-        public IEnumerable<Municipio> PesquisarPorEstado(string id)
+        public async Task<IEnumerable<Municipio>> PesquisarPorEstadoAsync(string id)
         {
-            return _repository.PesquisarPorEstado(id);
+            return await _repository.PesquisarPorEstadoAsync(id);
         }
 
-        public IEnumerable<Municipio> PesquisarPorMesorregiao(string id)
+        public async Task<IEnumerable<Municipio>> PesquisarPorMesorregiaoAsync(string id)
         {
-            return _repository.PesquisarPorMesorregiao(id);
+            return await _repository.PesquisarPorMesorregiaoAsync(id);
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using JaVisitei.Brasil.Data.Entities;
 using JaVisitei.Brasil.Data.Repository.Base;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Data.Repository.Interfaces
 {
     public interface IIlhaRepository : IBaseRepository<Ilha>
     {
-        IEnumerable<Ilha> PesquisarPorEstado(string id);
-        IEnumerable<Ilha> PesquisarPorMesorregiao(string id);
+        Task<IEnumerable<Ilha>> PesquisarPorEstadoAsync(string id);
+        Task<IEnumerable<Ilha>> PesquisarPorMesorregiaoAsync(string id);
     }
 }

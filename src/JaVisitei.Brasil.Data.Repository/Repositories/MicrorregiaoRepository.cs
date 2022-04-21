@@ -3,6 +3,7 @@ using JaVisitei.Brasil.Data.Base;
 using JaVisitei.Brasil.Data.Repository.Base;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Data.Repository.Repositories
 {
@@ -17,9 +18,9 @@ namespace JaVisitei.Brasil.Data.Repository.Repositories
             _mesorregiao = new MesorregiaoRepository(_context);
         }
 
-        public IEnumerable<Microrregiao> PesquisarPorEstado(string id)
+        public async Task<IEnumerable<Microrregiao>> PesquisarPorEstadoAsync(string id)
         {
-            return Pesquisar(x => x.Id.Substring(0, 3) == id.Substring(0, 3));
+            return await PesquisarAsync(x => x.Id.Substring(0, 3) == id.Substring(0, 3));
         }
     }
 }

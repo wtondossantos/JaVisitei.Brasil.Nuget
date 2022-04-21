@@ -4,6 +4,7 @@ using JaVisitei.Brasil.Data.Repository.Base;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Data.Repository.Repositories
 {
@@ -18,19 +19,19 @@ namespace JaVisitei.Brasil.Data.Repository.Repositories
             _microregiao = new MicrorregiaoRepository(_context);
         }
 
-        public IEnumerable<Municipio> PesquisarPorEstado(string id)
+        public async Task<IEnumerable<Municipio>> PesquisarPorEstadoAsync(string id)
         {
-            return Pesquisar(x => x.Id.Substring(0, 3) == id.Substring(0, 3));
+            return await PesquisarAsync(x => x.Id.Substring(0, 3) == id.Substring(0, 3));
         }
 
-        public IEnumerable<Municipio> PesquisarPorMesorregiao(string id)
+        public async Task<IEnumerable<Municipio>> PesquisarPorMesorregiaoAsync(string id)
         {
-            var micro = _microregiao.Pesquisar(x => x.IdMesorregiao == id).ToList();
+            var micro = await _microregiao.PesquisarAsync(x => x.IdMesorregiao == id);
             var model = new List<Municipio>();
 
             foreach (var m in micro)
             {
-                var municipios = Pesquisar(x => x.IdMicrorregiao == m.Id).ToList();
+                var municipios = await PesquisarAsync(x => x.IdMicrorregiao == m.Id);
                 model.AddRange(municipios);
             }
             return model;
