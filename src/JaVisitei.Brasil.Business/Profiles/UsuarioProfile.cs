@@ -8,7 +8,7 @@ namespace JaVisitei.Brasil.Business.Profiles
     {
         public UsuarioProfile()
         {
-            CreateMap<LoginRequest, Usuario>();
+            CreateMap<AutenticacaoRequest, Usuario>();
         }
     }
 }
