@@ -6,7 +6,7 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response
     public class LoginResponse
     {
         [JsonPropertyName("expiracao")]
-        public DateTime Expiracao { get; set; }
+        public DateTime Expira { get; set; }
 
         [JsonPropertyName("token")]
         public string Token { get; set; }

@@ -3,6 +3,7 @@ using JaVisitei.Brasil.Data.Base;
 using JaVisitei.Brasil.Data.Repository.Base;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Data.Repository.Repositories
 {
@@ -15,9 +16,9 @@ namespace JaVisitei.Brasil.Data.Repository.Repositories
             _context = context;
         }
 
-        public IEnumerable<Arquipelago> PesquisarPorEstado(string id)
+        public async Task<IEnumerable<Arquipelago>> PesquisarPorEstadoAsync(string id)
         {
-            return Pesquisar(x => x.Id.Substring(0, 3) == id.Substring(0, 3));
+            return await PesquisarAsync(x => x.Id.Substring(0, 3) == id.Substring(0, 3));
         }
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Data.Repository.Base
 {
@@ -18,37 +19,37 @@ namespace JaVisitei.Brasil.Data.Repository.Base
             _table = context.Set<T>();
         }
 
-        public IEnumerable<T> Pesquisar()
+        public async Task<IEnumerable<T>> PesquisarAsync()
         {
             return _table.ToList();
         }
 
-        public IEnumerable<T> Pesquisar(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<T>> PesquisarAsync(Expression<Func<T, bool>> predicate)
         {
             return _table.Where(predicate).ToList();
         }
 
-        public void Adicionar(T entity)
+        public async void AdicionarAsync(T entity)
         {
             _table.Add(entity);
-            Salvar();
+            SalvarAsync();
         }
 
-        public void Alterar(T entity)
+        public async void AlterarAsync(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            Salvar();
+            SalvarAsync();
         }
 
-        public void Excluir(Func<T, bool> predicate)
+        public async void ExcluirAsync(Func<T, bool> predicate)
         {
             _table
                 .Where(predicate).ToList()
                 .ForEach(c => _context.Set<T>().Remove(c));
-            Salvar();
+            SalvarAsync();
         }
 
-        private void Salvar()
+        private async void SalvarAsync()
         {
             try
             {

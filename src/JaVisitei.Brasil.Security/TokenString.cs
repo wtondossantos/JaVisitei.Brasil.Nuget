@@ -10,13 +10,11 @@ namespace JaVisitei.Brasil.Security
 {
     public class TokenString
     {
-        public IConfiguration _configuration;
         private readonly Usuario _usuario;
 
-        public TokenString(Usuario usuario, IConfiguration configuration)
+        public TokenString(Usuario usuario)
         {
             _usuario = usuario;
-            _configuration = configuration;
         }
 
         public string GerarToken()
@@ -36,7 +34,7 @@ namespace JaVisitei.Brasil.Security
                 Environment.GetEnvironmentVariable("JWT_ISSUER"),
                 Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
                 claims,
-                expires: DateTime.UtcNow.AddDays(1),
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToInt32(Environment.GetEnvironmentVariable("JWT_EXPIDED_MINUTE"))),
                 signingCredentials: credenciais);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
