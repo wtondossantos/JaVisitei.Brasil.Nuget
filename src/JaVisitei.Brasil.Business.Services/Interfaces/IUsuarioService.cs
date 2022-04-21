@@ -8,7 +8,6 @@ namespace JaVisitei.Brasil.Business.Service.Interfaces
 {
     public interface IUsuarioService : IBaseService<Usuario>
     {
-        Task<LoginResponse> LoginAsync(LoginRequest usuario);
-        Task<ValidacaoResponse> LogoutAsync();
+        Task<AutenticacaoResponse> AutenticacaoAsync(AutenticacaoRequest usuario);
     }
 }

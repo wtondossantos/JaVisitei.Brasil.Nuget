@@ -6,9 +6,9 @@ using JaVisitei.Brasil.Business.Service.Base;
 using JaVisitei.Brasil.Data.Entities;
 using System.Collections.Generic;
 using JaVisitei.Brasil.Security;
+using System.Threading.Tasks;
 using AutoMapper;
 using System;
-using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Business.Service
 {
@@ -23,14 +23,14 @@ namespace JaVisitei.Brasil.Business.Service
             _mapper = mapper;
         }
 
-        public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
+        public async Task<AutenticacaoResponse> AutenticacaoAsync(AutenticacaoRequest autenticacaoRequest)
         {
             var validacao = new ValidacaoResponse();
             validacao.Mensagem = new List<string>();
 
             try
             {
-                var usuario = _mapper.Map<Usuario>(loginRequest);
+                var usuario = _mapper.Map<Usuario>(autenticacaoRequest);
                 var resultado = await _repository.AutenticacaoAsync(usuario);
 
                 if (resultado != null && !String.IsNullOrEmpty(resultado.Senha))
@@ -42,7 +42,7 @@ namespace JaVisitei.Brasil.Business.Service
                     validacao.Sucesso = true;
                     validacao.Codigo = 1;
 
-                    return new LoginResponse
+                    return new AutenticacaoResponse
                     {
                         Expira = DateTime.Now.AddMinutes(Convert.ToInt32(Environment.GetEnvironmentVariable("JWT_EXPIDED_MINUTE"))),
                         Token = token,
@@ -51,7 +51,6 @@ namespace JaVisitei.Brasil.Business.Service
                 }
 
                 validacao.Mensagem.Add("Usuário ou senha inválido.");
-                validacao.Codigo = 0;
             }
             catch (Exception ex)
             {
@@ -59,14 +58,7 @@ namespace JaVisitei.Brasil.Business.Service
                 validacao.Codigo = -1;
             }
 
-            return new LoginResponse { Validacao = validacao };
-        }
-
-        public async Task<ValidacaoResponse> LogoutAsync()
-        {
-            var validacao = new ValidacaoResponse();
-
-            return validacao;
+            return new AutenticacaoResponse { Validacao = validacao };
         }
     }
 }

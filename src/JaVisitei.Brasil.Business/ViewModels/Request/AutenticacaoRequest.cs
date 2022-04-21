@@ -2,7 +2,7 @@
 
 namespace JaVisitei.Brasil.Business.ViewModels.Request
 {
-    public class LoginRequest
+    public class AutenticacaoRequest
     {
         [Required(ErrorMessage = "Informe Email e Senha")]
         [DataType(DataType.EmailAddress)]
