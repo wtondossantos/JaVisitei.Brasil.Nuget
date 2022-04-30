@@ -31,20 +31,20 @@ namespace JaVisitei.Brasil.Business.Service
 
         public async Task<AddUserResponse> AddAsync(AddUserRequest request)
         {
-            var validacao = new UserValidation();
-            var retorno = new AddUserResponse();
-            retorno.Validation = new ValidationResponse();
-            retorno.Validation.Message = new List<string>();
+            var validation = new UserValidation();
+            var response = new AddUserResponse();
+            response.Validation = new ValidationResponse();
+            response.Validation.Message = new List<string>();
 
             try
             {
-                retorno.Validation.Message = validacao.ValidaRegistroUsuario(request);
-                if (retorno.Validation.Message != null && retorno.Validation.Message.Count > 0)
-                    return retorno;
+                response.Validation.Message = validation.ValidatesUserCreation(request);
+                if (response.Validation.Message.Count > 0)
+                    return response;
 
                 var userExists = await _userRepository.GetAsync(x => x.Email == request.Email || x.Username == request.Username);
                 if (userExists.ToList().Count > 0)
-                    retorno.Validation.Message.Add("Já existe usuário com este e-mail e/ou usuário.");
+                    response.Validation.Message.Add("Já existe usuário com este e-mail e/ou usuário.");
                 else
                 {
                     var user = _mapper.Map<User>(request);
@@ -52,99 +52,99 @@ namespace JaVisitei.Brasil.Business.Service
 
                     if (status == 1)
                     {
-                        retorno.Validation.Successfully = true;
-                        retorno.Validation.Message.Add($"Usuário {request.Username}, {request.Email} registrado com sucesso.");
+                        response.Validation.Successfully = true;
+                        response.Validation.Message.Add($"Usuário {request.Username}, {request.Email} registrado com sucesso.");
                     }
                     else
-                        retorno.Validation.Message.Add($"Erro ao registrar usuário.");
+                        response.Validation.Message.Add($"Erro ao registrar usuário.");
 
-                    retorno.Validation.Code = status;
+                    response.Validation.Code = status;
                 }
             }
             catch (Exception ex)
             {
-                retorno.Validation.Code = -1;
-                retorno.Validation.Message.Add($"Erro ao registrar usuário: {ex.Message}");
+                response.Validation.Code = -1;
+                response.Validation.Message.Add($"Erro ao registrar usuário: {ex.Message}");
             }
 
-            return retorno;
+            return response;
         }
 
         public async Task<EditUserResponse> EditAsync(EditUserRequest request)
         {
-            var validacao = new UserValidation();
-            var result = new EditUserResponse();
-            result.Validation = new ValidationResponse();
-            result.Validation.Message = new List<string>();
+            var validation = new UserValidation();
+            var response = new EditUserResponse();
+            response.Validation = new ValidationResponse();
+            response.Validation.Message = new List<string>();
             
             try
             {
-                result.Validation.Message = validacao.ValidaAlteracaoUsuario(request);
-                if (result.Validation.Message != null && result.Validation.Message.Count > 0)
-                    return result;
+                response.Validation.Message = validation.ValidatesUserEdition(request);
+                if (response.Validation.Message.Count > 0)
+                    return response;
 
-                var usuarioComparacao = await _userRepository.GetAsync(x => x.Id != request.Id && x.Username == request.Username);
-                if (usuarioComparacao.ToList().Count > 0)
+                var compareUser = await _userRepository.GetAsync(x => x.Id != request.Id && x.Username == request.Username);
+                if (compareUser.ToList().Count > 0)
                 {
-                    result.Validation.Message.Add("Já existe usuário cadastrado com esse nome de usuário.");
-                    return result;
+                    response.Validation.Message.Add("Já existe usuário cadastrado com esse nome de usuário.");
+                    return response;
                 }
 
-                usuarioComparacao = await _userRepository.GetAsync(x => x.Id != request.Id && x.Email == request.Email);
-                if (usuarioComparacao.ToList().Count > 0)
+                compareUser = await _userRepository.GetAsync(x => x.Id != request.Id && x.Email == request.Email);
+                if (compareUser.ToList().Count > 0)
                 {
-                    result.Validation.Message.Add("Já existe usuário cadastrado com esse e-mail.");
-                    return result;
+                    response.Validation.Message.Add("Já existe usuário cadastrado com esse e-mail.");
+                    return response;
                 }
 
-                usuarioComparacao = await _userRepository.GetAsync(x => x.Id == request.Id);
-                if (usuarioComparacao == null)
+                compareUser = await _userRepository.GetAsync(x => x.Id == request.Id);
+                if (compareUser == null)
                 {
-                    result.Validation.Message.Add("Usuário não encontrado.");
-                    return result;
+                    response.Validation.Message.Add("Usuário não encontrado.");
+                    return response;
                 }
 
                 if (!string.IsNullOrEmpty(request.OldPassword))
                 {
-                    var usuarioExistente = usuarioComparacao.FirstOrDefault();
+                    var userFound = compareUser.FirstOrDefault();
                     var oldPasswordHash = Encrypt.Sha256encrypt(request.OldPassword);
-                    var resultado = await _userRepository.LoginAsync(new User()
+                    var result = await _userRepository.LoginAsync(new User()
                     {
-                        Email = usuarioExistente.Email,
+                        Email = userFound.Email,
                         Password = oldPasswordHash
                     });
 
-                    if (resultado == null)
-                        result.Validation.Message.Add("E-mail ou Senha antiga incorreto.");
+                    if (result == null)
+                        response.Validation.Message.Add("E-mail ou Senha antiga incorreto.");
 
-                    else if (String.IsNullOrEmpty(usuarioExistente.Password) || usuarioExistente.Password != oldPasswordHash)
-                        result.Validation.Message.Add("Senha antiga incorreta.");
+                    else if (String.IsNullOrEmpty(userFound.Password) || userFound.Password != oldPasswordHash)
+                        response.Validation.Message.Add("Senha antiga incorreta.");
                 }
 
-                var usuario = _mapper.Map<User>(request);
+                var user = _mapper.Map<User>(request);
 
                 if (!string.IsNullOrEmpty(request.Password))
-                    usuario.Password = Encrypt.Sha256encrypt(request.Password);
+                    user.Password = Encrypt.Sha256encrypt(request.Password);
 
-                var status = await _userRepository.EditAsync(usuario);
+                var status = await _userRepository.EditAsync(user);
 
                 if (status == 1)
                 {
-                    result.Validation.Successfully = true;
-                    result.Validation.Message.Add($"Usuário {request.Username}, {request.Email} atualizado com sucesso.");
+                    response.Validation.Successfully = true;
+                    response.Validation.Message.Add($"Usuário {request.Username}, {request.Email} atualizado com sucesso.");
                 }
                 else
-                    result.Validation.Message.Add($"Erro ao atualizar usuário.");
+                    response.Validation.Message.Add($"Erro ao atualizar usuário.");
 
-                result.Validation.Code = status;
+                response.Validation.Code = status;
             }
             catch (Exception ex)
             {
-                result.Validation.Message.Add($"Erro ao atualizar usuário: {ex.Message}");
-                result.Validation.Code = -1;
+                response.Validation.Message.Add($"Erro ao atualizar usuário: {ex.Message}");
+                response.Validation.Code = -1;
             }
 
-            return result;
+            return response;
         }
     }
 }

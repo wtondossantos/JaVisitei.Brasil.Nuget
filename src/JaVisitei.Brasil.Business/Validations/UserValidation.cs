@@ -6,47 +6,47 @@ namespace JaVisitei.Brasil.Business.Validations
 {
     public class UserValidation
     {
-        public List<string> ValidaRegistroUsuario(AddUserRequest model)
+        public List<string> ValidatesUserCreation(AddUserRequest request)
         {
-            var retorno = new List<string>();
-            Validate validar = new Validate();
+            var reponse = new List<string>();
+            Validate validate = new Validate();
 
-            if (!validar.ValidarEmail(model.Email))
-                retorno.Add("Email inválido.");
+            if (!validate.ValidateEmail(request.Email))
+                reponse.Add("Email inválido.");
 
-            else if (model.Email != model.ReEmail)
-                retorno.Add("Confirmação do e-mail não confere.");
+            else if (request.Email != request.ReEmail)
+                reponse.Add("Confirmação do e-mail não confere.");
 
-            else if (model.Password != model.RePassword)
-                retorno.Add("Confirmação da senha não confere.");
+            else if (request.Password != request.RePassword)
+                reponse.Add("Confirmação da senha não confere.");
 
-            else if (model.Password.Length < 8)
-                retorno.Add("A senha deve conter no mínimo 8 caracteres.");
+            else if (request.Password.Length < 8)
+                reponse.Add("A senha deve conter no mínimo 8 caracteres.");
 
-            return retorno;
+            return reponse;
         }
 
-        public List<string> ValidaAlteracaoUsuario(EditUserRequest model)
+        public List<string> ValidatesUserEdition(EditUserRequest request)
         {
-            var retorno = new List<string>();
-            Validate validar = new Validate();
+            var response = new List<string>();
+            Validate validate = new Validate();
 
-            if (!validar.ValidarEmail(model.Email))
-                retorno.Add("Email inválido.");
+            if (!validate.ValidateEmail(request.Email))
+                response.Add("Email inválido.");
 
-            else if (model.Email != model.ReEmail)
-                retorno.Add("Confirmação do e-mail não confere.");
+            else if (request.Email != request.ReEmail)
+                response.Add("Confirmação do e-mail não confere.");
 
-            else if (!string.IsNullOrEmpty(model.Password))
+            else if (!string.IsNullOrEmpty(request.Password))
             {
-                if (model.Password != model.RePassword)
-                    retorno.Add("Confirmação da senha não confere.");
+                if (request.Password != request.RePassword)
+                    response.Add("Confirmação da senha não confere.");
 
-                else if (model.Password.Length < 8)
-                    retorno.Add("A senha deve conter no mínimo 8 caracteres.");
+                else if (request.Password.Length < 8)
+                    response.Add("A senha deve conter no mínimo 8 caracteres.");
             }
 
-            return retorno;
+            return response;
         }
     }
 }

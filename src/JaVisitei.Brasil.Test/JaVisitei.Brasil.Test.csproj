@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JaVisitei.Brasil.Business.Services\JaVisitei.Brasil.Business.Service.csproj" />
+    <ProjectReference Include="..\JaVisitei.Brasil.Helper\JaVisitei.Brasil.Helper.csproj" />
   </ItemGroup>
 
 </Project>

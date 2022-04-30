@@ -35,71 +35,71 @@ namespace JaVisitei.Brasil.Business.Service
 
         public async Task<AddVisitResponse> AddAsync(AddVisitRequest request)
         {
-            var validacao = new VisitValidation();
-            var retorno = new AddVisitResponse();
-            retorno.Validation = new ValidationResponse();
-            retorno.Validation.Message = new List<string>();
+            var validation = new VisitValidation();
+            var response = new AddVisitResponse();
+            response.Validation = new ValidationResponse();
+            response.Validation.Message = new List<string>();
 
             try
             {
-                retorno.Validation.Message = validacao.ValidaRegistroVisita(request);
-                if (retorno.Validation.Message != null && retorno.Validation.Message.Count > 0)
-                    return retorno;
+                response.Validation.Message = validation.ValidatesVisitCreation(request);
+                if (response.Validation.Message.Count > 0)
+                    return response;
 
                 switch ((RegionTypeEnum)request.RegionTypeId)
                 {
                     case RegionTypeEnum.Municipality:
-                        var municipio = await _municipioRepository.GetAsync(x => x.Id == request.RegionId);
-                        if (municipio.ToList().Count == 0)
+                        var municipality = await _municipioRepository.GetAsync(x => x.Id == request.RegionId);
+                        if (municipality.ToList().Count == 0)
                         {
-                            retorno.Validation.Message.Add("Município não encontrado.");
-                            return retorno;
+                            response.Validation.Message.Add("Município não encontrado.");
+                            return response;
                         }
                         break;
                     default:
-                        retorno.Validation.Message.Add("Tipo de região inválida. Código do tipo de região disponível: (6).");
-                        return retorno;
+                        response.Validation.Message.Add("Tipo de região inválida. Código do tipo de região disponível: (6).");
+                        return response;
                 }
 
-                var visitaDuplicada = await _visitRepository.GetAsync(x => x.UserId == request.UserId && x.RegionTypeId == request.RegionTypeId && x.RegionId == request.RegionId);
-                if (visitaDuplicada.ToList().Count > 0)
+                var duplicateVisit = await _visitRepository.GetAsync(x => x.UserId == request.UserId && x.RegionTypeId == request.RegionTypeId && x.RegionId == request.RegionId);
+                if (duplicateVisit.ToList().Count > 0)
                 {
-                    retorno.Validation.Message.Add("Visita já registrada.");
-                    return retorno; 
+                    response.Validation.Message.Add("Visita já registrada.");
+                    return response; 
                 }
 
-                var usuario = await _userRepository.GetAsync(x => x.Id == request.UserId);
-                if (usuario.ToList().Count <= 0)
-                    retorno.Validation.Message.Add("Usuário não encontrado.");
+                var user = await _userRepository.GetAsync(x => x.Id == request.UserId);
+                if (user.ToList().Count <= 0)
+                    response.Validation.Message.Add("Usuário não encontrado.");
 
                 else
                 {
 
-                    var visita = _mapper.Map<Visit>(request);
-                    var status = await _visitRepository.AddAsync(visita);
+                    var visit = _mapper.Map<Visit>(request);
+                    var status = await _visitRepository.AddAsync(visit);
 
                     if (status == 1)
                     {
-                        retorno = _mapper.Map<AddVisitResponse>(visita);
+                        response = _mapper.Map<AddVisitResponse>(visit);
 
-                        retorno.Validation = new ValidationResponse();
-                        retorno.Validation.Successfully = true;
-                        retorno.Validation.Message = new List<string>();
-                        retorno.Validation.Message.Add("Visita registrada com sucesso.");
+                        response.Validation = new ValidationResponse();
+                        response.Validation.Successfully = true;
+                        response.Validation.Message = new List<string>();
+                        response.Validation.Message.Add("Visita registrada com sucesso.");
                     }
                     else
-                        retorno.Validation.Message.Add($"Erro ao registrar visita.");
+                        response.Validation.Message.Add($"Erro ao registrar visita.");
 
-                    retorno.Validation.Code = status;
+                    response.Validation.Code = status;
                 }
             }
             catch (Exception ex)
             {
-                retorno.Validation.Message.Add($"Erro ao registrar visita: {ex.Message}");
-                retorno.Validation.Code = -1;
+                response.Validation.Message.Add($"Erro ao registrar visita: {ex.Message}");
+                response.Validation.Code = -1;
             }
 
-            return retorno;
+            return response;
         }
     }
 }
