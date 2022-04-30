@@ -5,17 +5,17 @@ namespace JaVisitei.Brasil.Business.Validations
 {
     public class VisitValidation
     {
-        public List<string> ValidaRegistroVisita(AddVisitRequest model)
+        public List<string> ValidatesVisitCreation(AddVisitRequest request)
         {
-            var retorno = new List<string>();
+            var response = new List<string>();
 
-            if (string.IsNullOrEmpty(model.RegionId))
-                retorno.Add("Informe uma região.");
+            if (string.IsNullOrEmpty(request.RegionId))
+                response.Add("Informe uma região.");
 
-            else if (model.RegionTypeId == 0)
-                retorno.Add("Informe um tipo de região.");
+            else if (request.RegionTypeId == 0)
+                response.Add("Informe um tipo de região.");
 
-            return retorno;
+            return response;
         }
     }
 }

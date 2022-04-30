@@ -28,41 +28,41 @@ namespace JaVisitei.Brasil.Business.Service
 
         public async Task<LoginResponse> LoginAsync(LoginRequest request)
         {
-            var validacao = new ValidationResponse();
-            validacao.Message = new List<string>();
+            var validation = new ValidationResponse();
+            validation.Message = new List<string>();
 
             try
             {
                 var usuario = _mapper.Map<User>(request);
-                var resultado = await _userRepository.LoginAsync(usuario);
+                var result = await _userRepository.LoginAsync(usuario);
 
-                if (resultado != null && !String.IsNullOrEmpty(resultado.Password))
+                if (result != null && !String.IsNullOrEmpty(result.Password))
                 {
-                    var tokenizar = new TokenString();
-                    var token = tokenizar.CreateToken(resultado);
+                    var tokenize = new TokenString();
+                    var token = tokenize.CreateToken(result);
 
-                    validacao.Message.Add("Login realizado com sucesso.");
-                    validacao.Successfully = true;
-                    validacao.Code = 1;
+                    validation.Message.Add("Login realizado com sucesso.");
+                    validation.Successfully = true;
+                    validation.Code = 1;
 
                     return new LoginResponse
                     {
-                        Id = resultado.Id,
+                        Id = result.Id,
                         Expiration = DateTime.Now.AddMinutes(Convert.ToInt32(Environment.GetEnvironmentVariable("JWT_EXPIDED_MINUTE"))),
                         Token = token,
-                        Validation = validacao
+                        Validation = validation
                     };
                 }
 
-                validacao.Message.Add("Usuário ou senha inválido.");
+                validation.Message.Add("Usuário ou senha inválido.");
             }
             catch (Exception ex)
             {
-                validacao.Message.Add($"Exception: {ex.Message}");
-                validacao.Code = -1;
+                validation.Message.Add($"Exception: {ex.Message}");
+                validation.Code = -1;
             }
 
-            return new LoginResponse { Validation = validacao };
+            return new LoginResponse { Validation = validation };
         }
     }
 }

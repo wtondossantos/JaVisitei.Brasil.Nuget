@@ -6,7 +6,7 @@ namespace JaVisitei.Brasil.Helper.Validation
     {
         private const string _regexEmail = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
 
-        public bool ValidarEmail(string email)
+        public bool ValidateEmail(string email)
         {
             Regex regex = new Regex(_regexEmail);
             Match match = regex.Match(email);
