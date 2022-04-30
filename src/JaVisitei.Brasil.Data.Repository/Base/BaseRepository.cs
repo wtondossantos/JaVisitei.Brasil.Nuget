@@ -19,49 +19,37 @@ namespace JaVisitei.Brasil.Data.Repository.Base
             _table = context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> PesquisarAsync()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return _table.ToList();
+            return await _table.ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> PesquisarAsync(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> predicate)
         {
-            return _table.Where(predicate).ToList();
+            return await _table.Where(predicate).ToListAsync();
         }
 
-        public async void AdicionarAsync(T entity)
+        public async Task<int> AddAsync(T entity)
         {
-            _table.Add(entity);
-            SalvarAsync();
+            var r = _table.AddAsync(entity);
+            if(r.IsCompleted)
+                return await _context.SaveChangesAsync();
+
+            return -1;
         }
 
-        public async void AlterarAsync(T entity)
+        public async Task<int> EditAsync(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            SalvarAsync();
+            return await _context.SaveChangesAsync();
         }
 
-        public async void ExcluirAsync(Func<T, bool> predicate)
+        public async Task<int> RemoveAsync(Func<T, bool> predicate)
         {
-            _table
-                .Where(predicate).ToList()
+            _table.Where(predicate).ToList()
                 .ForEach(c => _context.Set<T>().Remove(c));
-            SalvarAsync();
-        }
 
-        private async void SalvarAsync()
-        {
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (Exception dbEx)
-            {
-                var msg = Environment.NewLine + string.Format("Property: {0} Error: {1}", dbEx.StackTrace, dbEx.Message);
-
-                var fail = new Exception(msg, dbEx);
-                throw fail;
-            }
+            return await _context.SaveChangesAsync();
         }
     }
 }

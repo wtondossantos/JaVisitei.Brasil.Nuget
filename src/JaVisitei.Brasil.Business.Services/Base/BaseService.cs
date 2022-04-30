@@ -15,29 +15,29 @@ namespace JaVisitei.Brasil.Business.Service.Base
             _repository = repository;
         }
 
-        public async void AdicionarAsync(T entity)
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            _repository.AdicionarAsync(entity);
+            return await _repository.GetAllAsync();
         }
 
-        public async void AlterarAsync(T entity)
+        public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> predicate)
         {
-            _repository.AlterarAsync(entity);
+            return await _repository.GetAsync(predicate);
         }
 
-        public async void ExcluirAsync(Func<T, bool> predicate)
+        public async Task<int> AddAsync(T entity)
         {
-            _repository.ExcluirAsync(predicate);
+            return await _repository.AddAsync(entity);
         }
 
-        public async Task<IEnumerable<T>> PesquisarAsync(Expression<Func<T, bool>> predicate)
+        public async Task<int> EditAsync(T entity)
         {
-            return await _repository.PesquisarAsync(predicate);
+            return await _repository.EditAsync(entity);
         }
 
-        public async Task<IEnumerable<T>> PesquisarAsync()
+        public async Task<int> RemoveAsync(Func<T, bool> predicate)
         {
-            return await _repository.PesquisarAsync();
+            return await _repository.RemoveAsync(predicate);
         }
     }
 }

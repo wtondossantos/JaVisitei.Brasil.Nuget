@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using JaVisitei.Brasil.Data.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -10,23 +9,15 @@ namespace JaVisitei.Brasil.Security
 {
     public class TokenString
     {
-        private readonly Usuario _usuario;
-
-        public TokenString(Usuario usuario)
-        {
-            _usuario = usuario;
-        }
-
-        public string GerarToken()
+        public string CreateToken(User user)
         {
             var claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, Environment.GetEnvironmentVariable("JWT_SUBJECT")),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                new Claim("Id", _usuario.Id.ToString()),
-                new Claim("Nome", _usuario.Nome),
-                new Claim("NomeUsuario", _usuario.NomeUsuario),
-                new Claim("Email", _usuario.Email)
+                new Claim("Id", user.Id.ToString()),
+                new Claim("UserName", user.Username),
+                new Claim("Email", user.Email)
                 };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY")));
             var credenciais = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
