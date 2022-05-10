@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Text.Json.Serialization;
 
 namespace JaVisitei.Brasil.Business.ViewModels.Response.Visit
 {
-    public class AddVisitResponse
+    public class VisitResponse
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
@@ -21,12 +22,9 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.Visit
         public string Color { get; set; }
 
         [JsonPropertyName("visit_date")]
-        public DateTime VisitDate { get; set; }
+        public DateOnly VisitDate { get; set; }
 
         [JsonPropertyName("registry_date")]
-        public DateTime RegistryDate { get; set; }
-
-        [JsonPropertyName("validation")]
-        public ValidationResponse Validation { get; set; }
+        public DateOnly RegistryDate { get; set; }
     }
 }

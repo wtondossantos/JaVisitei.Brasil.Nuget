@@ -19,23 +19,27 @@ namespace JaVisitei.Brasil.Business.Service.Base
         {
             return await _repository.GetAllAsync();
         }
+        public async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _repository.GetFirstOrDefaultAsync(predicate);
+        }
 
         public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> predicate)
         {
             return await _repository.GetAsync(predicate);
         }
 
-        public async Task<int> AddAsync(T entity)
+        public async Task<bool> AddAsync(T entity)
         {
             return await _repository.AddAsync(entity);
         }
 
-        public async Task<int> EditAsync(T entity)
+        public async Task<bool> EditAsync(T entity)
         {
             return await _repository.EditAsync(entity);
         }
 
-        public async Task<int> RemoveAsync(Func<T, bool> predicate)
+        public async Task<bool> RemoveAsync(Func<T, bool> predicate)
         {
             return await _repository.RemoveAsync(predicate);
         }

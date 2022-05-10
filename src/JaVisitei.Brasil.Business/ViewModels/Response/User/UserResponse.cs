@@ -1,8 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace JaVisitei.Brasil.Business.ViewModels.Response.User
 {
-    public class EditUserResponse
+    public class UserResponse
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
@@ -12,7 +13,7 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.User
 
         [JsonPropertyName("username")]
         public string Username { get; set; }
-        
+
         [JsonPropertyName("surname")]
         public string Surname { get; set; }
 
@@ -21,9 +22,6 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.User
 
         [JsonPropertyName("password")]
         public string Password { get; set; }
-
-        [JsonPropertyName("validation")]
-        public ValidationResponse Validation { get; set; }
 
     }
 }

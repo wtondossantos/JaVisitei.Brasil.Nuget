@@ -13,7 +13,7 @@ namespace JaVisitei.Brasil.Data.Repository.Repositories
 
         public async Task<IEnumerable<Archipelago>> GetByStateAsync(string id)
         {
-            return await GetAsync(x => x.Id.Substring(0, 3) == id.Substring(0, 3));
+            return await GetAsync(x => x.Id.Substring(0, 3).Equals(id.Substring(0, 3)));
         }
     }
 }

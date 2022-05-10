@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Data.Repository.Base
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class
+    public class BaseRepository<T> : IBaseRepository<T>, IDisposable where T : class
     {
         protected readonly DbJaVisiteiBrasilContext _context;
         private DbSet<T> _table;
@@ -26,30 +26,49 @@ namespace JaVisitei.Brasil.Data.Repository.Base
 
         public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _table.Where(predicate).ToListAsync();
+            return await _table.Where(predicate).ToArrayAsync();
         }
 
-        public async Task<int> AddAsync(T entity)
+        public async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
         {
+            return await _table.Where(predicate).FirstOrDefaultAsync();
+        }
+
+        public async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, Object>> orderby)
+        {
+            return await _table.Where(predicate).OrderBy(orderby).FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> AddAsync(T entity)
+        {
+            int result = 0;
             var r = _table.AddAsync(entity);
             if(r.IsCompleted)
-                return await _context.SaveChangesAsync();
+                result = await _context.SaveChangesAsync();
 
-            return -1;
+            return result.Equals(1);
         }
 
-        public async Task<int> EditAsync(T entity)
+        public async Task<bool> EditAsync(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            return await _context.SaveChangesAsync();
+            int result = await _context.SaveChangesAsync();
+
+            return result.Equals(1);
         }
 
-        public async Task<int> RemoveAsync(Func<T, bool> predicate)
+        public async Task<bool> RemoveAsync(Func<T, bool> predicate)
         {
             _table.Where(predicate).ToList()
                 .ForEach(c => _context.Set<T>().Remove(c));
+            int result = await _context.SaveChangesAsync();
 
-            return await _context.SaveChangesAsync();
+            return result.Equals(1);
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
         }
     }
 }

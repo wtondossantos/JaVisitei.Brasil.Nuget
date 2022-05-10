@@ -9,21 +9,21 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request.User
         [Display(Name = "Name")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Informe o nome de usuário válido, sem espaço. Caracter especial permitido: (_) Underline.")]
         [Display(Name = "Username")]
-        [DataType(DataType.Text, ErrorMessage = "Informe um sobrenome válido")]
+        [DataType(DataType.Text)]
         public string Username { get; set; }
 
-        [Required(ErrorMessage = "Informe o Nome de Usuário")]
-        [DataType(DataType.Text)]
+        [DataType(DataType.Text, ErrorMessage = "Informe um sobrenome válido")]
         [Display(Name = "Surname")]
         public string Surname { get; set; }
 
-        [Required(ErrorMessage = "Informe o Email")]
+        [Required(ErrorMessage = "Informe o E-mail")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Informe a confirmação de Email")]
+        [Required(ErrorMessage = "Informe a confirmação de E-mail")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "ReEmail")]
         [Compare("Email")]

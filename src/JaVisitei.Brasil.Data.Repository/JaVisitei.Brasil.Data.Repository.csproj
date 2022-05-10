@@ -15,7 +15,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<FileVersion></FileVersion>
 		<AssemblyVersion></AssemblyVersion>
-		<Version>3.0.0</Version>
+		<Version>3.1.0</Version>
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 		<EmbedUntrackedSources>True</EmbedUntrackedSources>
 		<ContinuousIntegrationBuild>True</ContinuousIntegrationBuild>
@@ -43,6 +43,11 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <PackageReference Include="MailKit" Version="3.2.0" />
+	  <PackageReference Include="MimeKit" Version="3.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Text.Json.Serialization;
 
 namespace JaVisitei.Brasil.Business.ViewModels.Response.Profile
@@ -13,8 +14,5 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.Profile
 
         [JsonPropertyName("expiration")]
         public DateTime Expiration { get; set; }
-
-        [JsonPropertyName("validation")]
-        public ValidationResponse Validation { get; set; }
     }
 }

@@ -19,7 +19,10 @@ namespace JaVisitei.Brasil.Data.Entities
         public string Password { get; set; }
         public DateTime RegistryDate { get; set; }
         public bool Actived { get; set; }
+        public int UserRoleId { get; set; }
+        public string SecurityStamp { get; set; }
 
+        public virtual UserRole UserRole { get; set; }
         public virtual ICollection<UserManager> UserManagers { get; set; }
         public virtual ICollection<Visit> Visits { get; set; }
     }

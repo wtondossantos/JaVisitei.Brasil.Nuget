@@ -10,24 +10,21 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request.Visit
         [Display(Name = "RegionTypeId")]
         public int RegionTypeId { get; set; }
 
-        [Required(ErrorMessage = "Informe o Id da região")]
+        [Required(ErrorMessage = "Informe o código da região")]
         [Display(Name = "RegionId")]
         public string RegionId { get; set; }
 
-        [Required(ErrorMessage = "Informe o Id do usuário")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Informe o código do usuário válido")]
+        [Required(ErrorMessage = "Informe o código do usuário")]
         [Display(Name = "UserId")]
         public int UserId { get; set; }
 
         [Display(Name = "Color")]
-        [DataType(DataType.Text, ErrorMessage = "Informe uma cor válida")]
+        [DataType(DataType.Text)]
         public string Color { get; set; }
 
         [Display(Name = "VisitDate")]
         [DataType(DataType.Date, ErrorMessage = "Informe uma data válida")]
-        public DateTime VisitDate { get; set; } = DateTime.Now;
-
-        [Display(Name = "RegistryDate")]
-        [DataType(DataType.Date, ErrorMessage = "Informe uma data válida")]
-        public DateTime RegistryDate { get; set; } = DateTime.Now;
+        public DateOnly VisitDate { get; set; }
     }
 }
