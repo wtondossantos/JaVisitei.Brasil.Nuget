@@ -9,8 +9,9 @@ namespace JaVisitei.Brasil.Business.Service.Base
     {
         Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> predicate);
         Task<IEnumerable<T>> GetAllAsync();
-        Task<int> AddAsync(T entity);
-        Task<int> EditAsync(T entity);
-        Task<int> RemoveAsync(Func<T, bool> predicate);
+        Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> predicate);
+        Task<bool> AddAsync(T entity);
+        Task<bool> EditAsync(T entity);
+        Task<bool> RemoveAsync(Func<T, bool> predicate);
     }
 }

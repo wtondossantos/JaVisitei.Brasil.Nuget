@@ -1,15 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using JaVisitei.Brasil.Data.Entities;
 
 namespace JaVisitei.Brasil.Data.Base
 {
     public partial class DbJaVisiteiBrasilContext : DbContext
     {
-        public DbJaVisiteiBrasilContext()
-        {
-        }
-
         public DbJaVisiteiBrasilContext(DbContextOptions<DbJaVisiteiBrasilContext> options)
             : base(options)
         {
@@ -17,6 +15,11 @@ namespace JaVisitei.Brasil.Data.Base
 
         public virtual DbSet<Archipelago> Archipelagos { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<Email> Emails { get; set; }
+        public virtual DbSet<EmailConfig> EmailConfigs { get; set; }
+        public virtual DbSet<EmailFooter> EmailFooters { get; set; }
+        public virtual DbSet<EmailHeader> EmailHeaders { get; set; }
+        public virtual DbSet<EmailTemplate> EmailTemplates { get; set; }
         public virtual DbSet<Island> Islands { get; set; }
         public virtual DbSet<Macroregion> Macroregions { get; set; }
         public virtual DbSet<Microregion> Microregions { get; set; }
@@ -25,6 +28,7 @@ namespace JaVisitei.Brasil.Data.Base
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserManager> UserManagers { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<Visit> Visits { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -88,6 +92,102 @@ namespace JaVisitei.Brasil.Data.Base
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Email>(entity =>
+            {
+                entity.ToTable("Email");
+
+                entity.HasIndex(e => e.EmailConfigId, "FK_EmailConfigId_EmailConfigId");
+
+                entity.HasIndex(e => e.FooterId, "FK_EmailFooterId_EmailFooterId");
+
+                entity.HasIndex(e => e.TemplateId, "FK_EmailTemplateId_EmailTemplateId");
+
+                entity.HasIndex(e => new { e.HeaderId, e.FooterId, e.TemplateId, e.EmailConfigId }, "IX_Email_HeaderId_FooterId_TemplateId_EmailConfigId");
+
+                entity.Property(e => e.Message)
+                    .IsRequired()
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Subject)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.HasOne(d => d.EmailConfig)
+                    .WithMany(p => p.Emails)
+                    .HasForeignKey(d => d.EmailConfigId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmailConfigId_EmailConfigId");
+
+                entity.HasOne(d => d.Footer)
+                    .WithMany(p => p.Emails)
+                    .HasForeignKey(d => d.FooterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmailFooterId_EmailFooterId");
+
+                entity.HasOne(d => d.Header)
+                    .WithMany(p => p.Emails)
+                    .HasForeignKey(d => d.HeaderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmailHeaderId_EmailHeaderId");
+
+                entity.HasOne(d => d.Template)
+                    .WithMany(p => p.Emails)
+                    .HasForeignKey(d => d.TemplateId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmailTemplateId_EmailTemplateId");
+            });
+
+            modelBuilder.Entity<EmailConfig>(entity =>
+            {
+                entity.ToTable("EmailConfig");
+
+                entity.Property(e => e.FromSmtp)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("FromSMTP");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.PortSmtp).HasColumnName("PortSMTP");
+
+                entity.Property(e => e.ServerSmtp)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .HasColumnName("ServerSMTP");
+            });
+
+            modelBuilder.Entity<EmailFooter>(entity =>
+            {
+                entity.ToTable("EmailFooter");
+
+                entity.Property(e => e.Footer)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasDefaultValueSql("''");
+            });
+
+            modelBuilder.Entity<EmailHeader>(entity =>
+            {
+                entity.ToTable("EmailHeader");
+
+                entity.Property(e => e.Header)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasDefaultValueSql("''");
+            });
+
+            modelBuilder.Entity<EmailTemplate>(entity =>
+            {
+                entity.ToTable("EmailTemplate");
+
+                entity.Property(e => e.Template)
+                    .IsRequired()
+                    .HasMaxLength(1000)
+                    .HasDefaultValueSql("''");
             });
 
             modelBuilder.Entity<Island>(entity =>
@@ -289,7 +389,12 @@ namespace JaVisitei.Brasil.Data.Base
                 entity.HasCharSet("utf8")
                     .UseCollation("utf8_unicode_ci");
 
+                entity.HasIndex(e => e.UserRoleId, "FK_UserUserRoleId_UserId");
+
                 entity.HasIndex(e => e.Email, "UQ_UserEmail")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.SecurityStamp, "UQ_UserSecurityStamp")
                     .IsUnique();
 
                 entity.HasIndex(e => e.Username, "UQ_UserUsername")
@@ -301,7 +406,7 @@ namespace JaVisitei.Brasil.Data.Base
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(60);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Password)
                     .IsRequired()
@@ -309,30 +414,60 @@ namespace JaVisitei.Brasil.Data.Base
 
                 entity.Property(e => e.RegistryDate).HasColumnType("datetime");
 
+                entity.Property(e => e.SecurityStamp)
+                    .IsRequired()
+                    .HasMaxLength(36);
+
                 entity.Property(e => e.Surname).HasMaxLength(200);
 
                 entity.Property(e => e.Username)
                     .IsRequired()
-                    .HasMaxLength(200);
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.UserRole)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.UserRoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserUserRoleId_UserId");
             });
 
             modelBuilder.Entity<UserManager>(entity =>
             {
                 entity.ToTable("UserManager");
 
+                entity.HasIndex(e => e.EmailId, "FK_UserManagerEmailId_EmailId");
+
                 entity.HasIndex(e => e.UserId, "FK_UserManagerUserId_UserId");
 
-                entity.Property(e => e.ActivationCode)
-                    .IsRequired()
-                    .HasMaxLength(6);
-
                 entity.Property(e => e.ExpirationDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ManagerCode)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.HasOne(d => d.Email)
+                    .WithMany(p => p.UserManagers)
+                    .HasForeignKey(d => d.EmailId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserManagerEmailId_EmailId");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserManagers)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserManagerUserId_UserId");
+            });
+
+            modelBuilder.Entity<UserRole>(entity =>
+            {
+                entity.ToTable("UserRole");
+
+                entity.HasIndex(e => e.Name, "UQ_UserRoleName")
+                    .IsUnique();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(13);
             });
 
             modelBuilder.Entity<Visit>(entity =>
@@ -350,11 +485,11 @@ namespace JaVisitei.Brasil.Data.Base
 
                 entity.HasIndex(e => e.UserId, "FK_VisitUserId_UserId");
 
-                entity.Property(e => e.RegionId).HasMaxLength(60);
+                entity.Property(e => e.RegionId).HasMaxLength(50);
 
                 entity.Property(e => e.Color)
                     .IsRequired()
-                    .HasMaxLength(6)
+                    .HasMaxLength(11)
                     .IsFixedLength();
 
                 entity.HasOne(d => d.RegionType)

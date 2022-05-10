@@ -18,17 +18,17 @@ namespace JaVisitei.Brasil.Data.Repository.Repositories
 
         public async Task<IEnumerable<Municipality>> GetByStateAsync(string id)
         {
-            return await GetAsync(x => x.Id.Substring(0, 3) == id.Substring(0, 3));
+            return await GetAsync(x => x.Id.Substring(0, 3).Equals(id.Substring(0, 3)));
         }
 
         public async Task<IEnumerable<Municipality>> GetByMacroregionAsync(string id)
         {
-            var microregions = await _microregionRepo.GetAsync(x => x.MacroregionId == id);
+            var microregions = await _microregionRepo.GetAsync(x => x.MacroregionId.Equals(id));
             var municipalities = new List<Municipality>();
 
             foreach (var microregion in microregions)
             {
-                var municipality = await GetAsync(x => x.MicroregionId == microregion.Id);
+                var municipality = await GetAsync(x => x.MicroregionId.Equals(microregion.Id));
                 municipalities.AddRange(municipality);
             }
             return municipalities;

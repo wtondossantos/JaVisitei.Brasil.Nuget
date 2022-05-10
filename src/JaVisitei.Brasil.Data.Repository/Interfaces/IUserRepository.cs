@@ -6,6 +6,6 @@ namespace JaVisitei.Brasil.Data.Repository.Interfaces
 {
     public interface IUserRepository : IBaseRepository<User>
     {
-        Task<User> LoginAsync(User user);
+        Task<User> LoginAsync(string email, string password);
     }
 }

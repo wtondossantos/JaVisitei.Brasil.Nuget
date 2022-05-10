@@ -1,150 +1,201 @@
-﻿using JaVisitei.Brasil.Business.ViewModels.Response.Profile;
-using JaVisitei.Brasil.Business.ViewModels.Request.Profile;
-using JaVisitei.Brasil.Business.ViewModels.Response.User;
-using JaVisitei.Brasil.Business.ViewModels.Request.User;
-using JaVisitei.Brasil.Business.ViewModels.Response;
+﻿using JaVisitei.Brasil.Business.ViewModels.Request.User;
 using JaVisitei.Brasil.Business.Service.Interfaces;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
 using JaVisitei.Brasil.Business.Service.Base;
-using JaVisitei.Brasil.Business.Validations;
 using JaVisitei.Brasil.Data.Entities;
-using System.Collections.Generic;
+using JaVisitei.Brasil.Security;
+using JaVisitei.Brasil.Business.Validation.Validators;
+using JaVisitei.Brasil.Business.ViewModels.Response.User;
+using JaVisitei.Brasil.Business.ViewModels.Request.Email;
+using JaVisitei.Brasil.Business.Enums;
 using JaVisitei.Brasil.Helper.Others;
 using System.Threading.Tasks;
 using System.Linq;
 using AutoMapper;
 using System;
 
-namespace JaVisitei.Brasil.Business.Service
+namespace JaVisitei.Brasil.Business.Service.Services
 {
     public class UserService : BaseService<User>, IUserService
     {
+        private readonly IUserManagerRepository _userManagerRepository;
         private readonly IUserRepository _userRepository;
-        private IMapper _mapper;
+        private readonly UserValidator _userValidator;
+        private readonly IEmailService _emailService;
+        private readonly IMapper _mapper;
 
         public UserService(IUserRepository userRepository,
+            IUserManagerRepository userManagerRepository,
+            UserValidator userValidator,
+            IEmailService emailService,
             IMapper mapper) : base(userRepository)
         {
+            _userManagerRepository = userManagerRepository;
             _userRepository = userRepository;
+            _userValidator = userValidator;
+            _emailService = emailService;
             _mapper = mapper;
         }
 
-        public async Task<AddUserResponse> AddAsync(AddUserRequest request)
+        public async Task<UserValidator> AddAsync(AddUserRequest request)
         {
-            var validation = new UserValidation();
-            var response = new AddUserResponse();
-            response.Validation = new ValidationResponse();
-            response.Validation.Message = new List<string>();
+            var userAdmin = _mapper.Map<AddFullUserRequest>(request);
+            return await AddAsync(userAdmin);
+        }
 
+        public async Task<UserValidator> AddAsync(AddFullUserRequest request)
+        {
             try
             {
-                response.Validation.Message = validation.ValidatesUserCreation(request);
-                if (response.Validation.Message.Count > 0)
-                    return response;
+                _userValidator.ValidatesUserCreation(request);
 
-                var userExists = await _userRepository.GetAsync(x => x.Email == request.Email || x.Username == request.Username);
+                if (!_userValidator.IsValid)
+                    return _userValidator;
+
+                var userExists = await _userRepository.GetAsync(x => x.Email.Equals(request.Email) || x.Username.Equals(request.Username));
                 if (userExists.ToList().Count > 0)
-                    response.Validation.Message.Add("Já existe usuário com este e-mail e/ou usuário.");
+                    _userValidator.Errors.Add("Já existe usuário com este e-mail e/ou usuário.");
                 else
                 {
-                    var user = _mapper.Map<User>(request);
-                    var status = await _userRepository.AddAsync(user);
-
-                    if (status == 1)
+                    var userMapper = _mapper.Map<User>(request);
+                    var userResult = await _userRepository.AddAsync(userMapper);
+                    
+                    if (userResult)
                     {
-                        response.Validation.Successfully = true;
-                        response.Validation.Message.Add($"Usuário {request.Username}, {request.Email} registrado com sucesso.");
+                        var user = await _userRepository.GetFirstOrDefaultAsync(x => x.Email.Equals(userMapper.Email));
+
+                        var userManagerResponse = new UserManager
+                        {
+                            UserId = user.Id,
+                            EmailId = (int)EmailEnum.ConfirmationEmail,
+                            ManagerCode = TokenString.GenerateEmailConfirmationToken(),
+                            ExpirationDate = DateTime.Now.AddMinutes(30),
+                            ConfirmedChange  = false
+                        };
+                        var userManagerResult = await _userManagerRepository.AddAsync(userManagerResponse);
+                        string confirmarEmail = String.Empty;
+
+                        if (userManagerResult)
+                        {
+                            var userManager = await _userManagerRepository.GetFirstOrDefaultAsync(x =>
+                                x.ManagerCode.Equals(userManagerResponse.ManagerCode) &&
+                                x.EmailId.Equals((int)EmailEnum.ConfirmationEmail) &&
+                                x.UserId.Equals(user.Id), o => o.ExpirationDate);
+
+                            if (userManager == null)
+                            {
+                                _userValidator.Errors.Add("Algo deu errado, tente novamente ou entre em contato com o suporte.");
+                                return _userValidator;
+                            }
+
+                            var sendEmailRequest = new SendEmailRequest
+                            {
+                                Id = userManager.EmailId,
+                                UserManagerId = userManager.Id,
+                                EmailTO = user.Email,
+                                ActivationCode = userManager.ManagerCode
+                            };
+
+                            var emailResult = await _emailService.SendAsync(sendEmailRequest);
+                            if (emailResult.IsValid)
+                                confirmarEmail = emailResult.Message;
+                            else
+                                confirmarEmail = emailResult.Errors.FirstOrDefault();
+                        }
+
+                        var response = _mapper.Map<UserResponse>(user);
+
+                        _userValidator.Data = response;
+                        _userValidator.Message = $"Usuário {request.Username}, {request.Email} registrado com sucesso. {confirmarEmail}";
                     }
                     else
-                        response.Validation.Message.Add($"Erro ao registrar usuário.");
-
-                    response.Validation.Code = status;
+                        _userValidator.Errors.Add($"Erro ao registrar usuário.");
                 }
             }
             catch (Exception ex)
             {
-                response.Validation.Code = -1;
-                response.Validation.Message.Add($"Erro ao registrar usuário: {ex.Message}");
+                _userValidator.Errors.Add($"Erro ao registrar usuário: {ex.Message}");
             }
 
-            return response;
+            return _userValidator;
         }
 
-        public async Task<EditUserResponse> EditAsync(EditUserRequest request)
+        public async Task<UserValidator> EditAsync(EditUserRequest request)
         {
-            var validation = new UserValidation();
-            var response = new EditUserResponse();
-            response.Validation = new ValidationResponse();
-            response.Validation.Message = new List<string>();
-            
+            var userAdmin = _mapper.Map<EditFullUserRequest>(request);
+            return await EditAsync(userAdmin);
+        }
+
+        public async Task<UserValidator> EditAsync(EditFullUserRequest request)
+        {
             try
             {
-                response.Validation.Message = validation.ValidatesUserEdition(request);
-                if (response.Validation.Message.Count > 0)
-                    return response;
+                _userValidator.ValidatesUserEdition(request);
 
-                var compareUser = await _userRepository.GetAsync(x => x.Id != request.Id && x.Username == request.Username);
+                if (!_userValidator.IsValid)
+                    return _userValidator;
+
+                var compareUser = await _userRepository.GetAsync(x => x.Id != request.Id && x.Username.Equals(request.Username));
                 if (compareUser.ToList().Count > 0)
                 {
-                    response.Validation.Message.Add("Já existe usuário cadastrado com esse nome de usuário.");
-                    return response;
+                    _userValidator.Errors.Add("Já existe usuário cadastrado com esse nome de usuário.");
+                    return _userValidator;
                 }
 
-                compareUser = await _userRepository.GetAsync(x => x.Id != request.Id && x.Email == request.Email);
+                compareUser = await _userRepository.GetAsync(x => x.Id != request.Id && x.Email.Equals(request.Email));
                 if (compareUser.ToList().Count > 0)
                 {
-                    response.Validation.Message.Add("Já existe usuário cadastrado com esse e-mail.");
-                    return response;
+                    _userValidator.Errors.Add("Já existe usuário cadastrado com esse e-mail.");
+                    return _userValidator;
                 }
 
-                compareUser = await _userRepository.GetAsync(x => x.Id == request.Id);
-                if (compareUser == null)
+                compareUser = await _userRepository.GetAsync(x => x.Id.Equals(request.Id));
+                if (compareUser.ToList().Count == 0)
                 {
-                    response.Validation.Message.Add("Usuário não encontrado.");
-                    return response;
+                    _userValidator.Errors.Add("Usuário não encontrado.");
+                    return _userValidator;
                 }
 
                 if (!string.IsNullOrEmpty(request.OldPassword))
                 {
                     var userFound = compareUser.FirstOrDefault();
                     var oldPasswordHash = Encrypt.Sha256encrypt(request.OldPassword);
-                    var result = await _userRepository.LoginAsync(new User()
-                    {
-                        Email = userFound.Email,
-                        Password = oldPasswordHash
-                    });
+                    var result = await _userRepository.LoginAsync(userFound.Email, oldPasswordHash);
 
                     if (result == null)
-                        response.Validation.Message.Add("E-mail ou Senha antiga incorreto.");
-
+                        _userValidator.Errors.Add("E-mail ou Senha antiga incorreto.");
                     else if (String.IsNullOrEmpty(userFound.Password) || userFound.Password != oldPasswordHash)
-                        response.Validation.Message.Add("Senha antiga incorreta.");
+                        _userValidator.Errors.Add("Senha antiga incorreta.");
                 }
 
-                var user = _mapper.Map<User>(request);
+                var userMapper = _mapper.Map<User>(request);
 
                 if (!string.IsNullOrEmpty(request.Password))
-                    user.Password = Encrypt.Sha256encrypt(request.Password);
+                    userMapper.Password = Encrypt.Sha256encrypt(request.Password);
 
-                var status = await _userRepository.EditAsync(user);
-
-                if (status == 1)
+                var userResult = await _userRepository.EditAsync(userMapper);
+                if (userResult)
                 {
-                    response.Validation.Successfully = true;
-                    response.Validation.Message.Add($"Usuário {request.Username}, {request.Email} atualizado com sucesso.");
-                }
-                else
-                    response.Validation.Message.Add($"Erro ao atualizar usuário.");
+                    var user = await _userRepository.GetFirstOrDefaultAsync(x => x.Email.Equals(userMapper.Email));
+                    if (user != null)
+                    {
+                        var response = _mapper.Map<UserResponse>(user);
+                        _userValidator.Data = response;
+                    }
 
-                response.Validation.Code = status;
+                    _userValidator.Message = $"Usuário {request.Username}, {request.Email} atualizado com sucesso.";
+
+                    return _userValidator;
+                }
+
+                _userValidator.Errors.Add("Erro ao atualizar usuário.");
             }
             catch (Exception ex)
             {
-                response.Validation.Message.Add($"Erro ao atualizar usuário: {ex.Message}");
-                response.Validation.Code = -1;
+                _userValidator.Errors.Add($"Erro ao atualizar usuário: {ex.Message}");
             }
 
-            return response;
+            return _userValidator;
         }
     }
 }

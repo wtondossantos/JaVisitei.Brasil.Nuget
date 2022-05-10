@@ -5,7 +5,7 @@ using JaVisitei.Brasil.Data.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace JaVisitei.Brasil.Business.Service
+namespace JaVisitei.Brasil.Business.Service.Services
 {
     public class ArchipelagoService : BaseService<Archipelago>, IArchipelagoService
     {
