@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Business.Service.Interfaces
 {
-    public interface IMunicipalityService : IBaseService<Municipality>
+    public interface IMunicipalityService : IReadOnlyService<Municipality>
     {
-        Task<IEnumerable<Municipality>> GetByStateAsync(string id);
-        Task<IEnumerable<Municipality>> GetByMacroregionAsync(string id);
+        Task<IEnumerable<M>> GetByStateAsync<M>(string stateId);
+        Task<IEnumerable<M>> GetByMacroregionAsync<M>(string macroregionId);
     }
 }

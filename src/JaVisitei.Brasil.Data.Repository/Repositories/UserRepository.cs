@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JaVisitei.Brasil.Data.Repository.Repositories
 {
-    public class UserRepository : BaseRepository<User>, IUserRepository
+    public class UserRepository : Repository<User>, IUserRepository
     {
         public UserRepository(DbJaVisiteiBrasilContext context) : base(context) { }
 
@@ -21,10 +21,16 @@ namespace JaVisitei.Brasil.Data.Repository.Repositories
                           {
                               Id = user.Id,
                               Email = user.Email,
+                              Actived = user.Actived,
                               Password = user.Password,
                               Username = user.Username,
                               UserRole = userRoles
                           }).FirstOrDefaultAsync();
+        }
+
+        public async Task<User> GetByIdAsync(int id)
+        {
+            return await GetFirstOrDefaultAsync(x => x.Id.Equals(id));
         }
     }
 }

@@ -6,7 +6,7 @@ namespace JaVisitei.Brasil.Business.Validation.Models
         public T? Data { get; set; }
         public IList<string> Errors { get; set; }
         public string Message { get; set; }
-        public virtual bool IsValid => Errors.Count == 0;
+        public virtual bool IsValid => Errors.Count.Equals(0);
 
         public ModelValidator()
         {

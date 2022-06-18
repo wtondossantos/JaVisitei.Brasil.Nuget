@@ -4,34 +4,26 @@ using JaVisitei.Brasil.Data.Repository.Base;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace JaVisitei.Brasil.Data.Repository.Repositories
 {
-    public class IslandRepository : BaseRepository<Island>, IIslandRepository
+    public class IslandRepository : ReadOnlyRepository<Island>, IIslandRepository
     {
-        private IArchipelagoRepository _archipelagoRepo;
+        public IslandRepository(DbJaVisiteiBrasilContext context) : base(context) { }
 
-        public IslandRepository(DbJaVisiteiBrasilContext context) : base(context)
+        public async Task<IEnumerable<Island>> GetByStateAsync(string stateId)
         {
-            _archipelagoRepo = new ArchipelagoRepository(context);
+            return await GetAsync(x => x.Id.Substring(0, 3).Equals(stateId.Substring(0, 3)));
         }
 
-        public async Task<IEnumerable<Island>> GetByStateAsync(string id)
+        public async Task<IEnumerable<Island>> GetByMacroregionAsync(string macroregionId)
         {
-            return await GetAsync(x => x.Id.Substring(0, 3).Equals(id.Substring(0, 3)));
-        }
-
-        public async Task<IEnumerable<Island>> GetByMacroregionAsync(string id)
-        {
-            var macroregions = await _archipelagoRepo.GetAsync(x => x.MacroregionId.Equals(id));
-            var islands = new List<Island>();
-
-            foreach (var macroregion in macroregions)
-            {
-                var island = await GetAsync(x => x.ArchipelagoId.Equals(macroregion.Id));
-                islands.AddRange(island);
-            }
-            return islands;
+            return await (from island in _context.Islands
+                          join archipelago in _context.Archipelagos on island.ArchipelagoId equals archipelago.Id
+                          where archipelago.MacroregionId.Equals(macroregionId)
+                          select island).ToListAsync();
         }
     }
 }

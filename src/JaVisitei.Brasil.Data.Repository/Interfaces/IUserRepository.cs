@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Data.Repository.Interfaces
 {
-    public interface IUserRepository : IBaseRepository<User>
+    public interface IUserRepository : IRepository<User>
     {
         Task<User> LoginAsync(string email, string password);
+        Task<User> GetByIdAsync(int id);
     }
 }

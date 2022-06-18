@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Data.Repository.Interfaces
 {
-    public interface IEmailRepository : IBaseRepository<Email>
+    public interface IEmailRepository : IRepository<Email>
     {
-        Task<Email> GetEmailFirstOrDefaultAsync(int emailId);
+        Task<Email> GetFullByIdAsync(int emailId);
         bool Send(EmailConfig config, MailMessage message);
+        MailMessage MailMassageConfig(Email email);
     }
 }

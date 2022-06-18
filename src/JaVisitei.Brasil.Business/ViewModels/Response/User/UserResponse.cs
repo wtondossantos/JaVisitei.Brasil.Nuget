@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System;
 using System.Text.Json.Serialization;
 
 namespace JaVisitei.Brasil.Business.ViewModels.Response.User
@@ -23,5 +23,16 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.User
         [JsonPropertyName("password")]
         public string Password { get; set; }
 
+        [JsonPropertyName("user_role_id")]
+        public int UserRoleId { get; set; }
+
+        [JsonPropertyName("security_stamp")]
+        public string SecurityStamp { get; set; }
+
+        [JsonPropertyName("registry_date")]
+        public DateTime RegistryDate { get; set; }
+
+        [JsonPropertyName("actived")]
+        public bool Actived { get; set; }
     }
 }

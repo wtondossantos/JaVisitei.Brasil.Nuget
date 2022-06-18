@@ -1,10 +1,9 @@
-﻿using AutoMapper;
-using JaVisitei.Brasil.Business.Enums;
-using JaVisitei.Brasil.Business.ViewModels.Request.Email;
-using JaVisitei.Brasil.Business.ViewModels.Request.User;
+﻿using JaVisitei.Brasil.Business.ViewModels.Request.User;
 using JaVisitei.Brasil.Business.ViewModels.Response.User;
+using JaVisitei.Brasil.Business.Enums;
 using JaVisitei.Brasil.Data.Entities;
 using JaVisitei.Brasil.Helper.Others;
+using AutoMapper;
 using System;
 
 namespace JaVisitei.Brasil.Business.Profiles
@@ -13,10 +12,10 @@ namespace JaVisitei.Brasil.Business.Profiles
     {
         public UserProfile()
         {
-            CreateMap<AddUserRequest, AddFullUserRequest>()
+            CreateMap<InsertUserRequest, InsertFullUserRequest>()
                 .AfterMap((src, dest) => dest.UserRoleId = 3);
 
-            CreateMap<AddFullUserRequest, User>()
+            CreateMap<InsertFullUserRequest, User>()
                 .BeforeMap((src, dest) => {
                     src.Password = Encrypt.Sha256encrypt(src.Password);
                     src.Username = src.Username.ToLower();
@@ -27,7 +26,7 @@ namespace JaVisitei.Brasil.Business.Profiles
                     dest.RegistryDate = DateTime.Now;
                     dest.SecurityStamp = Guid.NewGuid().ToString();
                 });
-            CreateMap<AddUserRequest, User>()
+            CreateMap<InsertUserRequest, User>()
                 .BeforeMap((src, dest) => {
                     src.Password = Encrypt.Sha256encrypt(src.Password);
                     src.Username = src.Username.ToLower();
@@ -41,17 +40,17 @@ namespace JaVisitei.Brasil.Business.Profiles
 
             CreateMap<User, UserResponse>()
                 .AfterMap((src, dest) => {
-                    dest.Password = String.Empty;
+                    dest.Password = string.Empty;
                 });
 
-            CreateMap<EditUserRequest, EditFullUserRequest>();
+            CreateMap<UpdateUserRequest, UpdateFullUserRequest>();
 
-            CreateMap<EditFullUserRequest, User>()
+            CreateMap<UpdateFullUserRequest, User>()
                 .BeforeMap((src, dest) => {
                     src.Username = src.Username.ToLower();
                     src.Email = src.Email.ToLower();
                     src.ReEmail = src.ReEmail.ToLower();
-                    src.UserRoleId = src.UserRoleId == 0 ? (int)UserRoleEnum.Basic : src.UserRoleId;
+                    src.UserRoleId = src.UserRoleId.Equals(0) ? (int)UserRoleEnum.Basic : src.UserRoleId;
                 })
                 .AfterMap((src, dest) => {
                     dest.SecurityStamp = Guid.NewGuid().ToString();

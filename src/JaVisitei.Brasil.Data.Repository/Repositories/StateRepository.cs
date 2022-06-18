@@ -5,7 +5,7 @@ using JaVisitei.Brasil.Data.Repository.Interfaces;
 
 namespace JaVisitei.Brasil.Data.Repository.Repositories
 {
-    public class StateRepository : BaseRepository<State>, IStateRepository
+    public class StateRepository : ReadOnlyRepository<State>, IStateRepository
     {
         public StateRepository(DbJaVisiteiBrasilContext context) : base(context) { }
     }

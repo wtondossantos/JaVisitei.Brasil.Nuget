@@ -8,8 +8,9 @@ namespace JaVisitei.Brasil.Business.Service.Interfaces
     public interface IProfileService
     {
         Task<ProfileValidator<LoginResponse>> LoginAsync(LoginRequest request);
-        Task<ProfileValidator<ActivationResponse>> ActiveAccountAsync(string activationCode);
-        Task<ProfileValidator<ForgotPasswordResponse>> ForgotPasswordAsync(string email);
+        Task<ProfileValidator<ActivationResponse>> ActiveAccountAsync(ActiveAccountRequest request);
+        Task<ProfileValidator<GenerateConfirmationCodeResponse>> GenerateConfirmationCodeAsync(GenerateConfirmationCodeRequest request);
+        Task<ProfileValidator<ForgotPasswordResponse>> ForgotPasswordAsync(ForgotPasswordRequest email);
         Task<ProfileValidator<ResetPasswordResponse>> ResetPasswordAsync(ResetPasswordRequest request);
         
     }

@@ -4,34 +4,26 @@ using JaVisitei.Brasil.Data.Repository.Base;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace JaVisitei.Brasil.Data.Repository.Repositories
 {
-    public class MunicipalityRepository : BaseRepository<Municipality>, IMunicipalityRepository
+    public class MunicipalityRepository : ReadOnlyRepository<Municipality>, IMunicipalityRepository
     {
-        private IMicroregionRepository _microregionRepo;
+        public MunicipalityRepository(DbJaVisiteiBrasilContext context) : base(context) { }
 
-        public MunicipalityRepository(DbJaVisiteiBrasilContext context) : base(context)
+        public async Task<IEnumerable<Municipality>> GetByStateAsync(string stateId)
         {
-            _microregionRepo = new MicroregionRepository(context);
+            return await GetAsync(x => x.Id.Substring(0, 3).Equals(stateId.Substring(0, 3)));
         }
 
-        public async Task<IEnumerable<Municipality>> GetByStateAsync(string id)
+        public async Task<IEnumerable<Municipality>> GetByMacroregionAsync(string macroregionId)
         {
-            return await GetAsync(x => x.Id.Substring(0, 3).Equals(id.Substring(0, 3)));
-        }
-
-        public async Task<IEnumerable<Municipality>> GetByMacroregionAsync(string id)
-        {
-            var microregions = await _microregionRepo.GetAsync(x => x.MacroregionId.Equals(id));
-            var municipalities = new List<Municipality>();
-
-            foreach (var microregion in microregions)
-            {
-                var municipality = await GetAsync(x => x.MicroregionId.Equals(microregion.Id));
-                municipalities.AddRange(municipality);
-            }
-            return municipalities;
+            return await (from municipality in _context.Municipalities
+                          join microregion in _context.Microregions on municipality.MicroregionId equals microregion.Id
+                          where microregion.MacroregionId.Equals(macroregionId)
+                          select municipality).ToListAsync();
         }
     }
 }

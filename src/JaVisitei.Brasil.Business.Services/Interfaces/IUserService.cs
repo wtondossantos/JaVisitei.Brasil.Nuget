@@ -6,11 +6,12 @@ using JaVisitei.Brasil.Business.Validation.Validators;
 
 namespace JaVisitei.Brasil.Business.Service.Interfaces
 {
-    public interface IUserService : IBaseService<User>
+    public interface IUserService : IService<User>
     {
-        Task<UserValidator> AddAsync(AddUserRequest request);
-        Task<UserValidator> AddAsync(AddFullUserRequest request);
-        Task<UserValidator> EditAsync(EditUserRequest request);
-        Task<UserValidator> EditAsync(EditFullUserRequest request);
+        Task<UserValidator> InsertAsync(InsertUserRequest request);
+        Task<UserValidator> InsertAsync(InsertFullUserRequest request);
+        Task<UserValidator> UpdateAsync(UpdateUserRequest request);
+        Task<UserValidator> UpdateAsync(UpdateFullUserRequest request);
+        Task<M> LoginAsync<M>(string email, string password);
     }
 }

@@ -5,7 +5,7 @@ using JaVisitei.Brasil.Data.Entities;
 
 namespace JaVisitei.Brasil.Business.Service.Services
 {
-    public class RegionTypeService : BaseService<RegionType>, IRegionTypeService
+    public class RegionTypeService : ReadOnlyService<RegionType>, IRegionTypeService
     {
         public RegionTypeService(IRegionTypeRepository regionTypeRepository) : base(regionTypeRepository) { }
     }

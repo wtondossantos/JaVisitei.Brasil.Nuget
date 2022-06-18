@@ -3,7 +3,7 @@ using JaVisitei.Brasil.Business.Service.Base;
 
 namespace JaVisitei.Brasil.Business.Service.Interfaces
 {
-    public interface ICountryService : IBaseService<Country>
+    public interface ICountryService : IReadOnlyService<Country>
     {
     }
 }

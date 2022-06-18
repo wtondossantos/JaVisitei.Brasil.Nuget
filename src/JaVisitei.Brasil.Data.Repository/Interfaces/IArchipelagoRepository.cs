@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Data.Repository.Interfaces
 {
-    public interface IArchipelagoRepository : IBaseRepository<Archipelago>
+    public interface IArchipelagoRepository : IReadOnlyRepository<Archipelago>
     {
-        Task<IEnumerable<Archipelago>> GetByStateAsync(string id);
+        Task<IEnumerable<Archipelago>> GetByStateAsync(string stateId);
     }
 }

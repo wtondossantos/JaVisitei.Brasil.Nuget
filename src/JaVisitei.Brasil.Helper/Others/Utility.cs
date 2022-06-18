@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace JaVisitei.Brasil.Helper.Others
 {
@@ -6,34 +7,35 @@ namespace JaVisitei.Brasil.Helper.Others
     {
         public static string RandomHexString(string index)
         {
-            var random = new Random().Next(0, int.MaxValue).ToString(index);
+            if (index is null)
+                throw new ArgumentNullException(nameof(index));
 
-            return random;
+            return new Random().Next(0, int.MaxValue).ToString(index);
         }
 
         public static string RandomColorRBGString()
         {
             var random = new Random();
-            string color = String.Empty;
+            var color = new StringBuilder("");
 
             for (int i = 0; i < 2; i++)
-                color += $"{random.Next(222)},";
+                color.Append($"{random.Next(222)},");
 
-            color += $"{random.Next(222)}";
+            color.Append($"{random.Next(222)}");
 
-            return color;
+            return color.ToString();
         }
 
         public static string RandomAlphanumericString(int length)
         {
             const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-            Random random = new Random();
+            var random = new Random();
+            var output = new StringBuilder("");
 
-            string result = String.Empty;
             while (0 < length--)
-                result += valid[random.Next(valid.Length)];
+                output.Append(valid[random.Next(valid.Length)]);
 
-            return result;
+            return output.ToString();
         }
     }
 }

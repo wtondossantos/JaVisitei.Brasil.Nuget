@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Business.Service.Interfaces
 {
-    public interface IEmailService : IBaseService<Email>
+    public interface IEmailService : IService<Email>
     {
-        Task<EmailValidator> SendAsync(SendEmailRequest request);
+        Task<EmailValidator> SendEmailUserManagerAsync(string email, UserManager userManager);
+        Task<EmailValidator> SendEmailUserManagerAsync(SendEmailUserManagerRequest request);
     }
 }

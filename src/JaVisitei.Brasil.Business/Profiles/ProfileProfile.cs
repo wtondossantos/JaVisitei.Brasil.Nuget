@@ -10,7 +10,6 @@ namespace JaVisitei.Brasil.Business.Profiles
     {
         public ProfileProfile()
         {
-
             CreateMap<LoginRequest, User>()
                 .BeforeMap((src, dest) => {
                     src.Password = Encrypt.Sha256encrypt(src.Password);
