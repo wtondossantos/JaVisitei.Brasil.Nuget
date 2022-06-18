@@ -129,7 +129,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var result = await _visitService.InsertAsync(request);
 
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.IsValid);
             Assert.IsFalse(string.IsNullOrEmpty(result.Message));
             Assert.IsNotNull(result.Data);
             Assert.AreEqual(mapperVisitResponse, result.Data);
@@ -169,7 +168,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var result = await _visitService.InsertAsync(request);
 
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.IsValid);
             Assert.IsFalse(string.IsNullOrEmpty(result.Message));
             Assert.IsNotNull(result.Data);
             Assert.AreEqual(mapperVisitResponse, result.Data);
@@ -209,7 +207,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var result = await _visitService.InsertAsync(request);
 
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.IsValid);
             Assert.IsFalse(string.IsNullOrEmpty(result.Message));
             Assert.IsNull(result.Data);
         }
