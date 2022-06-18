@@ -83,7 +83,8 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 Errors = new List<string>()
             };
         }
-        public static VisitValidator DeletedVisitResponseMock()
+
+        public static VisitValidator VisitResponseMock()
         {
             return new VisitValidator
             {
