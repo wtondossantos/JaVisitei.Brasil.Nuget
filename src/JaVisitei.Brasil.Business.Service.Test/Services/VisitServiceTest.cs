@@ -5,7 +5,6 @@ using JaVisitei.Brasil.Business.Service.Test.Mocks;
 using JaVisitei.Brasil.Business.Validation.Validators;
 using JaVisitei.Brasil.Business.Service.Interfaces;
 using JaVisitei.Brasil.Business.ViewModels.Response.Visit;
-using JaVisitei.Brasil.Business.ViewModels.Request.Visit;
 using JaVisitei.Brasil.Data.Entities;
 using System.Threading.Tasks;
 using AutoMapper;

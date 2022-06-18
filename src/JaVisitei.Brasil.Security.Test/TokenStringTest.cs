@@ -42,23 +42,23 @@ namespace JaVisitei.Brasil.Security.Test
             var claims = tokenS.Claims as List<Claim>;
 
             Assert.IsNotNull(claims);
-            Assert.AreEqual(Environment.GetEnvironmentVariable("JWT_SUBJECT"), claims[0].Value);
-            Assert.AreEqual(Environment.GetEnvironmentVariable("JWT_SUBJECT"), tokenS.Subject);
+            Assert.IsFalse(string.IsNullOrEmpty(claims[0].Value));
+            Assert.AreEqual(claims[0].Value, tokenS.Subject);
             Assert.IsFalse(string.IsNullOrEmpty(claims[1].Value));
             Assert.IsFalse(string.IsNullOrEmpty(claims[2].Value));
             Assert.AreEqual(user.Id.ToString(), claims[3].Value);
             Assert.AreEqual(user.Username, claims[4].Value);
             Assert.AreEqual(user.Email, claims[5].Value);
-            Assert.AreEqual(Environment.GetEnvironmentVariable("JWT_KEY"), claims[5].Value);
+            Assert.IsFalse(string.IsNullOrEmpty(claims[5].Value));
             Assert.AreEqual(user.UserRole.Name, claims[6].Value);
             Assert.IsFalse(string.IsNullOrEmpty(claims[7].Value));
-            Assert.AreEqual(Environment.GetEnvironmentVariable("JWT_ISSUER"), claims[8].Value);
-            Assert.AreEqual(Environment.GetEnvironmentVariable("JWT_AUDIENCE"), claims[9].Value);
+            Assert.IsFalse(string.IsNullOrEmpty(claims[8].Value));
+            Assert.IsFalse(string.IsNullOrEmpty(claims[9].Value));
 
             var audiences = tokenS.Audiences as List<string>;
 
             Assert.IsNotNull(audiences);
-            Assert.AreEqual(Environment.GetEnvironmentVariable("JWT_AUDIENCE"), audiences[0]);
+            Assert.IsFalse(string.IsNullOrEmpty(audiences[0]));
         }
 
         [TestMethod("Return invalid Generate authentication token nullable username")]
