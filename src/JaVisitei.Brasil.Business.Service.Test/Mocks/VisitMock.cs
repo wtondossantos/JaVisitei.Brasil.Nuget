@@ -79,7 +79,8 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                     VisitDate = DateTime.Now,
                     RegistryDate = DateTime.Now
                 },
-                Message = "sucess"
+                Message = "sucess",
+                Errors = new List<string>()
             };
         }
         public static VisitValidator DeletedVisitResponseMock()
@@ -90,7 +91,8 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 {
                     UserId = 1
                 },
-                Message = "sucess deletion"
+                Message = "sucess deletion",
+                Errors = new List<string>()
             };
         }
 
