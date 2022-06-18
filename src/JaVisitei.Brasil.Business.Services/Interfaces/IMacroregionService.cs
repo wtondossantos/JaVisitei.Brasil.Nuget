@@ -3,7 +3,7 @@ using JaVisitei.Brasil.Business.Service.Base;
 
 namespace JaVisitei.Brasil.Business.Service.Interfaces
 {
-    public interface IMacroregionService : IBaseService<Macroregion>
+    public interface IMacroregionService : IReadOnlyService<Macroregion>
     {
     }
 }

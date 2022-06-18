@@ -1,11 +1,13 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace JaVisitei.Brasil.Business.ViewModels.Response.Profile
 {
     public class ActivationResponse
     {
         [JsonPropertyName("active")]
-        public bool Active { get; set; }
+        public bool Actived { get; set; }
+
+        [JsonPropertyName("user_email")]
+        public string UserEmail { get; set; }
     }
 }

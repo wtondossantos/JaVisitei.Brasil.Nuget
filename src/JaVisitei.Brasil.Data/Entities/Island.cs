@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace JaVisitei.Brasil.Data.Entities
+﻿namespace JaVisitei.Brasil.Data.Entities
 {
     public partial class Island
     {

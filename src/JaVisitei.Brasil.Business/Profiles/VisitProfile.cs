@@ -11,14 +11,19 @@ namespace JaVisitei.Brasil.Business.Profiles
     {
         public VisitProfile()
         {
-            CreateMap<AddVisitRequest, Visit>()
-                    .BeforeMap((src, dest) =>
-                    {
-                        src.Color ??= Utility.RandomColorRBGString();
-                        src.RegionId = src.RegionId.ToLower();
-                    }).AfterMap((src, dest) => dest.RegistryDate = DateOnly.FromDateTime(DateTime.Now));
+            CreateMap<InsertVisitRequest, Visit>()
+                .BeforeMap((src, dest) =>
+                {
+                    src.Color ??= Utility.RandomColorRBGString();
+                    src.RegionId = src.RegionId.ToLower();
+                }).AfterMap((src, dest) => {
+                    dest.RegistryDate = DateTime.Now;
+                    dest.VisitDate = DateTime.Parse(src.VisitationDate);
+                });
 
             CreateMap<Visit, VisitResponse>();
+
+            CreateMap<VisitKeyRequest, Visit>();
         }
     }
 }

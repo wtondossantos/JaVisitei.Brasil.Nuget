@@ -5,7 +5,7 @@ using JaVisitei.Brasil.Data.Repository.Interfaces;
 
 namespace JaVisitei.Brasil.Data.Repository.Repositories
 {
-    public class RegionTypeRepository : BaseRepository<RegionType>, IRegionTypeRepository
+    public class RegionTypeRepository : ReadOnlyRepository<RegionType>, IRegionTypeRepository
     {
         public RegionTypeRepository(DbJaVisiteiBrasilContext context) : base(context) { }
     }

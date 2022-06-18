@@ -1,17 +1,18 @@
-﻿using JaVisitei.Brasil.Business.ViewModels.Request.Email;
+﻿using JaVisitei.Brasil.Business.ViewModels.Response.Email;
+using JaVisitei.Brasil.Business.ViewModels.Request.Email;
 using JaVisitei.Brasil.Business.Validation.Validators;
 using JaVisitei.Brasil.Business.Service.Interfaces;
-using JaVisitei.Brasil.Business.Service.Base;
-using JaVisitei.Brasil.Data.Entities;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
+using JaVisitei.Brasil.Business.Service.Base;
+using JaVisitei.Brasil.Helper.Formatting;
+using JaVisitei.Brasil.Data.Entities;
 using System.Threading.Tasks;
 using System.Net.Mail;
-using System.Text;
 using System;
 
 namespace JaVisitei.Brasil.Business.Service.Services
 {
-    public class EmailService : BaseService<Email>, IEmailService
+    public class EmailService : Service<Email>, IEmailService
     {
         private readonly IEmailRepository _emailRepository;
         private readonly EmailValidator _emailValidator;
@@ -22,43 +23,52 @@ namespace JaVisitei.Brasil.Business.Service.Services
             _emailValidator = emailValidator; 
         }
 
-        public async Task<EmailValidator> SendAsync(SendEmailRequest request)
+        public async Task<EmailValidator> SendEmailUserManagerAsync(string email, UserManager userManager)
+        {
+            return await SendEmailUserManagerAsync(new SendEmailUserManagerRequest
+            {
+                Id = userManager.EmailId,
+                UserManagerId = userManager.Id,
+                Email = email,
+                ManagerCode = userManager.ManagerCode
+            });
+        }
+
+        public async Task<EmailValidator> SendEmailUserManagerAsync(SendEmailUserManagerRequest request)
         {
             try
             {
-                _emailValidator.ValidatesSendingConfirmationEmail(request);
+                _emailValidator.ValidatesSendingConfirmationEmailUserManager(request);
 
                 if (!_emailValidator.IsValid)
                     return _emailValidator;
 
-                var email = await _emailRepository.GetEmailFirstOrDefaultAsync(request.Id);
-
-                if (email == null)
+                var email = await _emailRepository.GetFullByIdAsync(request.Id);
+                if (email is null)
                 {
-                    _emailValidator.Errors.Add("Mensagem de disparo não encontrada.");
+                    _emailValidator.Errors.Add("Mensagem para envio não encontrada.");
                     return _emailValidator;
                 }
 
-                var message = new MailMessage
-                {
-                    Subject = email.Subject,
-                    SubjectEncoding = Encoding.UTF8,
-                    BodyEncoding = Encoding.UTF8,
-                    IsBodyHtml = true,
-                    Priority = MailPriority.High,
-                    Body = AssembleBodyEmail(email, $"{request.ActivationCode}{request.UserManagerId}"),
-                    From = new MailAddress(email.EmailConfig.FromSmtp, email.EmailConfig.Name, Encoding.UTF8)
-                };
-                message.To.Add(new MailAddress(request.EmailTO));
+                var message = _emailRepository.MailMassageConfig(email);
+                message.Body = AssembleBodyEmailUserManager(email, request);
+                message.To.Add(new MailAddress(request.Email));
                 message.CC.Add(new MailAddress("wellington@wton.com.br"));
 
-                var result = _emailRepository.Send(email.EmailConfig, message);
-                if (result)
+                if (_emailRepository.Send(email.EmailConfig, message))
+                {
+                    _emailValidator.Data = new EmailUserManagerResponse
+                    {
+                        Sent = true,
+                        Id = email.Id,
+                        UserManagerId = request.UserManagerId
+                    };
                     _emailValidator.Message = " E-mail enviado com sucesso!";
+                }
                 else
                     _emailValidator.Errors.Add("Erro ao tentar enviar mensagem de confirmação");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _emailValidator.Errors.Add($"Erro ao tentar enviar mensagem de confirmação. Detalhe do erro: {ex.Message}");
             }
@@ -66,14 +76,23 @@ namespace JaVisitei.Brasil.Business.Service.Services
             return _emailValidator; 
         }
 
-        private static string AssembleBodyEmail(Email email, string code)
+        private static string AssembleBodyEmailUserManager(Email email, SendEmailUserManagerRequest request)
         {
             return email.Template.Template
                         .Replace("#message#", email.Message
-                            .Replace("#codigoConfirmacao#", code))
+                            .Replace("#codigoConfirmacao#", $"{request.ManagerCode}{request.UserManagerId}"))
                         .Replace("#header#", email.Header.Header)
                         .Replace("#footer#", email.Footer.Footer
-                            .Replace("#codigoEmail#", email.Id.ToString())).ToString();
+                            .Replace("#codigoEmail#", Format.EmailTraceabilityCodeString(request.UserManagerId, email.Id)));
+        }
+
+        private static string AssembleBody(Email email)
+        {
+            return email.Template.Template
+                        .Replace("#message#", email.Message)
+                        .Replace("#header#", email.Header.Header)
+                        .Replace("#footer#", email.Footer.Footer
+                            .Replace("#codigoEmail#", Format.EmailTraceabilityCodeString(0, email.Id)));
         }
     }
 }

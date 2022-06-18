@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Business.Service.Interfaces
 {
-    public interface IArchipelagoService : IBaseService<Archipelago>
+    public interface IArchipelagoService : IReadOnlyService<Archipelago>
     {
-        Task<IEnumerable<Archipelago>> GetByStateAsync(string id);
+        Task<IEnumerable<M>> GetByStateAsync<M>(string stateId);
     }
 }

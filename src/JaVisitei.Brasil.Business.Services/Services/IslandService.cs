@@ -4,26 +4,33 @@ using JaVisitei.Brasil.Business.Service.Base;
 using JaVisitei.Brasil.Data.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using System.Linq;
 
 namespace JaVisitei.Brasil.Business.Service.Services
 {
-    public class IslandService : BaseService<Island>, IIslandService
+    public class IslandService : ReadOnlyService<Island>, IIslandService
     {
         private readonly IIslandRepository _islandRepository;
+        private readonly IMapper _mapper;
 
-        public IslandService(IIslandRepository islandRepository) : base(islandRepository)
+        public IslandService(IIslandRepository islandRepository, 
+            IMapper mapper) : base(islandRepository, mapper)
         {
             _islandRepository = islandRepository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Island>> GetByStateAsync(string id)
+        public async Task<IEnumerable<M>> GetByStateAsync<M>(string stateId)
         {
-            return await _islandRepository.GetByStateAsync(id);
+            var items = await _islandRepository.GetByStateAsync(stateId);
+            return items is null || !items.Any() ? default : _mapper.Map<IEnumerable<M>>(items);
         }
 
-        public async Task<IEnumerable<Island>> GetByMacroregionAsync(string id)
+        public async Task<IEnumerable<M>> GetByMacroregionAsync<M>(string macroregionId)
         {
-            return await _islandRepository.GetByMacroregionAsync(id);
+            var items = await _islandRepository.GetByMacroregionAsync(macroregionId);
+            return items is null || !items.Any() ? default : _mapper.Map<IEnumerable<M>>(items);
         }
     }
 }

@@ -11,6 +11,21 @@ namespace JaVisitei.Brasil.Security
     {
         public static string GenerateAuthenticationToken(User user)
         {
+            if (user is null)
+                throw new ArgumentNullException(nameof(user));
+
+            if (user.Username is null)
+                throw new ArgumentNullException(nameof(user.Username));
+
+            if (user.Email is null)
+                throw new ArgumentNullException(nameof(user.Email));
+
+            if (user.UserRole is null)
+                throw new ArgumentNullException(nameof(user.UserRole));
+
+            if (user.UserRole.Name is null)
+                throw new ArgumentNullException(nameof(user.UserRole.Name));
+
             var claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, Environment.GetEnvironmentVariable("JWT_SUBJECT")),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
@@ -28,7 +43,7 @@ namespace JaVisitei.Brasil.Security
                 claims,
                 expires: DateTime.UtcNow.AddMinutes(Convert.ToInt32(Environment.GetEnvironmentVariable("JWT_EXPIDED_MINUTE"))),
                 signingCredentials: credenciais);
-
+            
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 

@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using JaVisitei.Brasil.Data.Entities;
 
 namespace JaVisitei.Brasil.Data.Base
 {
     public partial class DbJaVisiteiBrasilContext : DbContext
     {
+        public DbJaVisiteiBrasilContext()
+        {
+        }
+
         public DbJaVisiteiBrasilContext(DbContextOptions<DbJaVisiteiBrasilContext> options)
             : base(options)
         {
@@ -402,7 +404,7 @@ namespace JaVisitei.Brasil.Data.Base
 
                 entity.Property(e => e.Email)
                     .IsRequired()
-                    .HasMaxLength(256);
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -491,6 +493,10 @@ namespace JaVisitei.Brasil.Data.Base
                     .IsRequired()
                     .HasMaxLength(11)
                     .IsFixedLength();
+
+                entity.Property(e => e.VisitDate).HasColumnType("datetime");
+
+                entity.Property(e => e.RegistryDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.RegionType)
                     .WithMany(p => p.Visits)

@@ -1,14 +1,13 @@
-﻿using JaVisitei.Brasil.Business.Validation.Base;
+﻿using JaVisitei.Brasil.Business.Constants;
+using JaVisitei.Brasil.Business.Validation.Base;
 
 namespace JaVisitei.Brasil.Business.Validation.Expressions
 {
     public static class PasswordRegex
     {
-        private const string _regexPassword = @"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\W]{8,}$";
-
         public static bool ValidatePassword(string password)
         {
-            return BaseValidator.RegexValidade(password, _regexPassword);
+            return BaseValidator.RegexValidade(password, Constant.REGEX_EXPRESSION_PASSWORD);
         }
     }
 }

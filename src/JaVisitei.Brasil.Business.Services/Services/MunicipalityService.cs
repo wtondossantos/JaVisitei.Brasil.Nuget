@@ -4,26 +4,33 @@ using JaVisitei.Brasil.Business.Service.Base;
 using JaVisitei.Brasil.Data.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using System.Linq;
 
 namespace JaVisitei.Brasil.Business.Service.Services
 {
-    public class MunicipalityService : BaseService<Municipality>, IMunicipalityService
+    public class MunicipalityService : ReadOnlyService<Municipality>, IMunicipalityService
     {
         private readonly IMunicipalityRepository _municipalityRepository;
+        private readonly IMapper _mapper;
 
-        public MunicipalityService(IMunicipalityRepository municipalityRepository) : base(municipalityRepository)
+        public MunicipalityService(IMunicipalityRepository municipalityRepository, 
+            IMapper mapper) : base(municipalityRepository, mapper)
         {
             _municipalityRepository = municipalityRepository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Municipality>> GetByStateAsync(string id)
+        public async Task<IEnumerable<M>> GetByStateAsync<M>(string stateId)
         {
-            return await _municipalityRepository.GetByStateAsync(id);
+            var items = await _municipalityRepository.GetByStateAsync(stateId);
+            return items is null || !items.Any() ? default : _mapper.Map<IEnumerable<M>>(items);
         }
 
-        public async Task<IEnumerable<Municipality>> GetByMacroregionAsync(string id)
+        public async Task<IEnumerable<M>> GetByMacroregionAsync<M>(string macroregionId)
         {
-            return await _municipalityRepository.GetByMacroregionAsync(id);
+            var items = await _municipalityRepository.GetByMacroregionAsync(macroregionId);
+            return items is null || !items.Any() ? default : _mapper.Map<IEnumerable<M>>(items);
         }
     }
 }

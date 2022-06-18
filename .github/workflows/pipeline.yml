@@ -28,7 +28,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore ./src/
 
     - name: Tests
-      run: dotnet test --no-restore --verbosity normal ./src/JaVisitei.Brasil.Test
+      run: dotnet test --no-restore --verbosity normal ./src/
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2

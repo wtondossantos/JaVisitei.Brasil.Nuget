@@ -5,7 +5,7 @@ using JaVisitei.Brasil.Data.Repository.Interfaces;
 
 namespace JaVisitei.Brasil.Data.Repository.Repositories
 {
-    public class MacroregionRepository : BaseRepository<Macroregion>, IMacroregionRepository
+    public class MacroregionRepository : ReadOnlyRepository<Macroregion>, IMacroregionRepository
     {
         public MacroregionRepository(DbJaVisiteiBrasilContext context) : base(context) { }
     }

@@ -1,4 +1,5 @@
-﻿using JaVisitei.Brasil.Business.Validation.Expressions;
+﻿using JaVisitei.Brasil.Business.Constants;
+using JaVisitei.Brasil.Business.Validation.Expressions;
 using JaVisitei.Brasil.Business.Validation.Models;
 using JaVisitei.Brasil.Business.ViewModels.Request.Profile;
 
@@ -8,42 +9,84 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
     {
         public ProfileValidator() { }
 
-        public void ValidatesConfirmationEmail(string activationCode)
+        public void ValidatesLogin(LoginRequest request)
         {
-            if (String.IsNullOrEmpty(activationCode))
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            ValidatesEmail(request.Email);
+
+            if (string.IsNullOrEmpty(request.Password))
+                Errors.Add("Informe a senha.");
+        }
+
+        public void ValidatesConfirmationEmail(ActiveAccountRequest request)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            if (string.IsNullOrEmpty(request.ActivationCode))
                 Errors.Add("Informe o código de ativação");
 
-            else if (!AlphanumericCodeRegex.ValidateAlphanumericCode(activationCode))
+            else if (!ManagerCodeRegex.ValidateManagerCode(request.ActivationCode))
                 Errors.Add("Informe o código de ativação correto.");
         }
 
-        public void ValidatesExpirationDate(DateTime expirationDate)
+        public void ValidatesEmail(GenerateConfirmationCodeRequest request)
         {
-            if (expirationDate < DateTime.Now)
-                Errors.Add("Cógido expirado, solicite um novo código.");
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            ValidatesEmail(request.Email);
         }
 
-        public void ValidatesEmail(string email)
+        public void ValidatesEmail(ForgotPasswordRequest request)
         {
-           if (!EmailRegex.ValidateEmail(email.ToLower()))
-                Errors.Add("Email inválido.");
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            ValidatesEmail(request.Email);
         }
 
         public void ValidatesResetPassword(ResetPasswordRequest request)
         {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
             ValidatesEmail(request.Email);
 
-            if (String.IsNullOrEmpty(request.ResetPasswordCode))
+            if (string.IsNullOrEmpty(request.ResetPasswordCode))
                 Errors.Add("Informe o código enviado por e-mail.");
 
-            else if (!AlphanumericCodeRegex.ValidateAlphanumericCode(request.ResetPasswordCode))
+            else if (!ManagerCodeRegex.ValidateManagerCode(request.ResetPasswordCode))
                 Errors.Add("Código informado inválido.");
 
-            if (request.Password != request.RePassword)
+            if (string.IsNullOrEmpty(request.Password) || request.Password != request.RePassword)
                 Errors.Add("Confirmação da senha não confere.");
 
             else if (!PasswordRegex.ValidatePassword(request.Password))
                 Errors.Add("A senha deve conter no mínimo 8 caracteres, com pelo menos uma letra mínúscula, uma maiúscola e um número.");
+        }
+
+        public void ValidatesEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                Errors.Add("Informe o e-mail.");
+
+            else if (!EmailRegex.ValidateEmail(email))
+                Errors.Add("Email inválido.");
+        }
+
+        public void ValidatesEmailConfirmationCodeExpirationTime(DateTime expirationDate)
+        {
+            if (expirationDate < DateTime.Now.AddMinutes(Constant.CONFIRMATION_CODE_EXPIRATION_TIME_EMAIL))
+                Errors.Add("Cógido de confirmação de conta expirado, solicite um novo código.");
+        }
+
+        public void ValidatesPasswordConfirmationCodeExpirationTime(DateTime expirationDate)
+        {
+            if (expirationDate < DateTime.Now.AddMinutes(Constant.CONFIRMATION_CODE_EXPIRATION_TIME_PASSWORD))
+                Errors.Add("Cógido de troca de senha expirado, solicite um novo código.");
         }
     }
 }

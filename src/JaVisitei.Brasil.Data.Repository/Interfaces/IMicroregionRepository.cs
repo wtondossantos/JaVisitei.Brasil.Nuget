@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace JaVisitei.Brasil.Data.Repository.Interfaces
 {
-    public interface IMicroregionRepository : IBaseRepository<Microregion>
+    public interface IMicroregionRepository : IReadOnlyRepository<Microregion>
     {
-        Task<IEnumerable<Microregion>> GetByStateAsync(string id);
+        Task<IEnumerable<Microregion>> GetByStateAsync(string stateId);
     }
 }
