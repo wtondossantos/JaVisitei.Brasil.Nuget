@@ -100,11 +100,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var request = VisitMock.CreateVisitRequestMock();
             var mapperVisit = VisitMock.VisitMunicipalityMock();
             var mapperVisitResponse = VisitMock.ReturnVisitMunicipalityMock();
-            var validation = VisitMock.VisitResponseMock();
-            validation.Data = mapperVisitResponse;
-
-            var visitService = new VisitService(_mockVisitRepository.Object,
-                _mockMunicipalityService.Object, null, _mockUserService.Object, validation, _mockMapper.Object);
 
             _ = _mockMunicipalityService
                 .Setup(x => x.AnyAsync(c => c.Id.Equals(request.RegionId)))
@@ -130,7 +125,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .Setup(x => x.Map<VisitResponse>(mapperVisit))
                 .Returns(mapperVisitResponse);
 
-            var result = await visitService.InsertAsync(request);
+            var result = await _visitService.InsertAsync(request);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
