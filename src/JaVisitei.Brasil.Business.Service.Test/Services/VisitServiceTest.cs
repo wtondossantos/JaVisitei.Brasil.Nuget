@@ -5,6 +5,7 @@ using JaVisitei.Brasil.Business.Service.Test.Mocks;
 using JaVisitei.Brasil.Business.Validation.Validators;
 using JaVisitei.Brasil.Business.Service.Interfaces;
 using JaVisitei.Brasil.Business.ViewModels.Response.Visit;
+using JaVisitei.Brasil.Business.ViewModels.Request.Visit;
 using JaVisitei.Brasil.Data.Entities;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -17,7 +18,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
     [TestClass]
     public class VisitServiceTest
     {
-        private VisitService _visitService;
+        private readonly VisitService _visitService;
         private readonly Mock<IVisitRepository> _mockVisitRepository;
         private readonly Mock<IMunicipalityService> _mockMunicipalityService;
         private readonly Mock<IIslandService> _mockIslandService;
@@ -31,6 +32,13 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             _mockIslandService = new Mock<IIslandService>();
             _mockUserService = new Mock<IUserService>();
             _mockMapper = new Mock<IMapper>();
+
+            _visitService = new VisitService(_mockVisitRepository.Object, 
+                _mockMunicipalityService.Object,
+                _mockIslandService.Object,
+                _mockUserService.Object, 
+                new VisitValidator(), 
+                _mockMapper.Object);
         }
 
         #region Visit by id
@@ -41,9 +49,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var request = VisitMock.VisitKeyRequestMock();
             var response = VisitMock.VisitMunicipalityMock();
             var responseMapper = VisitMock.ReturnVisitMunicipalityMock();
-
-            _visitService = new VisitService(_mockVisitRepository.Object,
-                null, null, null, new VisitValidator(), _mockMapper.Object);
 
             _ = _mockVisitRepository
                .Setup(x => x.GetFirstOrDefaultAsync(c => c.UserId.Equals(request.UserId) &&
@@ -72,9 +77,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var response = VisitMock.VisitListMock();
             var responseMapper = VisitMock.ReturnVisitListMock();
 
-            _visitService = new VisitService(_mockVisitRepository.Object,
-                null, null, null, new VisitValidator(), _mockMapper.Object);
-
             _ = _mockVisitRepository
                .Setup(x => x.GetAsync(c => c.UserId.Equals(userId), null))
                .ReturnsAsync(response);
@@ -99,9 +101,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var request = VisitMock.CreateVisitRequestMock();
             var mapperVisit = VisitMock.VisitMunicipalityMock();
             var mapperVisitResponse = VisitMock.ReturnVisitMunicipalityMock();
-
-            _visitService = new VisitService(_mockVisitRepository.Object,
-                _mockMunicipalityService.Object, null, _mockUserService.Object, new VisitValidator(), _mockMapper.Object);
 
             _ = _mockMunicipalityService
                 .Setup(x => x.AnyAsync(c => c.Id.Equals(request.RegionId)))
@@ -130,7 +129,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var result = await _visitService.InsertAsync(request);
 
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Errors.Count.Equals(0));
+            Assert.IsTrue(result.IsValid);
             Assert.IsFalse(string.IsNullOrEmpty(result.Message));
             Assert.IsNotNull(result.Data);
             Assert.AreEqual(mapperVisitResponse, result.Data);
@@ -142,9 +141,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var request = VisitMock.CreateVisitIslandRequestMock();
             var mapperVisit = VisitMock.VisitIslandMock();
             var mapperVisitResponse = VisitMock.ReturnVisitIslandMock();
-
-            _visitService = new VisitService(_mockVisitRepository.Object,
-                null, _mockIslandService.Object, _mockUserService.Object, new VisitValidator(), _mockMapper.Object);
 
             _ = _mockIslandService
                 .Setup(x => x.AnyAsync(c => c.Id.Equals(request.RegionId)))
@@ -173,7 +169,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var result = await _visitService.InsertAsync(request);
 
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Errors.Count.Equals(0));
+            Assert.IsTrue(result.IsValid);
             Assert.IsFalse(string.IsNullOrEmpty(result.Message));
             Assert.IsNotNull(result.Data);
             Assert.AreEqual(mapperVisitResponse, result.Data);
@@ -185,9 +181,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var request = VisitMock.CreateVisitRequestMock();
             var mapperVisit = VisitMock.VisitMunicipalityMock();
             var mapperVisitResponse = VisitMock.ReturnVisitMunicipalityMock();
-
-            _visitService = new VisitService(_mockVisitRepository.Object,
-                _mockMunicipalityService.Object, null, _mockUserService.Object, new VisitValidator(), _mockMapper.Object);
 
             _ = _mockMunicipalityService
                 .Setup(x => x.AnyAsync(c => c.Id.Equals(request.RegionId)))
@@ -216,7 +209,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var result = await _visitService.InsertAsync(request);
 
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Errors.Count.Equals(0));
+            Assert.IsTrue(result.IsValid);
             Assert.IsFalse(string.IsNullOrEmpty(result.Message));
             Assert.IsNull(result.Data);
         }
@@ -226,9 +219,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         {
             var request = VisitMock.CreateVisitRequestMock();
             var mapperVisit = VisitMock.VisitMunicipalityMock();
-
-            _visitService = new VisitService(_mockVisitRepository.Object,
-                _mockMunicipalityService.Object, null, _mockUserService.Object, new VisitValidator(), _mockMapper.Object);
 
             _ = _mockMunicipalityService
                 .Setup(x => x.AnyAsync(c => c.Id.Equals(request.RegionId)))
@@ -265,9 +255,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var request = VisitMock.CreateVisitRequestMock();
             var mapperVisit = VisitMock.VisitMunicipalityMock();
 
-            _visitService = new VisitService(_mockVisitRepository.Object,
-                _mockMunicipalityService.Object, null, _mockUserService.Object, new VisitValidator(), _mockMapper.Object);
-
             _ = _mockMunicipalityService
                 .Setup(x => x.AnyAsync(c => c.Id.Equals(request.RegionId)))
                 .ReturnsAsync(true);
@@ -299,9 +286,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var request = VisitMock.CreateVisitRequestMock();
             var mapperVisit = VisitMock.VisitMunicipalityMock();
 
-            _visitService = new VisitService(_mockVisitRepository.Object,
-                _mockMunicipalityService.Object, null, null, new VisitValidator(), _mockMapper.Object);
-
             _ = _mockMunicipalityService
                 .Setup(x => x.AnyAsync(c => c.Id.Equals(request.RegionId)))
                 .ReturnsAsync(true);
@@ -328,8 +312,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         {
             var request = VisitMock.CreateVisitRequestMock();
 
-            _visitService = new VisitService(null, _mockMunicipalityService.Object, null, null, new VisitValidator(), _mockMapper.Object);
-
             _ = _mockMunicipalityService
                 .Setup(x => x.AnyAsync(c => c.Id.Equals(request.RegionId)))
                 .ReturnsAsync(true);
@@ -352,8 +334,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         {
             var request = VisitMock.CreateVisitRequestMock();
 
-            _visitService = new VisitService(null, _mockMunicipalityService.Object, null, null, new VisitValidator(), null);
-
             _ = _mockMunicipalityService
                 .Setup(x => x.AnyAsync(c => c.Id.Equals(request.RegionId)))
                 .ReturnsAsync(false);
@@ -371,8 +351,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         public async Task InsertAsync_ShouldCorrectReturn_IslandNotfind()
         {
             var request = VisitMock.CreateVisitRequestMock();
-
-            _visitService = new VisitService(null, null, _mockIslandService.Object, null, new VisitValidator(), null);
 
             _ = _mockIslandService
                 .Setup(x => x.AnyAsync(c => c.Id.Equals(request.RegionId)))
@@ -392,8 +370,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         {
             var request = VisitMock.CreateVisitRegionNotExistsRequestMock();
 
-            _visitService = new VisitService(null, null, null, null, new VisitValidator(), null);
-
             var result = await _visitService.InsertAsync(request);
 
             Assert.IsNotNull(result);
@@ -410,8 +386,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var visitValidationInvalid = VisitMock.VisitValidatorErrorMock();
             var visitService = new VisitService(null, null, null, null, visitValidationInvalid, null);
 
-            _visitService = new VisitService(null, null, null, null, new VisitValidator(), null);
-
             var result = await visitService.InsertAsync(request);
 
             Assert.IsNotNull(result);
@@ -426,8 +400,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         {
             var request = VisitMock.CreateVisitRequestMock();
             var message = "Exception test";
-
-            _visitService = new VisitService(null, _mockMunicipalityService.Object, null, null, new VisitValidator(), null);
 
             _ = _mockMunicipalityService
                 .Setup(x => x.AnyAsync(c => c.Id.Equals(request.RegionId)))
@@ -451,9 +423,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         {
             var request = VisitMock.VisitKeyRequestMock();
             var response = VisitMock.VisitMunicipalityMock();
-
-            _visitService = new VisitService(_mockVisitRepository.Object, 
-                null, null, null, new VisitValidator(), _mockMapper.Object);
 
             _ = _mockVisitRepository
                .Setup(x => x.GetFirstOrDefaultAsync(c => c.UserId.Equals(request.UserId) &&
@@ -482,9 +451,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         {
             var request = VisitMock.VisitKeyRequestMock();
             var response = VisitMock.VisitMunicipalityMock();
-
-            _visitService = new VisitService(_mockVisitRepository.Object,
-                null, null, null, new VisitValidator(), _mockMapper.Object);
 
             _ = _mockVisitRepository
                .Setup(x => x.GetFirstOrDefaultAsync(c => c.UserId.Equals(request.UserId) &&
@@ -515,9 +481,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var request = VisitMock.VisitKeyRequestMock();
             var response = VisitMock.VisitMunicipalityMock();
 
-            _visitService = new VisitService(_mockVisitRepository.Object,
-                null, null, null, new VisitValidator(), _mockMapper.Object);
-
             _ = _mockVisitRepository
                .Setup(x => x.GetFirstOrDefaultAsync(c => c.UserId.Equals(request.UserId) &&
                                c.RegionId.Equals(request.RegionId) &&
@@ -541,9 +504,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         public async Task DeleteAsync_ShouldInvalidReturn_VisitNullable()
         {
             var request = VisitMock.VisitKeyRequestMock();
-
-            _visitService = new VisitService(_mockVisitRepository.Object,
-                null, null, null, new VisitValidator(), null);
 
             _ = _mockVisitRepository
                .Setup(x => x.GetFirstOrDefaultAsync(c => c.UserId.Equals(request.UserId) &&
@@ -581,9 +541,6 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         {
             var request = VisitMock.CreateVisitRequestMock();
             var message = "Exception test";
-
-            _visitService = new VisitService(_mockVisitRepository.Object,
-                null, null, null, new VisitValidator(), null);
 
             _ = _mockVisitRepository
                .Setup(x => x.GetFirstOrDefaultAsync(c => c.UserId.Equals(request.UserId) &&
