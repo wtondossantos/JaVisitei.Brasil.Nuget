@@ -76,7 +76,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                     RegionTypeId = 6,
                     RegionId = "ce_aquiraz",
                     Color = "200,100,50",
-                    VisitDate = Convert.ToDateTime("02-07-2022"),
+                    VisitDate = DateTime.Now,
                     RegistryDate = DateTime.Now
                 },
                 Message = "sucess"
@@ -120,7 +120,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
                 Color = "200,100,50",
-                VisitDate = Convert.ToDateTime("30-07-2022"),
+                VisitDate = DateTime.Now,
                 RegistryDate = DateTime.Now
             };
         }
@@ -133,7 +133,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 RegionTypeId = 7,
                 RegionId = "pe_ilha_de_sao_pedro_e_sao_paulo",
                 Color = "200,150,50",
-                VisitDate = Convert.ToDateTime("30-07-2022"),
+                VisitDate = DateTime.Now,
                 RegistryDate = DateTime.Now
             };
         }
@@ -154,7 +154,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
                 Color = "200,100,50",
-                VisitDate = Convert.ToDateTime("30-07-2022"),
+                VisitDate = DateTime.Now,
                 RegistryDate = DateTime.Now,
                 RegionType = new RegionType(),
                 User = new User()
@@ -168,7 +168,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 RegionTypeId = 7,
                 RegionId = "es_ilha_trindade",
                 Color = "200,100,50",
-                VisitDate = Convert.ToDateTime("30-07-2022"),
+                VisitDate = DateTime.Now,
                 RegistryDate = DateTime.Now,
                 RegionType = new RegionType(),
                 User = new User()
