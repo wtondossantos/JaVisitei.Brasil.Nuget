@@ -1,4 +1,5 @@
 ﻿using JaVisitei.Brasil.Business.ViewModels.Request.Visit;
+using System;
 
 namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
 {
@@ -39,7 +40,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
             return new InsertVisitRequest
             {
                 Color = "200,100,50",
-                VisitationDate = "02-07-2022",
+                VisitationDate = DateTime.Now.ToString("dd-MM-yyyy"),
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
                 UserId = 1
