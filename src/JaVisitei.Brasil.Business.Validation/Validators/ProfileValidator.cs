@@ -28,7 +28,7 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
             if (string.IsNullOrEmpty(request.ActivationCode))
                 Errors.Add("Informe o código de ativação");
 
-            else if (!ManagerCodeRegex.ValidateManagerCode(request.ActivationCode))
+            else if (!ManagerCodeRegex.ValidateManagerCodeFull(request.ActivationCode))
                 Errors.Add("Informe o código de ativação correto.");
         }
 
@@ -58,7 +58,7 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
             if (string.IsNullOrEmpty(request.ResetPasswordCode))
                 Errors.Add("Informe o código enviado por e-mail.");
 
-            else if (!ManagerCodeRegex.ValidateManagerCode(request.ResetPasswordCode))
+            else if (!ManagerCodeRegex.ValidateManagerCodeFull(request.ResetPasswordCode))
                 Errors.Add("Código informado inválido.");
 
             if (string.IsNullOrEmpty(request.Password) || request.Password != request.RePassword)
@@ -79,13 +79,13 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
 
         public void ValidatesEmailConfirmationCodeExpirationTime(DateTime expirationDate)
         {
-            if (expirationDate < DateTime.Now.AddMinutes(Constant.CONFIRMATION_CODE_EXPIRATION_TIME_EMAIL))
+            if (expirationDate < DateTime.Now)
                 Errors.Add("Cógido de confirmação de conta expirado, solicite um novo código.");
         }
 
         public void ValidatesPasswordConfirmationCodeExpirationTime(DateTime expirationDate)
         {
-            if (expirationDate < DateTime.Now.AddMinutes(Constant.CONFIRMATION_CODE_EXPIRATION_TIME_PASSWORD))
+            if (expirationDate < DateTime.Now)
                 Errors.Add("Cógido de troca de senha expirado, solicite um novo código.");
         }
     }

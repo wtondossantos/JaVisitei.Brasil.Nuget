@@ -101,7 +101,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 Username = "wellingtonedit",
                 Email = "teste1@teste.com",
                 ReEmail = "teste1@teste.com.zz",
-                OldPassword = "OldPass123",
+                OldPassword = "!Old56789",
                 Password = "!Abc56789",
                 RePassword = "!Abc56789",
                 SecurityStamp = "7223d690-2d88-4eae-a425-b57f9e767e49"
@@ -112,13 +112,13 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
         {
             return new UpdateFullUserRequest
             {
-                Id = 3,
-                Name = "David",
-                Surname = "Coffee",
-                Username = "wellingtonedit",
+                Id = 2,
+                Name = "John",
+                Surname = "Bob",
+                Username = "johnbob",
                 Email = "teste1@teste.com.zz",
                 ReEmail = "teste1@teste.com.zz",
-                OldPassword = "OldPass123",
+                OldPassword = "!Old56789",
                 Password = "!Abc56789",
                 RePassword = "!Abc56789",
                 SecurityStamp = "7223d690-2d88-4eae-a425-b57f9e767e49",
@@ -140,6 +140,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 UserRoleId = 2
             };
         }
+
         public static UpdateFullUserRequest UpdateFullUserInvalidRequestMock()
         {
             return new UpdateFullUserRequest
@@ -154,7 +155,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 OldPassword = "1",
                 Password = "bc56789",
                 RePassword = "Abc56789",
-                UserRoleId = 2
+                UserRoleId = 0
             };
         }
 
@@ -231,7 +232,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 RegistryDate = DateTime.Now,
                 Actived = true,
                 UserRoleId = 2,
-                Password = Encrypt.Sha256encrypt("OldPass123"),
+                Password = Encrypt.Sha256encrypt("!Old56789"),
                 SecurityStamp = "7223d690-2d88-4eae-a425-b57f9e767e49",
                 UserRole = UserRoleContributorMock()
             };
@@ -266,7 +267,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 RegistryDate = DateTime.Now,
                 Actived = true,
                 UserRoleId = 2,
-                Password = "4365462348230523057324057325fn584305",
+                Password = "0CBAA0CB5320F4356F818F77314D4B21A74269B8B2FD7733AE37FA261B0997F2",
                 SecurityStamp = "7223d690-2d88-4eae-a425-b57f9e767e49",
                 UserRole = UserRoleContributorMock()
             };

@@ -7,7 +7,7 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request.Profile
     {
         [Required(ErrorMessage = "Informe o código de informado no e-mail")]
         [DataType(DataType.Text)]
-        [Range(10, Int32.MaxValue, ErrorMessage = "Informe o código de confirmação válido")]
+        [MaxLength(10, ErrorMessage = "Informe o código de confirmação válido")]
         [Display(Name = "ResetPasswordCode")]
         public string ResetPasswordCode { get; set; }
 

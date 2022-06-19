@@ -50,7 +50,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 if (!_profileLoginValidator.IsValid)
                     return _profileLoginValidator;
 
-                var result = await _userService.LoginAsync<User>(request.Email, request.Password);
+                var result = await _userService.LoginAsync<User>(request.Email, Encrypt.Sha256encrypt(request.Password));
 
                 if (result is null || string.IsNullOrEmpty(result.Password))
                 {

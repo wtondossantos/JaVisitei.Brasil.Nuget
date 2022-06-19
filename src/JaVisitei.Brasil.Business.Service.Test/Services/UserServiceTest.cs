@@ -4,12 +4,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JaVisitei.Brasil.Business.Service.Test.Mocks;
 using JaVisitei.Brasil.Business.Validation.Validators;
 using JaVisitei.Brasil.Business.Service.Interfaces;
+using JaVisitei.Brasil.Business.ViewModels.Request.User;
+using JaVisitei.Brasil.Business.ViewModels.Response.User;
 using JaVisitei.Brasil.Data.Entities;
 using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
-using JaVisitei.Brasil.Business.ViewModels.Request.User;
-using JaVisitei.Brasil.Business.ViewModels.Response.User;
 using System;
 
 namespace JaVisitei.Brasil.Business.Service.Test.Services
@@ -33,7 +33,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             _userService = new UserService(_mockUserRepository.Object,
                 _mockUserManagerService.Object, 
                 new UserValidator(),
-                _mockEmailService.Object, 
+                _mockEmailService.Object,
                 _mockMapper.Object);
         }
 
@@ -58,7 +58,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
 
         #region Insert user full
 
-        [TestMethod("Insert user full Correct return")]
+        [TestMethod("Insert user Correct return")]
         public async Task InsertAsync_ShouldCorrectReturn_UserFull()
         {
             var request = UserMock.CreateUserBasicFullRequestMock();
@@ -67,6 +67,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var responseUser = UserMock.UserInactiveUserMock();
             var responseUserManager = UserManagerMock.ReturnUserManagerNotConfirmedMock();
             var emailValidation = EmailMock.ReturnEmailUserManagerResponseMock();
+            var userRole = UserMock.UserRoleContributorMock();
 
             _ = _mockUserRepository
                 .Setup(x => x.AnyAsync(c => c.Email.Equals(request.Email) || c.Username.Equals(request.Username)))
@@ -113,6 +114,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var responseUser = UserMock.UserInactiveUserMock();
             var responseUserManager = UserManagerMock.ReturnUserManagerNotConfirmedMock();
             var emailValidation = EmailMock.ReturnEmailUserManagerResponseMock();
+            var userRole = UserMock.UserRoleContributorMock();
 
             _ = _mockUserRepository
                 .Setup(x => x.AnyAsync(c => c.Email.Equals(request.Email) || c.Username.Equals(request.Username)))
@@ -403,11 +405,11 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(false);
 
             _ = _mockUserRepository
-                .Setup(x => x.GetByIdAsync(request.Id))
+                .Setup(c => c.GetFirstOrDefaultAsync(x => x.Id.Equals(request.Id), null))
                 .ReturnsAsync(userResponse);
 
             _ = _mockUserRepository
-                .Setup(x => x.LoginAsync(userResponse.Email, It.IsAny<string>()))
+                .Setup(x => x.LoginAsync(userResponse.Email, userResponse.Password))
                 .ReturnsAsync(userResponse);
 
             _ = _mockMapper
@@ -453,7 +455,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(false);
 
             _ = _mockUserRepository
-                .Setup(x => x.GetByIdAsync(request.Id))
+                .Setup(x => x.GetFirstOrDefaultAsync(c => c.Id.Equals(request.Id), null))
                 .ReturnsAsync(userResponse);
 
             _ = _mockMapper
@@ -498,7 +500,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(false);
 
             _ = _mockUserRepository
-                .Setup(x => x.GetByIdAsync(request.Id))
+                .Setup(x => x.GetFirstOrDefaultAsync(c => c.Id.Equals(request.Id), null))
                 .ReturnsAsync(userResponse);
 
             _ = _mockMapper
@@ -541,7 +543,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(false);
 
             _ = _mockUserRepository
-                .Setup(x => x.GetByIdAsync(request.Id))
+                .Setup(x => x.GetFirstOrDefaultAsync(c => c.Equals(request.Id), null))
                 .ReturnsAsync(userResponse);
 
             _ = _mockMapper
@@ -581,7 +583,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(false);
 
             _ = _mockUserRepository
-                .Setup(x => x.GetByIdAsync(request.Id))
+                .Setup(x => x.GetFirstOrDefaultAsync(c => c.Equals(request.Id), null))
                 .ReturnsAsync(userResponse);
 
             _ = _mockUserRepository
@@ -621,7 +623,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(false);
 
             _ = _mockUserRepository
-                .Setup(x => x.GetByIdAsync(request.Id))
+                .Setup(x => x.GetFirstOrDefaultAsync(c => c.Equals(request.Id), null))
                 .ReturnsAsync(userResponse);
 
             _ = _mockUserRepository
@@ -657,7 +659,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(false);
 
             _ = _mockUserRepository
-                .Setup(x => x.GetByIdAsync(request.Id))
+                .Setup(x => x.GetFirstOrDefaultAsync(c => c.Equals(request.Id), null))
                 .ReturnsAsync(userResponse);
 
             _ = _mockUserRepository
@@ -692,7 +694,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(false);
 
             _ = _mockUserRepository
-                .Setup(x => x.GetByIdAsync(request.Id))
+                .Setup(x => x.GetFirstOrDefaultAsync(c => c.Equals(request.Id), null))
                 .ReturnsAsync(userResponse);
 
             _ = _mockUserRepository
@@ -723,7 +725,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(false);
 
             _ = _mockUserRepository
-                .Setup(x => x.GetByIdAsync(request.Id))
+                .Setup(x => x.GetFirstOrDefaultAsync(c => c.Equals(request.Id), null))
                 .ReturnsAsync(userResponse);
 
             var result = await _userService.UpdateAsync(request);
@@ -750,7 +752,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(false);
 
             _ = _mockUserRepository
-                .Setup(x => x.GetByIdAsync(request.Id))
+                .Setup(x => x.GetFirstOrDefaultAsync(c => c.Equals(request.Id), null))
                 .ReturnsAsync(userResponse);
 
             var result = await _userService.UpdateAsync(request);
@@ -776,7 +778,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(false);
 
             _ = _mockUserRepository
-                .Setup(x => x.GetByIdAsync(request.Id))
+                .Setup(x => x.GetFirstOrDefaultAsync(c => c.Equals(request.Id), null))
                 .ReturnsAsync((User)null);
 
             var result = await _userService.UpdateAsync(request);

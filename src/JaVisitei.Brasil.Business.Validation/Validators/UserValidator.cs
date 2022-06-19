@@ -19,6 +19,7 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
             ValidatesUserUsername(request.Username);
             ValidatesUserEmail(request.Email, request.ReEmail);
             ValidatesUserPassword(request.Password, request.RePassword);
+            ValidatesUserRoleId(request.UserRoleId);
         }
 
         public void ValidatesUserEdition(UpdateFullUserRequest request)
@@ -30,6 +31,7 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
             ValidatesUserSurname(request.Surname);
             ValidatesUserUsername(request.Username);
             ValidatesUserEmail(request.Email, request.ReEmail);
+            ValidatesUserRoleId(request.UserRoleId);
 
             if (!string.IsNullOrEmpty(request.Password))
             {
@@ -98,6 +100,12 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
 
             else if (!PasswordRegex.ValidatePassword(password))
                 Errors.Add("A senha deve conter no mínimo 8 caracteres e no máximo 50, com pelo menos uma letra minúscula, uma maiúscula e um número.");
+        }
+
+        public void ValidatesUserRoleId(int code)
+        {
+            if (code.Equals(0))
+                Errors.Add("Erro eo consultar código da regra do perfil.");
         }
     }
 }

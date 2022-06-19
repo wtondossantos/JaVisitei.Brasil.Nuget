@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using Moq;
 using System;
+using JaVisitei.Brasil.Helper.Others;
 
 namespace JaVisitei.Brasil.Business.Service.Test.Services
 {
@@ -46,7 +47,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 loginValidation, null, null, null, null, null, null);
 
             _ = _mockUserService
-                .Setup(x => x.LoginAsync<User>(loginRequest.Email, loginRequest.Password))
+                .Setup(x => x.LoginAsync<User>(loginRequest.Email, Encrypt.Sha256encrypt(loginRequest.Password)))
                 .ReturnsAsync(userResponse);
 
             var result = await _profileService.LoginAsync(loginRequest);
@@ -151,7 +152,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 new ProfileValidator<LoginResponse>(), null, null, null, null, null, null);
 
             _ = _mockUserService
-                .Setup(x => x.LoginAsync<User>(loginRequest.Email, loginRequest.Password))
+                .Setup(x => x.LoginAsync<User>(loginRequest.Email, Encrypt.Sha256encrypt(loginRequest.Password)))
                 .Throws(new Exception(message));
 
             var result = await _profileService.LoginAsync(loginRequest);
