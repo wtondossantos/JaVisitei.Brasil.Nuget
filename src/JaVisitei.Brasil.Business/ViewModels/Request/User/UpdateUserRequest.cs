@@ -43,16 +43,13 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request.User
         [Compare("Email", ErrorMessage = "E-mail e confirmação de e-mail são diferentes")]
         public string ReEmail { get; set; }
 
-        [Required(ErrorMessage = "Informe a Senha")]
         [MaxLength(50, ErrorMessage = "A senha não pode exceder {1} caracteres.")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Informe a confirmação de Senha")]
         [MaxLength(50, ErrorMessage = "A senha não pode exceder {1} caracteres.")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Senha e confirmação de senha são diferentes")]
         [Display(Name = "RePassword")]
         public string RePassword { get; set; }
 

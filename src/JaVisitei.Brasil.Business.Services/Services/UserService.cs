@@ -55,6 +55,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 }
 
                 var userMapper = _mapper.Map<User>(request);
+
                 if (await _userRepository.InsertAsync(userMapper))
                 {
                     var user = await _userRepository.GetFirstOrDefaultAsync(x => x.Email.Equals(userMapper.Email));
@@ -117,7 +118,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
                     return _userValidator;
                 }
 
-                var userFound = await _userRepository.GetByIdAsync(request.Id);
+                var userFound = await _userRepository.GetFirstOrDefaultAsync(x => x.Id.Equals(request.Id));
                 if (userFound is null)
                 {
                     _userValidator.Errors.Add("Usuário não encontrado.");
@@ -148,7 +149,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 }
 
                 var userMapper = _mapper.Map<User>(request);
-                if(userMapper?.Password is null)
+                if (userMapper?.Password is null)
                 {
                     _userValidator.Errors.Add("Erro ao atualizar usuário.");
                     return _userValidator;

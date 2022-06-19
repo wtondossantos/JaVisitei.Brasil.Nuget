@@ -348,7 +348,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
         [TestMethod("Email confirmation code expiration time validation Correct return")]
         public void ValidatesEmailConfirmationCodeExpirationTime_ShouldCorrectReturn_Validation()
         {
-            var date = DateTime.Now;
+            var date = DateTime.Now.AddMinutes(1);
 
             _profileActivationResponseValidator.ValidatesEmailConfirmationCodeExpirationTime(date);
 
@@ -359,7 +359,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
         [TestMethod("Email confirmation code expiration time validation Invalid return")]
         public void ValidatesEmailConfirmationCodeExpirationTime_ShouldInvalidReturn_Validation()
         {
-            var date = DateTime.Now.AddMinutes(Constant.CONFIRMATION_CODE_EXPIRATION_TIME_EMAIL).AddSeconds(-1);
+            var date = DateTime.Now.AddMinutes(-1);
 
             _profileActivationResponseValidator.ValidatesEmailConfirmationCodeExpirationTime(date);
 
@@ -383,7 +383,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
         [TestMethod("Password confirmation code expiration time validation Correct return")]
         public void ValidatesPasswordConfirmationCodeExpirationTime_ShouldCorrectReturn_Validation()
         {
-            var date = DateTime.Now;
+            var date = DateTime.Now.AddMinutes(1);
 
             _profileActivationResponseValidator.ValidatesPasswordConfirmationCodeExpirationTime(date);
 
@@ -394,7 +394,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
         [TestMethod("Password confirmation code expiration time validation Invalid return")]
         public void ValidatesPasswordConfirmationCodeExpirationTime_ShouldInvalidReturn_Validation()
         {
-            var date = DateTime.Now.AddMinutes(Constant.CONFIRMATION_CODE_EXPIRATION_TIME_PASSWORD).AddSeconds(-1);
+            var date = DateTime.Now.AddMinutes(-1);
 
             _profileActivationResponseValidator.ValidatesPasswordConfirmationCodeExpirationTime(date);
 

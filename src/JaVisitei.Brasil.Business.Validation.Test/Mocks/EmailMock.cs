@@ -11,7 +11,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
                 Id = 1,
                 UserManagerId = 1,
                 Email = "teste@teste.com.zz",
-                ManagerCode = "ABC123AB010"
+                ManagerCode = "ABC123AB"
             };
         }
 

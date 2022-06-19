@@ -1,4 +1,5 @@
-﻿using JaVisitei.Brasil.Business.ViewModels.Request.UserManager;
+﻿using JaVisitei.Brasil.Business.Constants;
+using JaVisitei.Brasil.Business.ViewModels.Request.UserManager;
 using JaVisitei.Brasil.Data.Entities;
 using System;
 
@@ -15,7 +16,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 EmailId = 1,
                 ManagerCode = "ABC123AB99",
                 ConfirmedChange = false,
-                ExpirationDate = DateTime.Now.AddMinutes(10),
+                ExpirationDate = DateTime.Now.AddMinutes(Constant.CONFIRMATION_CODE_EXPIRATION_TIME_EMAIL),
                 Email = new Email(),
                 User = new User()
             };
@@ -30,7 +31,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 EmailId = 1,
                 ManagerCode = "ABC123AB99",
                 ConfirmedChange = true,
-                ExpirationDate = DateTime.Now.AddMinutes(10),
+                ExpirationDate = DateTime.Now.AddMinutes(Constant.CONFIRMATION_CODE_EXPIRATION_TIME_EMAIL),
                 Email = new Email(),
                 User = new User()
             };
@@ -53,7 +54,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 EmailId = 1,
                 ManagerCode = "ABC123AB00",
                 ConfirmedChange = true,
-                ExpirationDate = DateTime.Now.AddMinutes(-11),
+                ExpirationDate = DateTime.Now.AddMinutes(Constant.CONFIRMATION_CODE_EXPIRATION_TIME_EMAIL).AddSeconds(-1),
                 Email = new Email(),
                 User = new User()
             };
