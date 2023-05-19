@@ -59,16 +59,20 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasAnnotation("MySql:IndexPrefixLength", new[] { 5, 5 });
 
                 entity.Property(e => e.Id)
-                    .HasMaxLength(50)
+                    .HasMaxLength(60)
                     .HasDefaultValueSql("''");
 
                 entity.Property(e => e.MacroregionId)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(60);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.Canvas)
+                    .IsRequired()
+                    .HasMaxLength(300);
 
                 entity.HasOne(d => d.Macroregion)
                     .WithMany(p => p.Archipelagos)
@@ -88,7 +92,7 @@ namespace JaVisitei.Brasil.Data.Base
                     .IsUnique();
 
                 entity.Property(e => e.Id)
-                    .HasMaxLength(50)
+                    .HasMaxLength(60)
                     .HasDefaultValueSql("''");
 
                 entity.Property(e => e.Name)
@@ -205,16 +209,16 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasAnnotation("MySql:IndexPrefixLength", new[] { 5, 5 });
 
                 entity.Property(e => e.Id)
-                    .HasMaxLength(50)
+                    .HasMaxLength(60)
                     .HasDefaultValueSql("''");
 
                 entity.Property(e => e.ArchipelagoId)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(60);
 
                 entity.Property(e => e.Canvas)
                     .IsRequired()
-                    .HasMaxLength(200);
+                    .HasMaxLength(300);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -240,12 +244,12 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasAnnotation("MySql:IndexPrefixLength", new[] { 5, 5 });
 
                 entity.Property(e => e.Id)
-                    .HasMaxLength(50)
+                    .HasMaxLength(60)
                     .HasDefaultValueSql("''");
 
                 entity.Property(e => e.Canvas)
                     .IsRequired()
-                    .HasMaxLength(1700);
+                    .HasMaxLength(2000);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -253,7 +257,7 @@ namespace JaVisitei.Brasil.Data.Base
 
                 entity.Property(e => e.StateId)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(60);
 
                 entity.HasOne(d => d.State)
                     .WithMany(p => p.Macroregions)
@@ -275,16 +279,16 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasAnnotation("MySql:IndexPrefixLength", new[] { 5, 5 });
 
                 entity.Property(e => e.Id)
-                    .HasMaxLength(50)
+                    .HasMaxLength(60)
                     .HasDefaultValueSql("''");
 
                 entity.Property(e => e.Canvas)
                     .IsRequired()
-                    .HasMaxLength(1400);
+                    .HasMaxLength(2000);
 
                 entity.Property(e => e.MacroregionId)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(60);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -310,7 +314,7 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasAnnotation("MySql:IndexPrefixLength", new[] { 5, 5 });
 
                 entity.Property(e => e.Id)
-                    .HasMaxLength(50)
+                    .HasMaxLength(60)
                     .HasDefaultValueSql("''");
 
                 entity.Property(e => e.Canvas)
@@ -319,7 +323,7 @@ namespace JaVisitei.Brasil.Data.Base
 
                 entity.Property(e => e.MicroregionId)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(60);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -362,16 +366,16 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasAnnotation("MySql:IndexPrefixLength", new[] { 5, 5 });
 
                 entity.Property(e => e.Id)
-                    .HasMaxLength(50)
+                    .HasMaxLength(60)
                     .HasDefaultValueSql("''");
 
                 entity.Property(e => e.Canvas)
                     .IsRequired()
-                    .HasMaxLength(2000);
+                    .HasMaxLength(2500);
 
                 entity.Property(e => e.CountryId)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(60);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -487,7 +491,7 @@ namespace JaVisitei.Brasil.Data.Base
 
                 entity.HasIndex(e => e.UserId, "FK_VisitUserId_UserId");
 
-                entity.Property(e => e.RegionId).HasMaxLength(50);
+                entity.Property(e => e.RegionId).HasMaxLength(60);
 
                 entity.Property(e => e.Color)
                     .IsRequired()

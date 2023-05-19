@@ -13,6 +13,7 @@ namespace JaVisitei.Brasil.Data.Entities
         public string Id { get; set; }
         public string MacroregionId { get; set; }
         public string Name { get; set; }
+        public string Canvas { get; set; }
 
         public virtual Macroregion Macroregion { get; set; }
         public virtual ICollection<Island> Islands { get; set; }
