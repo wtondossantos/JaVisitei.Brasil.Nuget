@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using JaVisitei.Brasil.Business.ViewModels.Response.Island;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace JaVisitei.Brasil.Business.ViewModels.Response.Archipelago
 {
@@ -12,5 +14,8 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.Archipelago
 
         [JsonPropertyName("macroregion_id")]
         public string MacroregionId { get; set; }
+
+        [JsonPropertyName("island")]
+        public List<IslandResponse> Islands { get; set; }
     }
 }

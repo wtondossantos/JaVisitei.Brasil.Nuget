@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using JaVisitei.Brasil.Business.ViewModels.Response.Macroregion;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace JaVisitei.Brasil.Business.ViewModels.Response.State
 {
@@ -15,5 +17,8 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.State
 
         [JsonPropertyName("country_id")]
         public string CountryId { get; set; }
+
+        [JsonPropertyName("macroregion")]
+        public List<MacroregionResponse> Macroregions { get; set; }
     }
 }
