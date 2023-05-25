@@ -6,6 +6,7 @@ using AutoMapper;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using JaVisitei.Brasil.Business.ViewModels.Response.Country;
 
 namespace JaVisitei.Brasil.Business.Service.Services
 {
@@ -39,7 +40,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
             _mapper = mapper;
         }
 
-        public async Task<Country> GetFullByIdAsync(string countryId)
+        public async Task<CountryResponse> GetFullByIdAsync(string countryId)
         {
             var country = await _countryRepository.GetByIdAsync(countryId);
             var states = await _stateRepository.GetAsync(x => x.CountryId.Equals(countryId));
@@ -75,7 +76,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 country.States.Add(state);
             }
 
-            return country;
+            return country is null ? default : _mapper.Map<CountryResponse>(country);
         }
     }
 }
