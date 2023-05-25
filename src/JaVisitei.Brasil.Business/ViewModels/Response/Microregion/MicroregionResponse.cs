@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using JaVisitei.Brasil.Business.ViewModels.Response.Municipality;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace JaVisitei.Brasil.Business.ViewModels.Response.Microregion
 {
@@ -15,5 +17,8 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.Microregion
 
         [JsonPropertyName("canvas")]
         public string Canvas { get; set; }
+
+        [JsonPropertyName("municipality")]
+        public List<MunicipalityResponse> Municipalities { get; set; }
     }
 }
