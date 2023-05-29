@@ -498,6 +498,9 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasMaxLength(11)
                     .IsFixedLength();
 
+                entity.Property(e => e.Note)
+                    .HasMaxLength(255);
+
                 entity.Property(e => e.VisitDate).HasColumnType("datetime");
 
                 entity.Property(e => e.RegistryDate).HasColumnType("datetime");

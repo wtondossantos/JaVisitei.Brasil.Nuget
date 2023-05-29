@@ -8,6 +8,7 @@ namespace JaVisitei.Brasil.Data.Entities
         public short RegionTypeId { get; set; }
         public string RegionId { get; set; }
         public string Color { get; set; }
+        public string Note { get; set; }
         public DateTime? VisitDate { get; set; }
         public DateTime RegistryDate { get; set; }
 

@@ -4,6 +4,7 @@ using JaVisitei.Brasil.Data.Entities;
 using JaVisitei.Brasil.Helper.Others;
 using AutoMapper;
 using System;
+using JaVisitei.Brasil.Helper.Formatting;
 
 namespace JaVisitei.Brasil.Business.Profiles
 {
@@ -21,7 +22,10 @@ namespace JaVisitei.Brasil.Business.Profiles
                     dest.VisitDate = DateTime.Parse(src.VisitationDate);
                 });
 
-            CreateMap<Visit, VisitResponse>();
+            CreateMap<Visit, VisitResponse>()
+                .AfterMap((src, dest) => {
+                    dest.Color = Format.ConvertRGBToHex(src.Color);
+                });
 
             CreateMap<VisitKeyRequest, Visit>();
         }

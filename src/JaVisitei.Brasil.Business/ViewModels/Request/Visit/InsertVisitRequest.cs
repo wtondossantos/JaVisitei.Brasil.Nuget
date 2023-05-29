@@ -9,6 +9,11 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request.Visit
         [DataType(DataType.Text)]
         public string Color { get; set; }
 
+        [Display(Name = "Note")]
+        [StringLength(255, ErrorMessage = "Informe uma nota menor que 255 caracteres.")]
+        [DataType(DataType.Text)]
+        public string Note { get; set; }
+
         [Display(Name = "VisitDate")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
         [DataType(DataType.Text, ErrorMessage = "Informe uma data válida")]

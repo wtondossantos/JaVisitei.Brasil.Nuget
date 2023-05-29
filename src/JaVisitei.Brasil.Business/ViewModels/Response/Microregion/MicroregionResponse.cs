@@ -1,4 +1,5 @@
 ﻿using JaVisitei.Brasil.Business.ViewModels.Response.Municipality;
+using JaVisitei.Brasil.Business.ViewModels.Response.Visit;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -18,7 +19,10 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.Microregion
         [JsonPropertyName("canvas")]
         public string Canvas { get; set; }
 
-        [JsonPropertyName("municipality")]
+        [JsonPropertyName("municipalities")]
         public List<MunicipalityResponse> Municipalities { get; set; }
+
+        [JsonPropertyName("visit")]
+        public VisitResponse Visit { get; set; }
     }
 }
