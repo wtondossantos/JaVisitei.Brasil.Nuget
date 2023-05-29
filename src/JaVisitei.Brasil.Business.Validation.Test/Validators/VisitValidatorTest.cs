@@ -38,7 +38,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
             _visitValidator.ValidatesVisitCreation(request);
 
             Assert.IsFalse(_visitValidator.IsValid);
-            Assert.IsTrue(_visitValidator.Errors.Count.Equals(5));
+            Assert.IsTrue(_visitValidator.Errors.Count.Equals(6));
         }
 
         [TestMethod("Visit creation validation Invalid return empty")]
