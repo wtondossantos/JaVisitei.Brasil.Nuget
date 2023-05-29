@@ -1,5 +1,6 @@
 ﻿using JaVisitei.Brasil.Business.ViewModels.Response.Archipelago;
 using JaVisitei.Brasil.Business.ViewModels.Response.Microregion;
+using JaVisitei.Brasil.Business.ViewModels.Response.Visit;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -19,10 +20,13 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.Macroregion
         [JsonPropertyName("canvas")]
         public string Canvas { get; set; }
 
-        [JsonPropertyName("microregion")]
+        [JsonPropertyName("microregions")]
         public List<MicroregionResponse> Microregions { get; set; }
 
-        [JsonPropertyName("archipelago")]
+        [JsonPropertyName("archipelagos")]
         public List<ArchipelagoResponse> Archipelagos { get; set; }
+
+        [JsonPropertyName("visit")]
+        public VisitResponse Visit { get; set; }
     }
 }

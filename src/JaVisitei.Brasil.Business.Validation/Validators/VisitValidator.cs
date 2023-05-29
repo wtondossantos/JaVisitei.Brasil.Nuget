@@ -31,6 +31,9 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
 
             else if(!DateRegex.ValidateDate(request.VisitationDate))
                 Errors.Add("Informe a data no formato correto: DD-MM-AAAA.");
+
+            if (request.Note.Length > 255)
+                Errors.Add("Informe uma anotação menor que 255 caracteres.");
         }
 
         public void ValidatesVisitDelete(VisitKeyRequest request)

@@ -8,5 +8,6 @@ namespace JaVisitei.Brasil.Business.Service.Interfaces
     public interface ICountryService : IReadOnlyService<Country>
     {
         Task<CountryResponse> GetFullByIdAsync(string countryId);
+        Task<CountryResponse> GetFullByIdAndUserIdAsync(string countryId, string userId);
     }
 }

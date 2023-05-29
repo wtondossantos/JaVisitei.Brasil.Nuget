@@ -17,6 +17,9 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.Visit
         [JsonProperty("color")]
         public string Color { get; set; }
 
+        [JsonProperty("note")]
+        public string Note { get; set; }
+
         [JsonProperty("visit_date")]
         public DateTime? VisitDate { get; set; }
 
