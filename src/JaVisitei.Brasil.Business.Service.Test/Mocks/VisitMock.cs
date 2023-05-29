@@ -38,6 +38,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
             {
                 Color = "200,100,50",
                 VisitationDate = DateTime.Now.ToString("dd-MM-yyyy"),
+                Note = "Annotation",
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
                 UserId = 1
@@ -49,6 +50,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
             {
                 Color = "200,100,50",
                 VisitationDate = DateTime.Now.ToString("dd-MM-yyyy"),
+                Note = "Annotation",
                 RegionTypeId = 7,
                 RegionId = "es_ilha_trindade",
                 UserId = 1
@@ -60,6 +62,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
             {
                 Color = "200,1",
                 VisitationDate = "02-022",
+                Note = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu eros sagittis, laoreet sem sed, dapibus ipsum. Proin efficitur tincidunt ex, ac fringilla nisl malesuada sed. Morbi sagittis augue at libero condimentum, eu dictum ante venenatis donec.",
                 RegionTypeId = 99,
                 RegionId = "not_exists",
                 UserId = 0
@@ -76,6 +79,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                     RegionTypeId = 6,
                     RegionId = "ce_aquiraz",
                     Color = "200,100,50",
+                    Note = "Annotation",
                     VisitDate = DateTime.Now,
                     RegistryDate = DateTime.Now
                 },
@@ -122,6 +126,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 UserId = 1,
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
+                Note = "Annotation",
                 Color = "200,100,50",
                 VisitDate = DateTime.Now,
                 RegistryDate = DateTime.Now
@@ -135,6 +140,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 UserId = 1,
                 RegionTypeId = 7,
                 RegionId = "pe_ilha_de_sao_pedro_e_sao_paulo",
+                Note = "Annotation",
                 Color = "200,150,50",
                 VisitDate = DateTime.Now,
                 RegistryDate = DateTime.Now
@@ -157,6 +163,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
                 Color = "200,100,50",
+                Note = "Annotation",
                 VisitDate = DateTime.Now,
                 RegistryDate = DateTime.Now,
                 RegionType = new RegionType(),
@@ -171,6 +178,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 RegionTypeId = 7,
                 RegionId = "es_ilha_trindade",
                 Color = "200,100,50",
+                Note = "Annotation",
                 VisitDate = DateTime.Now,
                 RegistryDate = DateTime.Now,
                 RegionType = new RegionType(),

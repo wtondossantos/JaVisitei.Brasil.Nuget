@@ -41,6 +41,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
             {
                 Color = "200,100,50",
                 VisitationDate = DateTime.Now.ToString("dd-MM-yyyy"),
+                Note = "Annotation",
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
                 UserId = 1
@@ -53,6 +54,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
             {
                 Color = "200,10050",
                 VisitationDate = "02-072022",
+                Note = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu eros sagittis, laoreet sem sed, dapibus ipsum. Proin efficitur tincidunt ex, ac fringilla nisl malesuada sed. Morbi sagittis augue at libero condimentum, eu dictum ante venenatis donec.",
                 RegionTypeId = 0,
                 RegionId = "sdfas sdf",
                 UserId = 0
@@ -63,10 +65,11 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
         {
             return new InsertVisitRequest
             {
-                Color = "",
-                VisitationDate = "",
+                Color = string.Empty,
+                VisitationDate = string.Empty,
                 RegionTypeId = 0,
-                RegionId = "",
+                Note = string.Empty,
+                RegionId = string.Empty,
                 UserId = 0
             };
         }

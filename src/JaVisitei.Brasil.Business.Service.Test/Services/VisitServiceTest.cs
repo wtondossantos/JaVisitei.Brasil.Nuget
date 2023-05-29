@@ -245,7 +245,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             Assert.IsFalse(result.IsValid);
             Assert.IsTrue(string.IsNullOrEmpty(result.Message));
             Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors.Count > 0);
+            Assert.IsTrue(result.Errors.Count.Equals(1));
         }
 
         [TestMethod("Insert visit Invalid return user nullable")]
@@ -276,7 +276,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             Assert.IsFalse(result.IsValid);
             Assert.IsTrue(string.IsNullOrEmpty(result.Message));
             Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors.Count > 0);
+            Assert.IsTrue(result.Errors.Count.Equals(1));
         }
 
         [TestMethod("Insert visit Invalid return visit exists")]
@@ -303,7 +303,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             Assert.IsFalse(result.IsValid);
             Assert.IsTrue(string.IsNullOrEmpty(result.Message));
             Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors.Count > 0);
+            Assert.IsTrue(result.Errors.Count.Equals(1));
         }
 
         [TestMethod("Insert visit Invalid return mapper visit nullable")]
@@ -325,7 +325,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             Assert.IsFalse(result.IsValid);
             Assert.IsTrue(string.IsNullOrEmpty(result.Message));
             Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors.Count > 0);
+            Assert.IsTrue(result.Errors.Count.Equals(1));
         }
 
         [TestMethod("Insert visit Invalid return municipality not find")]
@@ -343,7 +343,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             Assert.IsFalse(result.IsValid);
             Assert.IsTrue(string.IsNullOrEmpty(result.Message));
             Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors.Count > 0);
+            Assert.IsTrue(result.Errors.Count.Equals(1));
         }
 
         [TestMethod("Insert visit Invalid return island not find")]
@@ -361,7 +361,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             Assert.IsFalse(result.IsValid);
             Assert.IsTrue(string.IsNullOrEmpty(result.Message));
             Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors.Count > 0);
+            Assert.IsTrue(result.Errors.Count.Equals(1));
         }
 
         [TestMethod("Insert visit Invalid return region not exists")]
@@ -375,7 +375,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             Assert.IsFalse(result.IsValid);
             Assert.IsTrue(string.IsNullOrEmpty(result.Message));
             Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors.Count > 0);
+            Assert.IsTrue(result.Errors.Count.Equals(4));
         }
 
         [TestMethod("Insert visit Invalid validation")]
@@ -391,7 +391,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             Assert.IsFalse(result.IsValid);
             Assert.IsTrue(string.IsNullOrEmpty(result.Message));
             Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors.Count > 0);
+            Assert.IsTrue(result.Errors.Count.Equals(5));
         }
 
         [TestMethod("Insert visit Return exception")]
@@ -408,7 +408,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
-            Assert.IsTrue(result.Errors.Count > 0);
+            Assert.IsTrue(result.Errors.Count.Equals(1));
             Assert.IsNull(result.Data);
             Assert.IsTrue(result.Errors[0].Contains(message));
         }

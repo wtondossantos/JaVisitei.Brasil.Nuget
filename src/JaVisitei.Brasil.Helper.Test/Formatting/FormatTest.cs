@@ -76,5 +76,39 @@ namespace JaVisitei.Brasil.Helper.Test.Formatting
         }
 
         #endregion
+
+        #region Convert RGB To Hexdecimal
+
+        [TestMethod("Return valid RGB convertion")]
+        public void ConvertRGBToHex_FormatIsValid_Sucsess()
+        {
+            var rgb = "255,0,255";
+            var response = "#FF00FF";
+
+            var result = Format.ConvertRGBToHex(rgb);
+
+            Assert.AreEqual(response, result);
+            Assert.IsTrue(result.Length.Equals(7));
+        }
+
+        [TestMethod("Return invalid RGB convertion string nullable")]
+        public void ConvertRGBToHex_FormatIsInvalid_Nullable()
+        {
+            var result = Format.ConvertRGBToHex(It.IsAny<string>());
+
+            Assert.IsNull(result);
+        }
+
+        [TestMethod("Return invalid RGB convertion string empty")]
+        public void ConvertRGBToHex_FormatIsInvalid_Empty()
+        {
+            var result = Format.ConvertRGBToHex(string.Empty);
+
+            Assert.AreEqual(string.Empty,result);
+        }
+
+        #endregion
+
+
     }
 }
