@@ -34,5 +34,8 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.User
 
         [JsonPropertyName("actived")]
         public bool Actived { get; set; }
+
+        [JsonPropertyName("refresh_token")]
+        public string RefreshToken { get; set; }
     }
 }

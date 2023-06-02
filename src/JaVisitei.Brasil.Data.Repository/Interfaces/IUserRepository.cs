@@ -8,5 +8,6 @@ namespace JaVisitei.Brasil.Data.Repository.Interfaces
     {
         Task<User> LoginAsync(string email, string password);
         Task<User> GetByIdAsync(int id);
+        Task<User> GetRefreshTokenAsync(string email, string refreshToen);
     }
 }

@@ -25,7 +25,7 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request.User
         public string Surname { get; set; }
 
         [Required(ErrorMessage = "Informe o nome de usuário válido, sem espaço. Caracter especial permitido: (_) Underline.")]
-        [MaxLength(50, ErrorMessage = "O nome de usuário não pode exceder {1} caracteres.")]
+        [MaxLength(25, ErrorMessage = "O nome de usuário não pode exceder {1} caracteres.")]
         [Display(Name = "Username")]
         [DataType(DataType.Text)]
         public string Username { get; set; }

@@ -19,21 +19,21 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
                 throw new ArgumentNullException(nameof(request));
 
             ValidatesVisitKey(request.UserId, request.RegionId, request.RegionTypeId);
+            ValidatesVisitDate(request.VisitationDate);
+            ValidatesVisiColor(request.Color);
+            ValidatesVisitNote(request.Note);
+        }
 
-            if(string.IsNullOrEmpty(request.Color))
-                Errors.Add("Código da cor não informado.");
+        public void ValidatesVisitEdition(UpdateVisitRequest request)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
 
-            else if (!ColorRGBRegex.ValidateColorRGB(request.Color))
-                Errors.Add("Código da cor inválido.");
+            ValidatesVisitKey(request.UserId, request.RegionId, request.RegionTypeId);
+            ValidatesVisitDate(request.VisitationDate);
+            ValidatesVisiColor(request.Color);
+            ValidatesVisitNote(request.Note);
 
-            if (string.IsNullOrEmpty(request.VisitationDate))
-                Errors.Add("Informe a data.");
-
-            else if(!DateRegex.ValidateDate(request.VisitationDate))
-                Errors.Add("Informe a data no formato correto: DD-MM-AAAA.");
-
-            if (!string.IsNullOrEmpty(request.Note) && request.Note.Length > 255)
-                Errors.Add("Informe uma anotação menor que 255 caracteres.");
         }
 
         public void ValidatesVisitDelete(VisitKeyRequest request)
@@ -42,6 +42,30 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
                 throw new ArgumentNullException(nameof(request));
 
             ValidatesVisitKey(request.UserId, request.RegionId, request.RegionTypeId);
+        }
+
+        public void ValidatesVisitNote(string note)
+        {
+            if (!string.IsNullOrEmpty(note) && note.Length > 255)
+                Errors.Add("Informe uma anotação menor que 255 caracteres.");
+        }
+
+        public void ValidatesVisitDate(string date)
+        {
+            if (string.IsNullOrEmpty(date))
+                Errors.Add("Informe a data.");
+
+            else if (!DateRegex.ValidateDate(date))
+                Errors.Add("Informe a data no formato correto: DD-MM-AAAA.");
+        }
+
+        public void ValidatesVisiColor(string color)
+        {
+            if (string.IsNullOrEmpty(color))
+                Errors.Add("Código da cor não informado.");
+
+            else if (!ColorRGBRegex.ValidateColorRGB(color))
+                Errors.Add("Código da cor inválido.");
         }
 
         public void ValidatesVisitKey(int userId, string regionId, short regionTypeId)

@@ -18,9 +18,11 @@ namespace JaVisitei.Brasil.Data.Entities
         public string Email { get; set; }
         public string Password { get; set; }
         public DateTime RegistryDate { get; set; }
+        public DateTime RefreshTokenDate { get; set; }
         public bool Actived { get; set; }
         public int UserRoleId { get; set; }
         public string SecurityStamp { get; set; }
+        public string RefreshToken { get; set; }
 
         public virtual UserRole UserRole { get; set; }
         public virtual ICollection<UserManager> UserManagers { get; set; }

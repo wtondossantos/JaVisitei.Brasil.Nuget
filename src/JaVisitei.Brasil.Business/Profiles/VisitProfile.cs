@@ -28,6 +28,16 @@ namespace JaVisitei.Brasil.Business.Profiles
                 });
 
             CreateMap<VisitKeyRequest, Visit>();
+
+            CreateMap<UpdateVisitRequest, Visit>()
+                .BeforeMap((src, dest) =>
+                {
+                    src.Color ??= Utility.RandomColorRBGString();
+                    src.RegionId = src.RegionId.ToLower();
+                }).AfterMap((src, dest) => {
+                    dest.RegistryDate = DateTime.Now;
+                    dest.VisitDate = DateTime.Parse(src.VisitationDate);
+                });
         }
     }
 }

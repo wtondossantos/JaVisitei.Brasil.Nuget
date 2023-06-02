@@ -24,8 +24,11 @@ namespace JaVisitei.Brasil.Business.Profiles
                 })
                 .AfterMap((src, dest) => {
                     dest.RegistryDate = DateTime.Now;
+                    dest.RefreshTokenDate = DateTime.Now;
                     dest.SecurityStamp = Guid.NewGuid().ToString();
+                    dest.RefreshToken = Guid.NewGuid().ToString();
                 });
+
             CreateMap<InsertUserRequest, User>()
                 .BeforeMap((src, dest) => {
                     src.Password = Encrypt.Sha256encrypt(src.Password);
@@ -35,7 +38,9 @@ namespace JaVisitei.Brasil.Business.Profiles
                 })
                 .AfterMap((src, dest) => {
                     dest.RegistryDate = DateTime.Now;
+                    dest.RefreshTokenDate = DateTime.Now;
                     dest.SecurityStamp = Guid.NewGuid().ToString();
+                    dest.RefreshToken = Guid.NewGuid().ToString();
                 });
 
             CreateMap<User, UserResponse>()
