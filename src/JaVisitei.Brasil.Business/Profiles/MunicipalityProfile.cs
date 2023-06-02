@@ -9,6 +9,7 @@ namespace JaVisitei.Brasil.Business.Profiles
         public MunicipalityProfile()
         {
             CreateMap<Municipality, MunicipalityResponse>();
+            CreateMap<Municipality, MunicipalityBasicResponse>();
         }
     }
 }

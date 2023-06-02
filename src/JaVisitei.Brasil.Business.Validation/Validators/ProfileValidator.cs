@@ -20,6 +20,20 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
                 Errors.Add("Informe a senha.");
         }
 
+        public void ValidatesRefleshToken(RefreshTokenRequest request)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            ValidatesEmail(request.Email);
+
+            if (string.IsNullOrEmpty(request.RToken))
+                Errors.Add("Informe o RToken");
+
+            if (string.IsNullOrEmpty(request.RefreshToken))
+                Errors.Add("Informe o RefreshToken");
+        }
+
         public void ValidatesConfirmationEmail(ActiveAccountRequest request)
         {
             if (request is null)

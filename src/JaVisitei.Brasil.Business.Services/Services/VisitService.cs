@@ -110,6 +110,59 @@ namespace JaVisitei.Brasil.Business.Service.Services
             return _visitValidator;
         }
 
+        public async Task<VisitValidator> UpdateAsync(UpdateVisitRequest request)
+        {
+            try
+            {
+                _visitValidator.ValidatesVisitEdition(request);
+
+                if (!_visitValidator.IsValid)
+                    return _visitValidator;
+
+                switch ((RegionTypeEnum)request.RegionTypeId)
+                {
+                    case RegionTypeEnum.Municipality:
+                        if (!await _municipalityService.AnyAsync(x => x.Id.Equals(request.RegionId)))
+                            _visitValidator.Errors.Add("Município não encontrado.");
+
+                        break;
+                    case RegionTypeEnum.Island:
+                        if (!await _islandService.AnyAsync(x => x.Id.Equals(request.RegionId)))
+                            _visitValidator.Errors.Add("Ilha não encontrada.");
+
+                        break;
+                    default:
+                        _visitValidator.Errors.Add("Tipo de região inválida. Código do tipo de região disponível: (6) para município e (7) para ilha.");
+                        break;
+                }
+
+                if (!_visitValidator.IsValid)
+                    return _visitValidator;
+
+                var visit = _mapper.Map<Visit>(request);
+
+                if (!await _userService.AnyAsync(x => x.Id.Equals(visit.UserId)))
+                {
+                    _visitValidator.Errors.Add("Usuário não encontrado.");
+                    return _visitValidator;
+                }
+
+                if (await _visitRepository.AnyAsync(visit) && await _visitRepository.UpdateAsync(visit))
+                {
+                    _visitValidator.Data = _mapper.Map<VisitResponse>(visit);
+                    _visitValidator.Message = "Visita atualizada com sucesso.";
+                }
+                else
+                    _visitValidator.Errors.Add($"Erro ao atualizar visita.");
+            }
+            catch (Exception ex)
+            {
+                _visitValidator.Errors.Add($"Erro ao atualizar visita: {ex.Message}");
+            }
+
+            return _visitValidator;
+        }
+
         public async Task<VisitValidator> DeleteAsync(VisitKeyRequest request)
         {
             try
@@ -150,5 +203,8 @@ namespace JaVisitei.Brasil.Business.Service.Services
 
             return _visitValidator;
         }
+    
+    
+    
     }
 }

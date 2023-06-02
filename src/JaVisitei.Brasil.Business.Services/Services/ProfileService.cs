@@ -1,5 +1,4 @@
 ﻿using JaVisitei.Brasil.Business.Service.Interfaces;
-using JaVisitei.Brasil.Business.ViewModels.Request.UserManager;
 using JaVisitei.Brasil.Business.ViewModels.Request.Profile;
 using JaVisitei.Brasil.Business.ViewModels.Response.Profile;
 using JaVisitei.Brasil.Data.Entities;
@@ -68,10 +67,77 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 {
                     Id = result.Id,
                     Expiration = DateTime.Now.AddMinutes(Convert.ToInt32(Environment.GetEnvironmentVariable("JWT_EXPIDED_MINUTE"))),
-                    Token = TokenString.GenerateAuthenticationToken(result)
+                    Token = TokenString.GenerateAuthenticationToken(result),
+                    RToken = TokenString.GenerateAuthenticationRefreshToken(result),
+                    RefreshToken = result.RefreshToken
                 };
                 _profileLoginValidator.Message = "Login realizado com sucesso.";
                 
+            }
+            catch (Exception ex)
+            {
+                _profileLoginValidator.Errors.Add($"Exception: {ex.Message}");
+            }
+
+            return _profileLoginValidator;
+        }
+
+        public async Task<ProfileValidator<LoginResponse>> RefreshTokenAsync(RefreshTokenRequest request)
+        {
+            try
+            {
+                _profileLoginValidator.ValidatesRefleshToken(request);
+
+                if (!_profileLoginValidator.IsValid)
+                    return _profileLoginValidator;
+
+                var account = TokenString.ValidateJwtToken(request.RToken);
+
+                var result = await _userService.RefreshTokenAsync<User>(account, request.RefreshToken);
+
+                if (result is null)
+                {
+                    _profileLoginValidator.Errors.Add("Efetue o login novamente.");
+                    return _profileLoginValidator;
+                }
+
+                if (!result.Actived)
+                {
+                    _profileLoginValidator.Errors.Add("Usuário não confirmado, confirme o e-mail.");
+                    return _profileLoginValidator;
+                }
+
+                var userFound = await _userService.GetFirstOrDefaultAsync(x => x.Id.Equals(result.Id));
+                if (userFound is null)
+                {
+                    _profileLoginValidator.Errors.Add("Efetue o login novamente.");
+                    return _profileLoginValidator;
+                }
+
+                if (!userFound.SecurityStamp.Equals(result.SecurityStamp))
+                {
+                    _profileLoginValidator.Errors.Add("Efetue o login novamente.");
+                    return _profileLoginValidator;
+                }
+
+                result.RefreshToken = Guid.NewGuid().ToString();
+                result.RefreshTokenDate = DateTime.Now;
+                if (!await _userService.UpdateAsync(result))
+                {
+                    _profileLoginValidator.Errors.Add("Efetue o login novamente.");
+                    return _profileLoginValidator;
+                }
+
+                _profileLoginValidator.Data = new LoginResponse
+                {
+                    Id = result.Id,
+                    Expiration = DateTime.Now.AddMinutes(Convert.ToInt32(Environment.GetEnvironmentVariable("JWT_EXPIDED_MINUTE"))),
+                    Token = TokenString.GenerateAuthenticationToken(result),
+                    RToken = TokenString.GenerateAuthenticationRefreshToken(result),
+                    RefreshToken = result.RefreshToken
+                };
+
+                _profileLoginValidator.Message = "Login realizado com sucesso.";
             }
             catch (Exception ex)
             {

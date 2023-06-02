@@ -184,5 +184,11 @@ namespace JaVisitei.Brasil.Business.Service.Services
             var item = await _userRepository.LoginAsync(email, password);
             return item is null ? default : _mapper.Map<M>(item);
         }
+
+        public async Task<M> RefreshTokenAsync<M>(string email, string refreshToken)
+        {
+            var item = await _userRepository.GetRefreshTokenAsync(email, refreshToken);
+            return item is null ? default : _mapper.Map<M>(item);
+        }
     }
 }

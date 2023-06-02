@@ -10,6 +10,7 @@ namespace JaVisitei.Brasil.Business.Service.Interfaces
     public interface IVisitService : IService<Visit>
     {
         Task<VisitValidator> InsertAsync(InsertVisitRequest request);
+        Task<VisitValidator> UpdateAsync(UpdateVisitRequest request);
         Task<VisitValidator> DeleteAsync(VisitKeyRequest request);
         Task<M> GetByIdAsync<M>(VisitKeyRequest request);
         Task<IEnumerable<M>> GetByUserIdAsync<M>(int userId);

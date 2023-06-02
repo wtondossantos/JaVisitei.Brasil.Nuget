@@ -48,12 +48,10 @@ namespace JaVisitei.Brasil.Security.Test
             Assert.IsFalse(string.IsNullOrEmpty(claims[2].Value));
             Assert.AreEqual(user.Id.ToString(), claims[3].Value);
             Assert.AreEqual(user.Username, claims[4].Value);
-            Assert.AreEqual(user.Email, claims[5].Value);
-            Assert.IsFalse(string.IsNullOrEmpty(claims[5].Value));
-            Assert.AreEqual(user.UserRole.Name, claims[6].Value);
+            Assert.AreEqual(user.UserRole.Name, claims[5].Value);
+            Assert.IsFalse(string.IsNullOrEmpty(claims[6].Value));
             Assert.IsFalse(string.IsNullOrEmpty(claims[7].Value));
             Assert.IsFalse(string.IsNullOrEmpty(claims[8].Value));
-            Assert.IsFalse(string.IsNullOrEmpty(claims[9].Value));
 
             var audiences = tokenS.Audiences as List<string>;
 
@@ -70,17 +68,6 @@ namespace JaVisitei.Brasil.Security.Test
             var ex = Assert.ThrowsException<ArgumentNullException>(() => TokenString.GenerateAuthenticationToken(user));
 
             Assert.AreEqual(ex.Message, "Value cannot be null. (Parameter 'Username')");
-        }
-
-        [TestMethod("Return invalid Generate authentication token nullable email")]
-        public void GenerateAuthenticationToken_FormatIsInvalid_NullableEmail()
-        {
-            var user = UserMock.UserContributorMock();
-            user.Email = null;
-
-            var ex = Assert.ThrowsException<ArgumentNullException>(() => TokenString.GenerateAuthenticationToken(user));
-
-            Assert.AreEqual(ex.Message, "Value cannot be null. (Parameter 'Email')");
         }
 
         [TestMethod("Return invalid Generate authentication token nullable userRole")]
@@ -111,6 +98,21 @@ namespace JaVisitei.Brasil.Security.Test
             var ex = Assert.ThrowsException<ArgumentNullException>(() => TokenString.GenerateAuthenticationToken(It.IsAny<User>()));
 
             Assert.AreEqual(ex.Message, "Value cannot be null. (Parameter 'user')");
+        }
+
+        #endregion
+
+        #region Generate authentication token
+
+        [TestMethod("Return invalid Generate authentication token nullable email")]
+        public void GenerateAuthenticationRefreshToken_FormatIsInvalid_NullableEmail()
+        {
+            var user = UserMock.UserContributorMock();
+            user.Email = null;
+
+            var ex = Assert.ThrowsException<ArgumentNullException>(() => TokenString.GenerateAuthenticationRefreshToken(user));
+
+            Assert.AreEqual(ex.Message, "Value cannot be null. (Parameter 'Email')");
         }
 
         #endregion

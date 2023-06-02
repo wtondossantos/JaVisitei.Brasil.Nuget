@@ -420,7 +420,13 @@ namespace JaVisitei.Brasil.Data.Base
 
                 entity.Property(e => e.RegistryDate).HasColumnType("datetime");
 
+                entity.Property(e => e.RefreshTokenDate).HasColumnType("datetime");
+                
                 entity.Property(e => e.SecurityStamp)
+                    .IsRequired()
+                    .HasMaxLength(36);
+
+                entity.Property(e => e.RefreshToken)
                     .IsRequired()
                     .HasMaxLength(36);
 
