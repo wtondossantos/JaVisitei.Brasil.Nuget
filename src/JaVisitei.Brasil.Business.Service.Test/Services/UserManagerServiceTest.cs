@@ -62,7 +62,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .Setup(x => x.CreateAsync(mapper))
                 .ReturnsAsync((UserManager)null);
 
-            var result = await _userManagerService.CreateEmailConfirmationAsync(It.IsAny<int>());
+            var result = await _userManagerService.CreateEmailConfirmationAsync(It.IsAny<string>());
 
             Assert.IsNull(result);
         }
@@ -85,7 +85,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .Setup(x => x.CreateAsync(mapper))
                 .ReturnsAsync(response);
 
-            var result = await _userManagerService.CreateEmailConfirmationAsync(It.IsAny<int>());
+            var result = await _userManagerService.CreateEmailConfirmationAsync(It.IsAny<string>());
 
             Assert.IsNotNull(result);
             Assert.AreEqual(response, result);
@@ -106,7 +106,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .Setup(x => x.CreateAsync(mapper))
                 .ReturnsAsync((UserManager)null);
 
-            var result = await _userManagerService.CreateEmailConfirmationAsync(It.IsAny<int>());
+            var result = await _userManagerService.CreateEmailConfirmationAsync(It.IsAny<string>());
 
             Assert.IsNull(result);
         }
@@ -173,7 +173,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .Setup(x => x.CreateAsync(mapper))
                 .ReturnsAsync(response);
 
-            var result = await _userManagerService.CreatePasswordResetAsync(It.IsAny<int>());
+            var result = await _userManagerService.CreatePasswordResetAsync(It.IsAny<string>());
 
             Assert.IsNotNull(result);
             Assert.AreEqual(response, result);
@@ -194,7 +194,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .Setup(x => x.CreateAsync(mapper))
                 .ReturnsAsync((UserManager)null);
 
-            var result = await _userManagerService.CreatePasswordResetAsync(It.IsAny<int>());
+            var result = await _userManagerService.CreatePasswordResetAsync(It.IsAny<string>());
 
             Assert.IsNull(result);
         }

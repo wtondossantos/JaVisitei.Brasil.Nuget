@@ -11,7 +11,7 @@ namespace JaVisitei.Brasil.Data.Entities
             Visits = new HashSet<Visit>();
         }
 
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Username { get; set; }

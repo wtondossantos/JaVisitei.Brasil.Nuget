@@ -26,7 +26,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
             return await _userManagerRepository.CreateAsync(_mapper.Map<UserManager>(request));
         }
 
-        public async Task<UserManager> CreateEmailConfirmationAsync(int userId)
+        public async Task<UserManager> CreateEmailConfirmationAsync(string userId)
         {
             var request = new InsertEmailConfirmationUserManagerRequest { 
                 UserId = userId
@@ -38,7 +38,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
         {
             return await _userManagerRepository.CreateAsync(_mapper.Map<UserManager>(request));
         }
-        public async Task<UserManager> CreatePasswordResetAsync(int userId)
+        public async Task<UserManager> CreatePasswordResetAsync(string userId)
         {
             var request = new InsertPasswordResetUserManagerRequest
             {

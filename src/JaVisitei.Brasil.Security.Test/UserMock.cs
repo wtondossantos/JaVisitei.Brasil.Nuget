@@ -10,7 +10,7 @@ namespace JaVisitei.Brasil.Security.Test
         {
             return new User
             {
-                Id = 2,
+                Id = Guid.NewGuid().ToString(),
                 Name = "John",
                 Surname = "Bob",
                 Username = "johnbob",

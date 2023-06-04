@@ -11,8 +11,8 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
             {
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
-                UserId = 1
-            };
+                UserId = Guid.NewGuid().ToString()
+        };
         }
 
         public static VisitKeyRequest VisitKeyInvalidRequestMock()
@@ -21,7 +21,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
             {
                 RegionTypeId = 0,
                 RegionId = "ce aquiraz",
-                UserId = 0
+                UserId = "1234567890123456789012345678901234567"
             };
         }
 
@@ -31,7 +31,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
             {
                 RegionTypeId = 0,
                 RegionId = "",
-                UserId = 0
+                UserId = ""
             };
         }
 
@@ -44,7 +44,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
                 Note = "Annotation",
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
-                UserId = 1
+                UserId = Guid.NewGuid().ToString()
             };
         }
 
@@ -57,7 +57,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
                 Note = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu eros sagittis, laoreet sem sed, dapibus ipsum. Proin efficitur tincidunt ex, ac fringilla nisl malesuada sed. Morbi sagittis augue at libero condimentum, eu dictum ante venenatis donec.",
                 RegionTypeId = 0,
                 RegionId = "sdfas sdf",
-                UserId = 0
+                UserId = null
             };
         }
 
@@ -70,7 +70,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
                 RegionTypeId = 0,
                 Note = string.Empty,
                 RegionId = string.Empty,
-                UserId = 0
+                UserId = string.Empty
             };
         }
     }

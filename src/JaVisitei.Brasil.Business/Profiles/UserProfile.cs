@@ -23,6 +23,7 @@ namespace JaVisitei.Brasil.Business.Profiles
                     src.ReEmail = src.ReEmail.ToLower();
                 })
                 .AfterMap((src, dest) => {
+                    dest.Id = Guid.NewGuid().ToString();
                     dest.RegistryDate = DateTime.Now;
                     dest.RefreshTokenDate = DateTime.Now;
                     dest.SecurityStamp = Guid.NewGuid().ToString();
@@ -37,6 +38,7 @@ namespace JaVisitei.Brasil.Business.Profiles
                     src.ReEmail = src.ReEmail.ToLower();
                 })
                 .AfterMap((src, dest) => {
+                    dest.Id = Guid.NewGuid().ToString();
                     dest.RegistryDate = DateTime.Now;
                     dest.RefreshTokenDate = DateTime.Now;
                     dest.SecurityStamp = Guid.NewGuid().ToString();

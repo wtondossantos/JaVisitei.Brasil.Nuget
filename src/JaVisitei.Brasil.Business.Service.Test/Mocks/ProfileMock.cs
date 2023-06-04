@@ -66,7 +66,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
             {
                 Data = new LoginResponse
                 {
-                    Id = 99,
+                    Id = Guid.NewGuid().ToString(),
                     Token = "nfpasdngasASDFnasbsdfSADFA3453256et.ASDgasdgsadobh",
                     Expiration = DateTime.Now.AddMinutes(10)
                 },

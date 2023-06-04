@@ -426,6 +426,10 @@ namespace JaVisitei.Brasil.Data.Base
                     .IsRequired()
                     .HasMaxLength(36);
 
+                entity.Property(e => e.Id)
+                    .IsRequired()
+                    .HasMaxLength(36);
+
                 entity.Property(e => e.RefreshToken)
                     .IsRequired()
                     .HasMaxLength(36);

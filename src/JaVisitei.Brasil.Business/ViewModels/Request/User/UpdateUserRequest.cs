@@ -4,8 +4,12 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request.User
 {
     public class UpdateUserRequest
     {
+        [Required(ErrorMessage = "Informe o Id")]
+        [MaxLength(36, ErrorMessage = "O Id deve ser {1} caracteres.")]
+        [MinLength(36, ErrorMessage = "O Id deve ser {1} caracteres.")]
+        [DataType(DataType.Text)]
         [Display(Name = "Id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Required(ErrorMessage = "Informe o SecurityStamp")]
         [DataType(DataType.Text)]

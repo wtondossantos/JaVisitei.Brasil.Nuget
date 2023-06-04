@@ -45,7 +45,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
                             x.RegionTypeId.Equals(request.RegionTypeId));
         }
 
-        public async Task<IEnumerable<M>> GetByUserIdAsync<M>(int userId)
+        public async Task<IEnumerable<M>> GetByUserIdAsync<M>(string userId)
         {
             return await GetAsync<M>(x => x.UserId.Equals(userId));
         }
