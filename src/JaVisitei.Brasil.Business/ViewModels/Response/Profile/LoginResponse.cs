@@ -6,7 +6,7 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.Profile
     public class LoginResponse
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [JsonPropertyName("token")]
         public string Token { get; set; }

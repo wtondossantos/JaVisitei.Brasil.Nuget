@@ -29,7 +29,7 @@ namespace JaVisitei.Brasil.Data.Repository.Repositories
                           }).FirstOrDefaultAsync();
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<User> GetByExternalIdAsync(string id)
         {
             return await (from user in _context.Users
                           join userRoles in _context.UserRoles on user.UserRoleId equals userRoles.Id

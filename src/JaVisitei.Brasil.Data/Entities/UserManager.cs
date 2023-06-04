@@ -6,7 +6,7 @@ namespace JaVisitei.Brasil.Data.Entities
     public partial class UserManager
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int EmailId { get; set; }
         public string ManagerCode { get; set; }
         public bool ConfirmedChange { get; set; }

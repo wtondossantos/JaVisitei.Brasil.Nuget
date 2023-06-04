@@ -71,7 +71,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
 
                 List<VisitResponse> visits = null;
                 if(!string.IsNullOrEmpty(userId))
-                    visits = _mapper.Map<List<VisitResponse>>(await _visitRepository.GetAsync(x => x.UserId.Equals(Convert.ToInt32(userId))));
+                    visits = _mapper.Map<List<VisitResponse>>(await _visitRepository.GetAsync(x => x.UserId.Equals(userId)));
 
                 foreach (var state in states)
                 {

@@ -1,4 +1,5 @@
 ﻿using JaVisitei.Brasil.Business.ViewModels.Request.User;
+using System;
 
 namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
 {
@@ -98,7 +99,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
         {
             return new UpdateFullUserRequest
             {
-                Id = 3,
+                Id = Guid.NewGuid().ToString(),
                 Name = "David",
                 Surname = "Coffee",
                 Username = "wellingtonedit",
@@ -116,7 +117,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
         {
             return new UpdateFullUserRequest
             {
-                Id = 3,
+                Id = Guid.NewGuid().ToString(),
                 Name = "R2-D2",
                 Surname = "C-3P0",
                 Username = "wellingtonedit f",
@@ -134,7 +135,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
         {
             return new UpdateFullUserRequest
             {
-                Id = 0,
+                Id = "",
                 Name = "",
                 Surname = "",
                 Username = "",
@@ -152,7 +153,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
         {
             return new UpdateFullUserRequest
             {
-                Id = 3,
+                Id = Guid.NewGuid().ToString(),
                 Name = "David",
                 Surname = "Coffee",
                 Username = "wellingtonedit",
@@ -170,7 +171,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
         {
             return new UpdateFullUserRequest
             {
-                Id = 3,
+                Id = Guid.NewGuid().ToString(),
                 Name = "Isabel Cristina Leopoldina Augusta Micaela Gabriela Rafaela Gonzaga",
                 Surname = "Adolph Blaine Charles David Earl Frederick Gerald Hubert Irvin John Kenneth Lloyd Martin Nero Oliver Paul Quincy Randolph Sherman Thomas Uncas Victor William Xerxes Yancy Zeus Wolfe­schlegel­stein­hausen­berger­dorff­welche­vor­altern­waren",
                 Username = "IsabelCristinaLeopoldinaAugustaMicaelaGabrielaRafaelaGonzaga",
@@ -188,7 +189,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
         {
             return new UpdateFullUserRequest
             {
-                Id = 3,
+                Id = Guid.NewGuid().ToString(),
                 Name = "Pi",
                 Surname = "",
                 Username = "pi",

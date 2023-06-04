@@ -12,7 +12,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
             return new UserManager
             {
                 Id = 1,
-                UserId = 1,
+                UserId = Guid.NewGuid().ToString(),
                 EmailId = 1,
                 ManagerCode = "ABC123AB99",
                 ConfirmedChange = false,
@@ -27,7 +27,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
             return new UserManager
             {
                 Id = 1,
-                UserId = 1,
+                UserId = Guid.NewGuid().ToString(),
                 EmailId = 1,
                 ManagerCode = "ABC123AB99",
                 ConfirmedChange = true,
@@ -41,7 +41,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
         {
             return new UserManager
             {
-                UserId = 1
+                UserId = Guid.NewGuid().ToString()
             };
         }
 
@@ -50,7 +50,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
             return new UserManager
             {
                 Id = 1,
-                UserId = 1,
+                UserId = Guid.NewGuid().ToString(),
                 EmailId = 1,
                 ManagerCode = "ABC123AB00",
                 ConfirmedChange = true,
@@ -64,7 +64,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
         {
             return new InsertEmailConfirmationUserManagerRequest
             {
-                UserId = 1
+                UserId = Guid.NewGuid().ToString()
             };
         }
 
@@ -72,7 +72,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
         {
             return new InsertPasswordResetUserManagerRequest
             {
-                UserId = 1
+                UserId = Guid.NewGuid().ToString()
             };
         }
     }

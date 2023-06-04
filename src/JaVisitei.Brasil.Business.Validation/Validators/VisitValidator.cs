@@ -68,10 +68,13 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
                 Errors.Add("Código da cor inválido.");
         }
 
-        public void ValidatesVisitKey(int userId, string regionId, short regionTypeId)
+        public void ValidatesVisitKey(string userId, string regionId, short regionTypeId)
         {
-            if (userId.Equals(0))
+            if (string.IsNullOrEmpty(userId))
                 Errors.Add("Informe o código do usuário.");
+
+            else if(userId.Length != 36)
+                Errors.Add("Informe o código do usuário válido.");
 
             if (string.IsNullOrEmpty(regionId))
                 Errors.Add("Informe o código da região.");

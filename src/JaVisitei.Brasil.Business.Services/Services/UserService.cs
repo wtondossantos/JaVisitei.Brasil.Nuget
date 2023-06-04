@@ -56,6 +56,11 @@ namespace JaVisitei.Brasil.Business.Service.Services
 
                 var userMapper = _mapper.Map<User>(request);
 
+                while (await _userRepository.AnyAsync(x => x.Id.Equals(userMapper.Id))) 
+                {
+                    userMapper.Id = Guid.NewGuid().ToString();
+                }
+
                 if (await _userRepository.InsertAsync(userMapper))
                 {
                     var user = await _userRepository.GetFirstOrDefaultAsync(x => x.Email.Equals(userMapper.Email));

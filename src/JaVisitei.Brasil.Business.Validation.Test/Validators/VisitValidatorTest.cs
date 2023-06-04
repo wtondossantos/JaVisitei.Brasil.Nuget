@@ -163,7 +163,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
         [TestMethod("Visit key validation Invalid return nullable")]
         public void ValidatesVisitKey_ShouldInvalidReturn_Nullable()
         {
-            _visitValidator.ValidatesVisitKey(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<short>());
+            _visitValidator.ValidatesVisitKey(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<short>());
 
             Assert.IsFalse(_visitValidator.IsValid);
             Assert.IsTrue(_visitValidator.Errors.Count.Equals(3));

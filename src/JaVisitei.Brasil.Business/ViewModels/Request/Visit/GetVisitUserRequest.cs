@@ -6,9 +6,11 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request.Visit
 {
     public class GetVisitUserRequest
     {
-        [Range(1, Int32.MaxValue, ErrorMessage = "Informe o código do usuário válido")]
-        [Required(ErrorMessage = "Informe o código do usuário")]
+        [Required(ErrorMessage = "Informe o Id")]
+        [MaxLength(36, ErrorMessage = "O Id deve ser {1} caracteres.")]
+        [MinLength(36, ErrorMessage = "O Id deve ser {1} caracteres.")]
+        [DataType(DataType.Text)]
         [Display(Name = "UserId")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

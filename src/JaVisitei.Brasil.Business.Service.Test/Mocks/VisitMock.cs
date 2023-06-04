@@ -13,14 +13,14 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
         {
             return new GetVisitUserRequest
             {
-                UserId = 1
+                UserId = Guid.NewGuid().ToString()
             };
         }
         public static GetVisitUserRequest UserId99RequestMock()
         {
             return new GetVisitUserRequest
             {
-                UserId = 99
+                UserId = Guid.NewGuid().ToString()
             };
         }
         public static VisitKeyRequest VisitKeyRequestMock()
@@ -29,7 +29,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
             {
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
-                UserId = 1
+                UserId = Guid.NewGuid().ToString()
             };
         }
         public static InsertVisitRequest CreateVisitRequestMock()
@@ -41,7 +41,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 Note = "Annotation",
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
-                UserId = 1
+                UserId = Guid.NewGuid().ToString()
             };
         }
         public static InsertVisitRequest CreateVisitIslandRequestMock()
@@ -53,7 +53,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 Note = "Annotation",
                 RegionTypeId = 7,
                 RegionId = "es_ilha_trindade",
-                UserId = 1
+                UserId = Guid.NewGuid().ToString()
             };
         }
         public static InsertVisitRequest CreateVisitRegionNotExistsRequestMock()
@@ -65,7 +65,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 Note = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu eros sagittis, laoreet sem sed, dapibus ipsum. Proin efficitur tincidunt ex, ac fringilla nisl malesuada sed. Morbi sagittis augue at libero condimentum, eu dictum ante venenatis donec.",
                 RegionTypeId = 99,
                 RegionId = "not_exists",
-                UserId = 0
+                UserId = ""
             };
         }
 
@@ -75,7 +75,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
             {
                 Data = new VisitResponse
                 {
-                    UserId = 1,
+                    UserId = Guid.NewGuid().ToString(),
                     RegionTypeId = 6,
                     RegionId = "ce_aquiraz",
                     Color = "200,100,50",
@@ -94,7 +94,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
             {
                 Data = new VisitResponse
                 {
-                    UserId = 1
+                    UserId = Guid.NewGuid().ToString()
                 },
                 Message = "sucess deletion",
                 Errors = new List<string>()
@@ -123,7 +123,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
         {
             return new VisitResponse
             {
-                UserId = 1,
+                UserId = Guid.NewGuid().ToString(),
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
                 Note = "Annotation",
@@ -137,7 +137,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
         {
             return new VisitResponse
             {
-                UserId = 1,
+                UserId = Guid.NewGuid().ToString(),
                 RegionTypeId = 7,
                 RegionId = "pe_ilha_de_sao_pedro_e_sao_paulo",
                 Note = "Annotation",
@@ -159,7 +159,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
         {
             return new Visit
             {
-                UserId = 1,
+                UserId = Guid.NewGuid().ToString(),
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
                 Color = "200,100,50",
@@ -174,7 +174,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
         {
             return new Visit
             {
-                UserId = 1,
+                UserId = Guid.NewGuid().ToString(),
                 RegionTypeId = 7,
                 RegionId = "es_ilha_trindade",
                 Color = "200,100,50",

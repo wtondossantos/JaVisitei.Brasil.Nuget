@@ -4,7 +4,7 @@ namespace JaVisitei.Brasil.Data.Entities
 {
     public partial class Visit
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public short RegionTypeId { get; set; }
         public string RegionId { get; set; }
         public string Color { get; set; }

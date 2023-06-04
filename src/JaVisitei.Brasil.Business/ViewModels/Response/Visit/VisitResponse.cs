@@ -6,7 +6,7 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.Visit
     public class VisitResponse
     {
         [JsonProperty("user_id")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [JsonProperty("region_type_id")]
         public int RegionTypeId { get; set; }

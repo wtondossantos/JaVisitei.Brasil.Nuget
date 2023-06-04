@@ -56,7 +56,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             Assert.IsTrue(result.IsValid);
             Assert.IsFalse(string.IsNullOrEmpty(result.Message));
             Assert.IsNotNull(result.Data);
-            Assert.IsTrue(result.Data.Id > 0);
+            Assert.IsTrue(string.IsNullOrEmpty(result.Data.Id));
             Assert.IsFalse(string.IsNullOrEmpty(result.Data.Token));
             Assert.IsNotNull(result.Data.Expiration);
             Assert.AreEqual(loginValidation.Data, result.Data);

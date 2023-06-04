@@ -6,7 +6,7 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.User
     public class UserResponse
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [JsonPropertyName("name")]
         public string Name { get; set; }

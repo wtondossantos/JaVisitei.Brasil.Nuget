@@ -72,7 +72,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         [TestMethod("Visit by user id Correct return")]
         public async Task GetByUserIdAsync_ShouldCorrectReturn_VisitById()
         {
-            var userId = 1;
+            var userId = Guid.NewGuid().ToString();
             var response = VisitMock.VisitListMock();
             var responseMapper = VisitMock.ReturnVisitListMock();
 

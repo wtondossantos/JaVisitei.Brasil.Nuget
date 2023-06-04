@@ -13,6 +13,6 @@ namespace JaVisitei.Brasil.Business.Service.Interfaces
         Task<VisitValidator> UpdateAsync(UpdateVisitRequest request);
         Task<VisitValidator> DeleteAsync(VisitKeyRequest request);
         Task<M> GetByIdAsync<M>(VisitKeyRequest request);
-        Task<IEnumerable<M>> GetByUserIdAsync<M>(int userId);
+        Task<IEnumerable<M>> GetByUserIdAsync<M>(string userId);
     }
 }
