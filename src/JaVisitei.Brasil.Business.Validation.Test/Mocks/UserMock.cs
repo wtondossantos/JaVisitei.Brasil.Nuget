@@ -16,7 +16,8 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
                 ReEmail = "teste@teste.com.zz",
                 Password = "!Abc5678",
                 RePassword = "!Abc5678",
-                UserRoleId = 3
+                UserRoleId = 3,
+                Recaptcha = "sadashgag3464356caestrta436segay"
             };
         }
 
@@ -31,7 +32,8 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
                 ReEmail = "testetestecom.zz",
                 Password = "12345",
                 RePassword = "12345",
-                UserRoleId = 0
+                UserRoleId = 0,
+                Recaptcha = " "
             };
         }
 
@@ -46,7 +48,8 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
                 ReEmail = "teste@teste.com.zz",
                 Password = "!Abc567",
                 RePassword = "!Abc5678",
-                UserRoleId = 3
+                UserRoleId = 3,
+                Recaptcha = "sadashgag3464356caestrta436segay"
             };
         }
 
@@ -61,7 +64,8 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
                 ReEmail = "IsabelCristinaLeopoldinaAugustaMicaelaGabrielaRafaelaGonzaga1@IsabelCristinaLeopoldinaAugustaMicaelaGabrielaRafaelaGonzaga.IsabelCristinaLeopoldinaAugustaMicaelaGabrielaRafaela.IsabelCristinaLeopoldina",
                 Password = "12345678901234567890123456789#$%&$12345678901234551",
                 RePassword = "12345678901234567890123456789#$%&$12345678901234551",
-                UserRoleId = 0
+                UserRoleId = 0,
+                Recaptcha = "sadashgag3464356caestrta436segay"
             };
         }
 
@@ -76,7 +80,8 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
                 ReEmail = "a@b.",
                 Password = "12bA@67",
                 RePassword = "12bA@67",
-                UserRoleId = 0
+                UserRoleId = 0,
+                Recaptcha = ""
             };
         }
 
@@ -91,7 +96,8 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
                 ReEmail = "",
                 Password = "",
                 RePassword = "",
-                UserRoleId = 0
+                UserRoleId = 0,
+                Recaptcha = ""
             };
         }
 

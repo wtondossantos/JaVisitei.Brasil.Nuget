@@ -8,7 +8,8 @@ namespace JaVisitei.Brasil.Business.Service.Interfaces
 {
     public interface IEmailService : IService<Email>
     {
-        Task<EmailValidator> SendEmailUserManagerAsync(string email, UserManager userManager);
+        Task<EmailValidator> SendEmailUserManagerAsync(UserManager userManager);
         Task<EmailValidator> SendEmailUserManagerAsync(SendEmailUserManagerRequest request);
+        Task<EmailValidator> SendEmailContactAsync(SendEmailContactRequest request);
     }
 }

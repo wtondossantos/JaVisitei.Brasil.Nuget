@@ -71,7 +71,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
             _userValidator.ValidatesUserCreation(request);
 
             Assert.IsFalse(_userValidator.IsValid);
-            Assert.IsTrue(_userValidator.Errors.Count.Equals(5));
+            Assert.IsTrue(_userValidator.Errors.Count.Equals(6));
         }
 
         [TestMethod("User creation Invalid return empty")]
@@ -82,7 +82,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
             _userValidator.ValidatesUserCreation(request);
 
             Assert.IsFalse(_userValidator.IsValid);
-            Assert.IsTrue(_userValidator.Errors.Count.Equals(5));
+            Assert.IsTrue(_userValidator.Errors.Count.Equals(6));
         }
 
         [TestMethod("User creation Invalid return nullable")]
@@ -91,7 +91,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
             _userValidator.ValidatesUserCreation(new InsertFullUserRequest());
 
             Assert.IsFalse(_userValidator.IsValid);
-            Assert.IsTrue(_userValidator.Errors.Count.Equals(5));
+            Assert.IsTrue(_userValidator.Errors.Count.Equals(6));
         }
 
         [TestMethod("User creation Invalid return excpetion")]
@@ -125,7 +125,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
             _userValidator.ValidatesUserEdition(request);
 
             Assert.IsFalse(_userValidator.IsValid);
-            Assert.IsTrue(_userValidator.Errors.Count.Equals(6));
+            Assert.IsTrue(_userValidator.Errors.Count.Equals(5));
         }
 
         [TestMethod("User edition Invalid return e-mail and password")]
@@ -158,7 +158,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
             _userValidator.ValidatesUserEdition(request);
 
             Assert.IsFalse(_userValidator.IsValid);
-            Assert.IsTrue(_userValidator.Errors.Count.Equals(6));
+            Assert.IsTrue(_userValidator.Errors.Count.Equals(5));
         }
 
         [TestMethod("User edition Invalid return empty")]
@@ -169,7 +169,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
             _userValidator.ValidatesUserEdition(request);
 
             Assert.IsFalse(_userValidator.IsValid);
-            Assert.IsTrue(_userValidator.Errors.Count.Equals(6));
+            Assert.IsTrue(_userValidator.Errors.Count.Equals(5));
         }
 
         [TestMethod("User edition Invalid return nullable")]
@@ -178,7 +178,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
             _userValidator.ValidatesUserEdition(new UpdateFullUserRequest());
 
             Assert.IsFalse(_userValidator.IsValid);
-            Assert.IsTrue(_userValidator.Errors.Count.Equals(4));
+            Assert.IsTrue(_userValidator.Errors.Count.Equals(3));
         }
 
         [TestMethod("User edition Invalid return excpetion")]

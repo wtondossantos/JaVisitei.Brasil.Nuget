@@ -23,7 +23,8 @@ namespace JaVisitei.Brasil.Data.Entities
         public int UserRoleId { get; set; }
         public string SecurityStamp { get; set; }
         public string RefreshToken { get; set; }
-
+        public bool Newsletter { get; set; }
+        
         public virtual UserRole UserRole { get; set; }
         public virtual ICollection<UserManager> UserManagers { get; set; }
         public virtual ICollection<Visit> Visits { get; set; }

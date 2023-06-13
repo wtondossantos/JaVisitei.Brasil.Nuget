@@ -49,5 +49,19 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request.User
         [Compare("Password", ErrorMessage = "Senha e confirmação de senha são diferentes")]
         [Display(Name = "RePassword")]
         public string RePassword { get; set; }
+
+        [Required(ErrorMessage = "Informe a chave correta.")]
+        [DataType(DataType.Text, ErrorMessage = "Informe a chave correta.")]
+        [Display(Name = "Key")]
+        public string Key { get; set; }
+
+        [Required(ErrorMessage = "Informe o Recaptcha correto.")]
+        [DataType(DataType.Text, ErrorMessage = "Informe o Recaptcha correto.")]
+        [Display(Name = "Recaptcha")]
+        public string Recaptcha { get; set; }
+
+        [Required(ErrorMessage = "Informe se deseja receber Newsletter.")]
+        [Display(Name = "Newsletter")]
+        public bool Newsletter { get; set; }
     }
 }

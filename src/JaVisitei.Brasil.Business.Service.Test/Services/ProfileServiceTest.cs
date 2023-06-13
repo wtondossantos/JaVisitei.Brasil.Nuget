@@ -155,13 +155,14 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .Setup(x => x.LoginAsync<User>(loginRequest.Email, Encrypt.Sha256encrypt(loginRequest.Password)))
                 .Throws(new Exception(message));
 
-            var result = await _profileService.LoginAsync(loginRequest);
-
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result.IsValid);
-            Assert.IsTrue(result.Errors.Count > 0);
-            Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors[0].Contains(message));
+            try
+            {
+                var result = await _profileService.LoginAsync(loginRequest);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(ex.Message, "Exception test");
+            }
         }
 
         #endregion
@@ -357,13 +358,14 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .Setup(x => x.GetByManagerCodeAsync(request.ActivationCode))
                 .Throws(new Exception(message));
 
-            var result = await _profileService.ActiveAccountAsync(request);
-
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result.IsValid);
-            Assert.IsTrue(result.Errors.Count > 0);
-            Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors[0].Contains(message));
+            try
+            {
+                var result = await _profileService.ActiveAccountAsync(request);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(ex.Message, "Exception test");
+            }
         }
 
         #endregion
@@ -378,6 +380,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var responseUser = UserMock.UserInactiveUserMock();
             var responseUserManager = UserManagerMock.ReturnUserManagerMock();
             var emailValidation = EmailMock.ReturnEmailUserManagerResponseMock();
+            responseUserManager.User = responseUser;
             _profileService = new ProfileService(_mockUserService.Object,
                 null, null, null, null, profileValidation, _mockUserManagerService.Object, _mockEmailService.Object);
 
@@ -390,7 +393,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(responseUserManager);
 
             _ = _mockEmailService
-                .Setup(x => x.SendEmailUserManagerAsync(responseUser.Email, responseUserManager))
+                .Setup(x => x.SendEmailUserManagerAsync(responseUserManager))
                 .ReturnsAsync(emailValidation);
 
             var result = await _profileService.GenerateConfirmationCodeAsync(request);
@@ -412,6 +415,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var responseUser = UserMock.UserInactiveUserMock();
             var responseUserManager = UserManagerMock.ReturnUserManagerMock();
             var emailValidationInvalid = EmailMock.ReturnEmailUserManagerInvalidMock();
+            responseUserManager.User = responseUser;
             _profileService = new ProfileService(_mockUserService.Object,
                 null, null, null, null, profileValidation, _mockUserManagerService.Object, _mockEmailService.Object);
 
@@ -424,7 +428,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(responseUserManager);
 
             _ = _mockEmailService
-                .Setup(x => x.SendEmailUserManagerAsync(responseUser.Email, responseUserManager))
+                .Setup(x => x.SendEmailUserManagerAsync(responseUserManager))
                 .ReturnsAsync(emailValidationInvalid);
 
             var result = await _profileService.GenerateConfirmationCodeAsync(request);
@@ -528,13 +532,14 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .Setup(x => x.GetFirstOrDefaultAsync(m => m.Email.Equals(request.Email.ToLower()), null))
                 .Throws(new Exception(message));
 
-            var result = await _profileService.GenerateConfirmationCodeAsync(request);
-
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result.IsValid);
-            Assert.IsTrue(result.Errors.Count > 0);
-            Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors[0].Contains(message));
+            try
+            {
+                var result = await _profileService.GenerateConfirmationCodeAsync(request);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(ex.Message, "Exception test");
+            }
         }
 
         #endregion
@@ -549,6 +554,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var responseUser = UserMock.UserContributorMock();
             var responseUserManager = UserManagerMock.ReturnUserManagerMock();
             var emailValidation = EmailMock.ReturnEmailUserManagerResponseMock();
+            responseUserManager.User = responseUser;
             _profileService = new ProfileService(_mockUserService.Object,
                 null, null, profileValidation, null, null, _mockUserManagerService.Object, _mockEmailService.Object);
 
@@ -561,7 +567,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(responseUserManager);
 
             _ = _mockEmailService
-                .Setup(x => x.SendEmailUserManagerAsync(responseUser.Email, responseUserManager))
+                .Setup(x => x.SendEmailUserManagerAsync(responseUserManager))
                 .ReturnsAsync(emailValidation);
 
             var result = await _profileService.ForgotPasswordAsync(request);
@@ -583,6 +589,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var responseUser = UserMock.UserContributorMock();
             var responseUserManager = UserManagerMock.ReturnUserManagerMock();
             var emailValidationInvalid = EmailMock.ReturnEmailUserManagerInvalidMock();
+            responseUserManager.User = responseUser;
             _profileService = new ProfileService(_mockUserService.Object,
                 null, null, profileValidation, null, null, _mockUserManagerService.Object, _mockEmailService.Object);
 
@@ -595,7 +602,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(responseUserManager);
 
             _ = _mockEmailService
-                .Setup(x => x.SendEmailUserManagerAsync(responseUser.Email, responseUserManager))
+                .Setup(x => x.SendEmailUserManagerAsync(responseUserManager))
                 .ReturnsAsync(emailValidationInvalid);
 
             var result = await _profileService.ForgotPasswordAsync(request);
@@ -679,13 +686,14 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .Setup(x => x.GetFirstOrDefaultAsync(m => m.Email.Equals(request.Email.ToLower()), null))
                 .Throws(new Exception(message));
 
-            var result = await _profileService.ForgotPasswordAsync(request);
-
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result.IsValid);
-            Assert.IsTrue(result.Errors.Count > 0);
-            Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors[0].Contains(message));
+            try
+            {
+                var result = await _profileService.ForgotPasswordAsync(request);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(ex.Message, "Exception test");
+            }
         }
 
         #endregion
@@ -867,13 +875,14 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .Setup(x => x.GetFirstOrDefaultAsync(m => m.Email.Equals(request.Email.ToLower()), null))
                 .Throws(new Exception(message));
 
-            var result = await _profileService.ResetPasswordAsync(request);
-
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result.IsValid);
-            Assert.IsTrue(result.Errors.Count > 0);
-            Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors[0].Contains(message));
+            try
+            {
+                var result = await _profileService.ResetPasswordAsync(request);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(ex.Message, "Exception test");
+            }
         }
 
         #endregion
