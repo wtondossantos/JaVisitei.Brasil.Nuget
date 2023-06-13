@@ -46,12 +46,11 @@ namespace JaVisitei.Brasil.Security.Test
             Assert.AreEqual(claims[0].Value, tokenS.Subject);
             Assert.IsFalse(string.IsNullOrEmpty(claims[1].Value));
             Assert.IsFalse(string.IsNullOrEmpty(claims[2].Value));
-            Assert.AreEqual(user.Id.ToString(), claims[3].Value);
-            Assert.AreEqual(user.Username, claims[4].Value);
-            Assert.AreEqual(user.UserRole.Name, claims[5].Value);
+            Assert.AreEqual(user.Username, claims[3].Value);
+            Assert.AreEqual(user.UserRole.Name, claims[4].Value);
+            Assert.IsFalse(string.IsNullOrEmpty(claims[5].Value));
             Assert.IsFalse(string.IsNullOrEmpty(claims[6].Value));
             Assert.IsFalse(string.IsNullOrEmpty(claims[7].Value));
-            Assert.IsFalse(string.IsNullOrEmpty(claims[8].Value));
 
             var audiences = tokenS.Audiences as List<string>;
 

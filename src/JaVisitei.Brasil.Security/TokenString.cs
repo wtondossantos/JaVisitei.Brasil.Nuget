@@ -28,7 +28,6 @@ namespace JaVisitei.Brasil.Security
                 new Claim(JwtRegisteredClaimNames.Sub, Environment.GetEnvironmentVariable("JWT_SUBJECT")),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                new Claim("id", user.Id.ToString()),
                 new Claim("username", user.Username),
                 new Claim("role", user.UserRole.Name)
                 };
