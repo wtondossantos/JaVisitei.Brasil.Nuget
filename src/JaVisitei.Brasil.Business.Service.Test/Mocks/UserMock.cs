@@ -54,7 +54,10 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
                 ReEmail = "teste@teste.com.zz",
                 Password = "!Abc5678",
                 RePassword = "!Abc5678",
-                UserRoleId = 3
+                UserRoleId = 3,
+                Key = "sdga5346dszgdsgtt34w6agse63q4sdgawe6gsy62363w27",
+                Recaptcha = "sdga5346dszgdsgtt34w6agse63q4sdgawe6gsy62363w27sdga5346dszgdsgtt34w6agse63q4sdgawe6gsy62363w27",
+                Newsletter = true
             };
         }
         public static InsertFullUserRequest CreateUserInvalidRequestMock()

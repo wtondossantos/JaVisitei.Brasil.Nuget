@@ -14,7 +14,8 @@ namespace JaVisitei.Brasil.Data.Entities
         public string FromSmtp { get; set; }
         public int PortSmtp { get; set; }
         public string Name { get; set; }
-
+        public string Email { get; set; }
+        
         public virtual ICollection<Email> Emails { get; set; }
     }
 }

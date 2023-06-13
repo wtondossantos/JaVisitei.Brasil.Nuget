@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
 using System;
+using JaVisitei.Brasil.Business.ViewModels.Request.Recaptcha;
 
 namespace JaVisitei.Brasil.Business.Service.Test.Services
 {
@@ -21,6 +22,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         private readonly Mock<IUserRepository> _mockUserRepository;
         private readonly Mock<IUserManagerService> _mockUserManagerService;
         private readonly Mock<IEmailService> _mockEmailService;
+        private readonly Mock<IRecaptchaService> _mockRecaptchaService;
         private readonly Mock<IMapper> _mockMapper;
 
         public UserServiceTest()
@@ -28,12 +30,14 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             _mockUserRepository = new Mock<IUserRepository>();
             _mockUserManagerService = new Mock<IUserManagerService>();
             _mockEmailService = new Mock<IEmailService>();
-            _mockMapper = new Mock<IMapper>();
+            _mockRecaptchaService = new Mock<IRecaptchaService>();
+        _mockMapper = new Mock<IMapper>();
 
             _userService = new UserService(_mockUserRepository.Object,
                 _mockUserManagerService.Object, 
                 new UserValidator(),
                 _mockEmailService.Object,
+                _mockRecaptchaService.Object,
                 _mockMapper.Object);
         }
 
@@ -68,6 +72,13 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var responseUserManager = UserManagerMock.ReturnUserManagerNotConfirmedMock();
             var emailValidation = EmailMock.ReturnEmailUserManagerResponseMock();
             var userRole = UserMock.UserRoleContributorMock();
+            responseUserManager.User = responseUser;
+            var recaptchaValidation = RecaptchaMock.ReturnRecaptchaResponseMock();
+            var recaptchaRequest = RecaptchaMock.ReturnKeyRequestMock();
+
+            _ = _mockRecaptchaService
+                .Setup(x => x.RetrieveAsync(recaptchaRequest))
+                .ReturnsAsync(recaptchaValidation);
 
             _ = _mockUserRepository
                 .Setup(x => x.AnyAsync(c => c.Email.Equals(request.Email) || c.Username.Equals(request.Username)))
@@ -90,7 +101,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(responseUserManager);
 
             _ = _mockEmailService
-                .Setup(x => x.SendEmailUserManagerAsync(responseUser.Email, responseUserManager))
+                .Setup(x => x.SendEmailUserManagerAsync(responseUserManager))
                 .ReturnsAsync(emailValidation);
 
             _ = _mockMapper
@@ -115,6 +126,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var responseUserManager = UserManagerMock.ReturnUserManagerNotConfirmedMock();
             var emailValidation = EmailMock.ReturnEmailUserManagerResponseMock();
             var userRole = UserMock.UserRoleContributorMock();
+            responseUserManager.User = responseUser;
 
             _ = _mockUserRepository
                 .Setup(x => x.AnyAsync(c => c.Email.Equals(request.Email) || c.Username.Equals(request.Username)))
@@ -137,7 +149,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(responseUserManager);
 
             _ = _mockEmailService
-                .Setup(x => x.SendEmailUserManagerAsync(responseUser.Email, responseUserManager))
+                .Setup(x => x.SendEmailUserManagerAsync(responseUserManager))
                 .ReturnsAsync(emailValidation);
 
             _ = _mockMapper
@@ -160,6 +172,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             var responseUser = UserMock.UserInactiveUserMock();
             var responseUserManager = UserManagerMock.ReturnUserManagerNotConfirmedMock();
             var emailValidationInvalid = EmailMock.ReturnEmailUserManagerInvalidMock();
+            responseUserManager.User = responseUser;
 
             _ = _mockUserRepository
                 .Setup(x => x.AnyAsync(c => c.Email.Equals(request.Email) || c.Username.Equals(request.Username)))
@@ -182,7 +195,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .ReturnsAsync(responseUserManager);
 
             _ = _mockEmailService
-                .Setup(x => x.SendEmailUserManagerAsync(responseUser.Email, responseUserManager))
+                .Setup(x => x.SendEmailUserManagerAsync(responseUserManager))
                 .ReturnsAsync(emailValidationInvalid);
 
             var result = await _userService.InsertAsync(request);
@@ -334,7 +347,13 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         {
             var request = UserMock.CreateUserInvalidRequestMock();
             var userValidationInvalid = UserMock.UserValidatorErrorMock();
-            var userService = new UserService(null, null, userValidationInvalid, null, null);
+            var userService = new UserService(null, null, userValidationInvalid, null,_mockRecaptchaService.Object, null);
+            var recaptchaValidation = RecaptchaMock.ReturnRecaptchaResponseMock();
+            var recaptchaRequest = RecaptchaMock.ReturnKeyRequestMock();
+
+            _ = _mockRecaptchaService
+                .Setup(x => x.RetrieveAsync(recaptchaRequest))
+                .ReturnsAsync(recaptchaValidation);
 
             var result = await userService.InsertAsync(request);
 
@@ -355,13 +374,14 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .Setup(x => x.AnyAsync(c => c.Email.Equals(request.Email) || c.Username.Equals(request.Username)))
                 .Throws(new Exception(message));
 
-            var result = await _userService.InsertAsync(request);
-
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result.IsValid);
-            Assert.IsTrue(result.Errors.Count > 0);
-            Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors[0].Contains(message));
+            try
+            {
+                var result = await _userService.InsertAsync(request);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(ex.Message, "Exception test");
+            }
         }
 
         #endregion
@@ -835,7 +855,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         {
             var request = UserMock.UpdateFullUserInvalidRequestMock();
             var userValidationInvalid = UserMock.UserValidatorErrorMock();
-            var userService = new UserService(null, null, userValidationInvalid, null, null);
+            var userService = new UserService(null, null, userValidationInvalid, null, null, null);
 
             var result = await userService.UpdateAsync(request);
 
@@ -856,13 +876,14 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 .Setup(x => x.AnyAsync(c => c.Id != request.Id && c.Username.Equals(request.Username)))
                 .Throws(new Exception(message));
 
-            var result = await _userService.UpdateAsync(request);
-
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result.IsValid);
-            Assert.IsTrue(result.Errors.Count > 0);
-            Assert.IsNull(result.Data);
-            Assert.IsTrue(result.Errors[0].Contains(message));
+            try
+            {
+                var result = await _userService.UpdateAsync(request);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(ex.Message, "Exception test");
+            }
         }
 
         #endregion

@@ -61,6 +61,7 @@ namespace JaVisitei.Brasil.Business.Profiles
                 })
                 .AfterMap((src, dest) => {
                     dest.SecurityStamp = Guid.NewGuid().ToString();
+                    dest.Password ??= String.Empty;
                 });
         }
     }

@@ -14,6 +14,9 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
+            if (string.IsNullOrEmpty(request.Recaptcha))
+                Errors.Add("Informe o Recaptcha correto.");
+
             ValidatesUserName(request.Name);
             ValidatesUserSurname(request.Surname);
             ValidatesUserUsername(request.Username);
@@ -31,7 +34,6 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
             ValidatesUserSurname(request.Surname);
             ValidatesUserUsername(request.Username);
             ValidatesUserEmail(request.Email, request.ReEmail);
-            ValidatesUserRoleId(request.UserRoleId);
 
             if (!string.IsNullOrEmpty(request.Password))
             {

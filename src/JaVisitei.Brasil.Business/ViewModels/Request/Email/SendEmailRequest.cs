@@ -10,9 +10,15 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request.Email
         [Display(Name = "Id")]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Informe o e-mail de recebimento")]
-        [DataType(DataType.EmailAddress, ErrorMessage = "Informe um e-amil válido")]
+        [Required(ErrorMessage = "Informe o e-mail do destinatário")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Informe um e-mail válido")]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Informe o nome do destinatário")]
+        [DataType(DataType.Text, ErrorMessage = "Informe o nome do destinatário")]
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
+        
     }
 }

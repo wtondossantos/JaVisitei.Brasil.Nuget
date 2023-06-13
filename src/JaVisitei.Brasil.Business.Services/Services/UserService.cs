@@ -10,6 +10,7 @@ using JaVisitei.Brasil.Helper.Others;
 using System.Threading.Tasks;
 using AutoMapper;
 using System;
+using JaVisitei.Brasil.Business.ViewModels.Request.Recaptcha;
 
 namespace JaVisitei.Brasil.Business.Service.Services
 {
@@ -19,18 +20,21 @@ namespace JaVisitei.Brasil.Business.Service.Services
         private readonly IUserRepository _userRepository;
         private readonly UserValidator _userValidator;
         private readonly IEmailService _emailService;
+        private readonly IRecaptchaService _recaptchaService;
         private readonly IMapper _mapper;
 
         public UserService(IUserRepository userRepository,
             IUserManagerService userManagerService,
             UserValidator userValidator,
             IEmailService emailService,
+            IRecaptchaService recaptchaService,
             IMapper mapper) : base(userRepository, mapper)
         {
             _userManagerService = userManagerService;
             _userRepository = userRepository;
             _userValidator = userValidator;
             _emailService = emailService;
+            _recaptchaService = recaptchaService;
             _mapper = mapper;
         }
 
@@ -43,6 +47,14 @@ namespace JaVisitei.Brasil.Business.Service.Services
         {
             try
             {
+                var validate = _recaptchaService.RetrieveAsync(new RecaptchaRequest { Key = request.Key, Response = request.Recaptcha });
+
+                if (validate is null)
+                    return null;
+
+                if (validate.Result is not null && !validate.Result.IsValid && validate.Result.Data is not null && !validate.Result.Data.Success)
+                    return new UserValidator { Errors = validate.Result.Errors };
+
                 _userValidator.ValidatesUserCreation(request);
 
                 if (!_userValidator.IsValid)
@@ -73,25 +85,33 @@ namespace JaVisitei.Brasil.Business.Service.Services
                     var userManager = await _userManagerService.CreateEmailConfirmationAsync(user.Id);
                     if (userManager is null)
                     {
+                        await _userRepository.DeleteByIdAsync(user.Id);
                         _userValidator.Errors.Add("Erro ao adicionar configuração do usuário, tente novamente ou entre em contato com o suporte.");
                         return _userValidator;
                     }
 
-                    var emailResult = await _emailService.SendEmailUserManagerAsync(user.Email, userManager);
+                    userManager.User = user;
+                    var emailResult = await _emailService.SendEmailUserManagerAsync(userManager);
                     if (emailResult.IsValid)
                     {
                         _userValidator.Data = _mapper.Map<UserResponse>(user);
                         _userValidator.Message = $"Usuário {request.Username}, {request.Email} registrado com sucesso. {emailResult.Message}";
                     }
                     else
+                    {
+                        await _userManagerService.DeleteByIdAsync(userManager.Id);
+                        await _userRepository.DeleteByIdAsync(user.Id);
                         _userValidator.Errors = emailResult.Errors;
+                        _userValidator.Errors.Add("Tente novamente.");
+                    }
                 }
                 else
-                    _userValidator.Errors.Add($"Erro ao registrar usuário.");
+                    _userValidator.Errors.Add("Erro ao registrar usuário.");
             }
-            catch (Exception ex)
+            catch
             {
-                _userValidator.Errors.Add($"Erro ao registrar usuário: {ex.Message}");
+                _userValidator.Errors.Add($"Erro ao registrar usuário");
+                throw;
             }
 
             return _userValidator;
@@ -161,6 +181,8 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 }
 
                 userMapper.Password = string.IsNullOrEmpty(request.Password) ? userFound.Password : Encrypt.Sha256encrypt(request.Password);
+                userMapper.Actived = userFound.Actived;
+                userMapper.RefreshToken = userFound.RefreshToken;
 
                 if (await _userRepository.UpdateAsync(userMapper))
                 {
@@ -176,9 +198,10 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 else
                     _userValidator.Errors.Add("Erro ao atualizar usuário.");
             }
-            catch (Exception ex)
+            catch
             {
-                _userValidator.Errors.Add($"Erro ao atualizar usuário: {ex.Message}");
+                _userValidator.Errors.Add($"Erro ao atualizar usuário");
+                throw;
             }
 
             return _userValidator;

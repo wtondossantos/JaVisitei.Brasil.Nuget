@@ -74,9 +74,10 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 _profileLoginValidator.Message = "Login realizado com sucesso.";
                 
             }
-            catch (Exception ex)
+            catch
             {
-                _profileLoginValidator.Errors.Add($"Exception: {ex.Message}");
+                _profileLoginValidator.Errors.Add("Algo deu errado. Tente novamente ou entre em contato com o suporte.");
+                throw;
             }
 
             return _profileLoginValidator;
@@ -139,9 +140,10 @@ namespace JaVisitei.Brasil.Business.Service.Services
 
                 _profileLoginValidator.Message = "Login realizado com sucesso.";
             }
-            catch (Exception ex)
+            catch
             {
-                _profileLoginValidator.Errors.Add($"Exception: {ex.Message}");
+                _profileLoginValidator.Errors.Add("Algo deu errato. Tente novamente ou entre em contato com o suporte.");
+                throw;
             }
 
             return _profileLoginValidator;
@@ -159,7 +161,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 var userManager = await _userManagerService.GetByManagerCodeAsync(request.ActivationCode);
                 if (userManager is null)
                 {
-                    _profileActivationValidator.Errors.Add("Erro consultar código de ativação.");
+                    _profileActivationValidator.Errors.Add("Informe um código válido.");
                     return _profileActivationValidator;
                 }
 
@@ -193,9 +195,10 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 else
                     _profileActivationValidator.Errors.Add("Erro ao ativar perfil.");
             }
-            catch (Exception ex)
+            catch
             {
-                _profileActivationValidator.Errors.Add($"Erro ao ativar perfil: {ex.Message}");
+                _profileActivationValidator.Errors.Add("Erro ao ativar perfil. Tente novamente ou entre em contato com o suporte.");
+                throw;
             }
 
             return _profileActivationValidator;
@@ -213,12 +216,12 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 var user = await _userService.GetFirstOrDefaultAsync(x => x.Email.Equals(request.Email.ToLower()));
                 if (user is null)
                 {
-                    _profileGenerateConfirmationCodeValidator.Errors.Add("Não existe perfil cadastrado com esse e-mail");
+                    _profileGenerateConfirmationCodeValidator.Errors.Add("Não existe perfil cadastrado com esse e-mail. Crie uma conta.");
                     return _profileGenerateConfirmationCodeValidator;
                 }
                 else if (user.Actived)
                 {
-                    _profileGenerateConfirmationCodeValidator.Message = "Este e-mail já foi confirmado e sua conta está ativa.";
+                    _profileGenerateConfirmationCodeValidator.Message = "Este e-mail já foi confirmado e sua conta está ativa. Efetue o Login.";
                     return _profileGenerateConfirmationCodeValidator;
                 }
 
@@ -228,22 +231,24 @@ namespace JaVisitei.Brasil.Business.Service.Services
                     _profileGenerateConfirmationCodeValidator.Errors.Add("Erro ao adicionar configuração do usuário, tente novamente ou entre em contato com o suporte.");
                     return _profileGenerateConfirmationCodeValidator;
                 }
-
-                var emailResult = await _emailService.SendEmailUserManagerAsync(user.Email, userManager);
+                
+                userManager.User = user;
+                var emailResult = await _emailService.SendEmailUserManagerAsync(userManager);
                 if (emailResult.IsValid)
                 {
                     _profileGenerateConfirmationCodeValidator.Data = new GenerateConfirmationCodeResponse { 
                         Generated = true,
-                        UserEmail = user.Email
+                        UserEmail = userManager.User.Email
                     };
                     _profileGenerateConfirmationCodeValidator.Message = $"Código de confirmação gerado com suscesso. {emailResult.Message}";
                 }
                 else
                     _profileGenerateConfirmationCodeValidator.Errors = emailResult.Errors;
             }
-            catch (Exception ex)
+            catch
             {
-                _profileGenerateConfirmationCodeValidator.Errors.Add($"Erro ao solicitar código de confirmação: {ex.Message}");
+                _profileGenerateConfirmationCodeValidator.Errors.Add("Erro ao solicitar código de confirmação. Tente novamente ou entre em contato com o suporte.");
+                throw;
             }
 
             return _profileGenerateConfirmationCodeValidator;
@@ -272,7 +277,8 @@ namespace JaVisitei.Brasil.Business.Service.Services
                     return _profileForgotPasswordValidator;
                 }
 
-                var emailResult = await _emailService.SendEmailUserManagerAsync(user.Email, userManager);
+                userManager.User = user;
+                var emailResult = await _emailService.SendEmailUserManagerAsync(userManager);
                 if (emailResult.IsValid)
                 {
                     _profileForgotPasswordValidator.Data = new ForgotPasswordResponse { 
@@ -284,9 +290,10 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 else
                     _profileForgotPasswordValidator.Errors = emailResult.Errors;
             }
-            catch (Exception ex)
+            catch
             {
-                _profileForgotPasswordValidator.Errors.Add($"Erro ao solicitar trocar de senha: {ex.Message}");
+                _profileForgotPasswordValidator.Errors.Add("Erro ao solicitar trocar de senha. tente novamente ou entre em contato com o suporte.");
+                throw;
             }
 
             return _profileForgotPasswordValidator;
@@ -311,7 +318,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 var userManager = await _userManagerService.GetByManagerCodeAsync(request.ResetPasswordCode);
                 if (userManager is null)
                 {
-                    _profileResetPasswordValidator.Errors.Add("Erro ao atualizar senha.");
+                    _profileResetPasswordValidator.Errors.Add("Erro ao atualizar senha. Tente novemente ou entre em contato com o suporte.");
                     return _profileResetPasswordValidator;
                 }
 
@@ -319,6 +326,12 @@ namespace JaVisitei.Brasil.Business.Service.Services
 
                 if (!_profileResetPasswordValidator.IsValid)
                     return _profileResetPasswordValidator;
+
+                if (userManager.ConfirmedChange)
+                {
+                    _profileResetPasswordValidator.Message = "Código de atualização já utilizado, solicite novo código em: Esqueci minha senha.";
+                    return _profileResetPasswordValidator;
+                }
 
                 user.Password = Encrypt.Sha256encrypt(request.Password);
                 user.SecurityStamp = Guid.NewGuid().ToString();
@@ -339,9 +352,10 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 else
                     _profileResetPasswordValidator.Errors.Add("Erro ao atualizar senha.");
             }
-            catch (Exception ex)
+            catch
             {
-                _profileResetPasswordValidator.Errors.Add($"Erro ao solicitar trocar de senha: {ex.Message}");
+                _profileResetPasswordValidator.Errors.Add("Erro ao solicitar trocar de senha. Tente novemente ou entre em contato com o suporte.");
+                throw;
             }
 
             return _profileResetPasswordValidator;

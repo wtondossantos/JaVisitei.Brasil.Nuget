@@ -158,6 +158,10 @@ namespace JaVisitei.Brasil.Data.Base
                     .IsRequired()
                     .HasMaxLength(50);
 
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
                 entity.Property(e => e.PortSmtp).HasColumnName("PortSMTP");
 
                 entity.Property(e => e.ServerSmtp)

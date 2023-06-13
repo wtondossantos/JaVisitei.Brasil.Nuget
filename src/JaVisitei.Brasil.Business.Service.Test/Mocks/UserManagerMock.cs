@@ -22,6 +22,20 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
             };
         }
 
+        public static UserManager ReturnUserManagerNotConfirmedManagerCodeMock()
+        {
+            return new UserManager
+            {
+                Id = 1,
+                UserId = Guid.NewGuid().ToString(),
+                EmailId = 1,
+                ManagerCode = "ABC123AB",
+                ConfirmedChange = false,
+                ExpirationDate = DateTime.Now.AddMinutes(Constant.CONFIRMATION_CODE_EXPIRATION_TIME_EMAIL),
+                Email = new Email(),
+                User = new User()
+            };
+        }
         public static UserManager ReturnUserManagerMock()
         {
             return new UserManager
