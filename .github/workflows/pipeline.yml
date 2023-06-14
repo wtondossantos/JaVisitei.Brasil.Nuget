@@ -23,6 +23,8 @@ jobs:
         
     - name: Restore dependencies
       run: dotnet restore ./src/
+      env: 
+        NUGET_PACKAGE: ${{ secrets.AWS_PACKAGE }}
 
     - name: Build
       run: dotnet build --configuration Release --no-restore ./src/
