@@ -23,8 +23,6 @@ jobs:
         
     - name: Restore dependencies
       run: dotnet restore ./src/
-      env: 
-        NUGET_PACKAGE: ${{ vars.NUGET_PACKAGE }}
 
     - name: Build
       run: dotnet build --configuration Release --no-restore ./src/
