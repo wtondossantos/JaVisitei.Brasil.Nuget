@@ -14,7 +14,7 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request.Visit
         public string Note { get; set; }
 
         [Display(Name = "VisitDate")]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [DataType(DataType.Text, ErrorMessage = "Informe uma data válida")]
         public string VisitationDate { get; set; }
     }
