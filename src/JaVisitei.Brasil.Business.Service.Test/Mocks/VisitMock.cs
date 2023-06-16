@@ -37,7 +37,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
             return new InsertVisitRequest
             {
                 Color = "200,100,50",
-                VisitationDate = DateTime.Now.ToString("dd-MM-yyyy"),
+                VisitationDate = DateTime.Now.ToString("dd/MM/yyyy"),
                 Note = "Annotation",
                 RegionTypeId = 6,
                 RegionId = "ce_aquiraz",
@@ -49,7 +49,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
             return new InsertVisitRequest
             {
                 Color = "200,100,50",
-                VisitationDate = DateTime.Now.ToString("dd-MM-yyyy"),
+                VisitationDate = DateTime.Now.ToString("dd/MM/yyyy"),
                 Note = "Annotation",
                 RegionTypeId = 7,
                 RegionId = "es_ilha_trindade",
