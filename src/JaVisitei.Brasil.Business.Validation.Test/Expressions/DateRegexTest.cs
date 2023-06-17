@@ -14,20 +14,20 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Expressions
 
         }
 
-        [TestMethod("Return valid Date dd/MM/yyyy")]
+        [TestMethod("Return valid Date dd-MM-yyyy")]
         public void ValidateDate_ExpresionIsValid_SucsessWidthSlash()
         {
-            var date = "29/02/2000";
+            var date = "29-02-2000";
 
             var result = DateRegex.ValidateDate(date);
 
             Assert.IsTrue(result);
         }
 
-        [TestMethod("Return valid Date dd/MM/yyyy")]
+        [TestMethod("Return valid Date dd-MM-yyyy")]
         public void ValidateDate_ExpresionIsValid_SucsessWidthHyphen()
         {
-            var date = "29/02/2000";
+            var date = "29-02-2000";
 
             var result = DateRegex.ValidateDate(date);
 
