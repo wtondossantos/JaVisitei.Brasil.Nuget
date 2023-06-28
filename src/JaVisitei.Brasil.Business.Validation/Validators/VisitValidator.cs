@@ -56,7 +56,7 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
                 Errors.Add("Informe a data.");
 
             else if (!DateRegex.ValidateDate(date))
-                Errors.Add("Informe a data no formato correto: DD-MM-AAAA.");
+                Errors.Add("Informe a data no formato correto: yyyy-MM-dd.");
         }
 
         public void ValidatesVisiColor(string color)
