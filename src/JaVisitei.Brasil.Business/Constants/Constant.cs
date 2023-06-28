@@ -5,7 +5,7 @@
         public const int CONFIRMATION_CODE_EXPIRATION_TIME_EMAIL = 30;
         public const int CONFIRMATION_CODE_EXPIRATION_TIME_PASSWORD = 15;
         public const string REGEX_EXPRESSION_RGB = @"^(\s*(?:(?:\d{1}|1\d\d|2(?:[0-4]\d|5[0-5]))*,?){3})$";
-        public const string REGEX_EXPRESSION_DATE = @"^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$";
+        public const string REGEX_EXPRESSION_DATE = @"^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$";
         public const string REGEX_EXPRESSION_EMAIL = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
         public const string REGEX_EXPRESSION_MANAGER_CODE = @"^[A-Za-z\d]{8}$";
         public const string REGEX_EXPRESSION_MANAGER_CODE_FULL = @"^[A-Za-z\d]{8}[\d]{2,}$";
