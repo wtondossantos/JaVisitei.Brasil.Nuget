@@ -24,6 +24,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         {
             _mockMunicipalityRepository = new Mock<IMunicipalityRepository>();
             _mockMapper = new Mock<IMapper>();
+            _mockMunicipalityCachingService = new Mock<IMunicipalityCachingService>();
             _municipalityService = new MunicipalityService(_mockMunicipalityRepository.Object, _mockMunicipalityCachingService.Object, _mockMapper.Object);
         }
 
