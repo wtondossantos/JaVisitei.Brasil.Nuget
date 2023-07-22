@@ -28,9 +28,9 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             _mockUserService = new Mock<IUserService>();
 
             Environment.SetEnvironmentVariable("JWT_EXPIDED_MINUTE", "2");
-            Environment.SetEnvironmentVariable("JWT_AUDIENCE", "audience");
-            Environment.SetEnvironmentVariable("JWT_ISSUER", "issuer");
-            Environment.SetEnvironmentVariable("JWT_KEY", "teste@teste.com.br");
+            Environment.SetEnvironmentVariable("JWT_AUDIENCE", "audienceaudience");
+            Environment.SetEnvironmentVariable("JWT_ISSUER", "issuerissuer");
+            Environment.SetEnvironmentVariable("JWT_KEY", "testetestetestetestetesteteste@javistei.com.br");
             Environment.SetEnvironmentVariable("JWT_SUBJECT", "subject");
         }
 
