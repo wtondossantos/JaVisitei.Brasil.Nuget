@@ -15,7 +15,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<FileVersion></FileVersion>
 		<AssemblyVersion></AssemblyVersion>
-		<Version>6.1.5</Version>
+		<Version>6.2.0</Version>
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 		<EmbedUntrackedSources>True</EmbedUntrackedSources>
 		<ContinuousIntegrationBuild>True</ContinuousIntegrationBuild>
@@ -32,6 +32,7 @@
 	<ProjectReference Include="..\JaVisitei.Brasil.Business.Services\JaVisitei.Brasil.Business.Service.csproj" />
 	<ProjectReference Include="..\JaVisitei.Brasil.Business.Validation\JaVisitei.Brasil.Business.Validation.csproj" />
 	<ProjectReference Include="..\JaVisitei.Brasil.Business\JaVisitei.Brasil.Business.csproj" />
+	<ProjectReference Include="..\JaVisitei.Brasil.Caching.Service\JaVisitei.Brasil.Caching.Service.csproj" />
 	<ProjectReference Include="..\JaVisitei.Brasil.Data.Repository\JaVisitei.Brasil.Data.Repository.csproj" />
 	<ProjectReference Include="..\JaVisitei.Brasil.Data\JaVisitei.Brasil.Data.csproj" />
 	<ProjectReference Include="..\JaVisitei.Brasil.Helper\JaVisitei.Brasil.Helper.csproj" />

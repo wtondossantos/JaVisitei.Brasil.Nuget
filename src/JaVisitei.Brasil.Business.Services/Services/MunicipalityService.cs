@@ -6,19 +6,29 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using System.Linq;
+using JaVisitei.Brasil.Caching.Service.Interfaces;
+using JaVisitei.Brasil.Business.ViewModels.Response.Municipality;
 
 namespace JaVisitei.Brasil.Business.Service.Services
 {
     public class MunicipalityService : ReadOnlyService<Municipality>, IMunicipalityService
     {
         private readonly IMunicipalityRepository _municipalityRepository;
+        private readonly IMunicipalityCachingService _municipalityCachingService;
         private readonly IMapper _mapper;
 
-        public MunicipalityService(IMunicipalityRepository municipalityRepository, 
+        public MunicipalityService(IMunicipalityRepository municipalityRepository,
+            IMunicipalityCachingService municipalityCachingService,
             IMapper mapper) : base(municipalityRepository, mapper)
         {
             _municipalityRepository = municipalityRepository;
+            _municipalityCachingService = municipalityCachingService;
             _mapper = mapper;
+        }
+
+        public async Task<List<MunicipalityBasicResponse>> GetByCountryIdAsync(string countryId)
+        {
+            return await _municipalityCachingService.GetByCountryIdAsync(countryId);
         }
 
         public async Task<IEnumerable<M>> GetByStateAsync<M>(string stateId)
