@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
+using JaVisitei.Brasil.Caching.Service.Interfaces;
 
 namespace JaVisitei.Brasil.Business.Service.Test.Services
 {
@@ -16,13 +17,14 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
     {
         private readonly MunicipalityService _municipalityService;
         private readonly Mock<IMunicipalityRepository> _mockMunicipalityRepository;
+        private readonly Mock<IMunicipalityCachingService> _mockMunicipalityCachingService;
         private readonly Mock<IMapper> _mockMapper;
 
         public MunicipalityServiceTest()
         {
             _mockMunicipalityRepository = new Mock<IMunicipalityRepository>();
             _mockMapper = new Mock<IMapper>();
-            _municipalityService = new MunicipalityService(_mockMunicipalityRepository.Object, _mockMapper.Object);
+            _municipalityService = new MunicipalityService(_mockMunicipalityRepository.Object, _mockMunicipalityCachingService.Object, _mockMapper.Object);
         }
 
         #region Municipalities by state

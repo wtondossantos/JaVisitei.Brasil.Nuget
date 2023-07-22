@@ -11,11 +11,9 @@
 		<Copyright>Copyright 2021</Copyright>
 		<PackageProjectUrl>https://javisitei.com.br/api/documentacao.htm</PackageProjectUrl>
 		<NeutralLanguage>pt-BR</NeutralLanguage>
-		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<FileVersion></FileVersion>
 		<AssemblyVersion></AssemblyVersion>
-		<Version>6.1.0</Version>
+		<Version>6.2.0</Version>
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 		<EmbedUntrackedSources>True</EmbedUntrackedSources>
 		<ContinuousIntegrationBuild>True</ContinuousIntegrationBuild>
@@ -36,6 +34,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\JaVisitei.Brasil.Business.Validation\JaVisitei.Brasil.Business.Validation.csproj" />
+		<ProjectReference Include="..\JaVisitei.Brasil.Caching.Service\JaVisitei.Brasil.Caching.Service.csproj" />
 		<ProjectReference Include="..\JaVisitei.Brasil.Data.Repository\JaVisitei.Brasil.Data.Repository.csproj" />
 		<ProjectReference Include="..\JaVisitei.Brasil.Data\JaVisitei.Brasil.Data.csproj" />
 		<ProjectReference Include="..\JaVisitei.Brasil.Security\JaVisitei.Brasil.Security.csproj" />
@@ -51,6 +50,7 @@
 	<ItemGroup>
 	  <PackageReference Include="AutoMapper" Version="11.0.1" />
 	  <PackageReference Include="MailKit" Version="3.2.0" />
+	  <PackageReference Include="Microsoft.Graph" Version="5.19.0" />
 	</ItemGroup>
 
 	<ItemGroup>

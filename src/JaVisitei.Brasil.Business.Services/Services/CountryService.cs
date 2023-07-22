@@ -7,49 +7,26 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using JaVisitei.Brasil.Business.ViewModels.Response.Country;
-using JaVisitei.Brasil.Business.ViewModels.Response.State;
-using JaVisitei.Brasil.Business.ViewModels.Response.Macroregion;
-using JaVisitei.Brasil.Business.ViewModels.Response.Microregion;
-using JaVisitei.Brasil.Business.ViewModels.Response.Archipelago;
-using JaVisitei.Brasil.Business.ViewModels.Response.Municipality;
-using JaVisitei.Brasil.Business.ViewModels.Response.Island;
 using JaVisitei.Brasil.Business.ViewModels.Response.Visit;
-using System;
-using JaVisitei.Brasil.Helper.Formatting;
+using JaVisitei.Brasil.Business.CacheModels;
+using JaVisitei.Brasil.Caching.Service.Interfaces;
 
 namespace JaVisitei.Brasil.Business.Service.Services
 {
     public class CountryService : ReadOnlyService<Country>, ICountryService
     {
-        private readonly ICountryRepository _countryRepository;
-        private readonly IStateRepository _stateRepository;
-        private readonly IMacroregionRepository _macroregionRepository;
-        private readonly IMicroregionRepository _microregionRepository;
-        private readonly IArchipelagoRepository _archipelagoRepository;
-        private readonly IMunicipalityRepository _municipalityRepository;
-        private readonly IIslandRepository _islandRepository;
         private readonly IVisitRepository _visitRepository;
         private readonly IMapper _mapper;
+        private readonly ICountryCachingService _countryCachingService;
 
         public CountryService(
                 ICountryRepository countryRepository,
-                IStateRepository stateRepository,
-                IMacroregionRepository macroregionRepository,
-                IMicroregionRepository microregionRepository,
-                IArchipelagoRepository archipelagoRepository,
-                IMunicipalityRepository municipalityRepository,
-                IIslandRepository islandRepository,
                 IVisitRepository visitRepository,
-                IMapper mapper) : base(countryRepository, mapper) {
-            _countryRepository = countryRepository;
-            _stateRepository = stateRepository;
-            _archipelagoRepository = archipelagoRepository;
-            _macroregionRepository = macroregionRepository; 
-            _microregionRepository = microregionRepository;
-            _municipalityRepository = municipalityRepository;
-            _islandRepository = islandRepository;
+                IMapper mapper,
+                ICountryCachingService countryCachingService) : base(countryRepository, mapper) {
             _visitRepository = visitRepository;
             _mapper = mapper;
+            _countryCachingService = countryCachingService;
         }
 
         public async Task<CountryResponse> GetFullByIdAsync(string countryId) 
@@ -61,27 +38,23 @@ namespace JaVisitei.Brasil.Business.Service.Services
         {
             try
             {
-                var country = _mapper.Map<CountryResponse>(await _countryRepository.GetByIdAsync(countryId));
-                var states = _mapper.Map<List<StateResponse>>(await _stateRepository.GetAsync(x => x.CountryId.Equals(countryId)));
-                var macroregions = _mapper.Map<List<MacroregionResponse>>(await _macroregionRepository.GetAsync());
-                var microregions = _mapper.Map<List<MicroregionResponse>>(await _microregionRepository.GetAsync());
-                var archipelagos = _mapper.Map<List<ArchipelagoResponse>>(await _archipelagoRepository.GetAsync());
-                var municipalities = _mapper.Map<List<MunicipalityResponse>>(await _municipalityRepository.GetAsync());
-                var islands = _mapper.Map<List<IslandResponse>>(await _islandRepository.GetAsync());
+                CountryCaching countryCaching = await _countryCachingService.GetAsync(countryId);
+                if (countryCaching is null) return null;
 
+                CountryResponse country = countryCaching.Country;
                 List<VisitResponse> visits = null;
                 if(!string.IsNullOrEmpty(userId))
                     visits = _mapper.Map<List<VisitResponse>>(await _visitRepository.GetAsync(x => x.UserId.Equals(userId)));
 
-                foreach (var state in states)
+                foreach (var state in countryCaching.States)
                 {
-                    var listMacroregion = macroregions.Where(x => x.StateId.Equals(state.Id));
+                    var listMacroregion = countryCaching.Macroregions.Where(x => x.StateId.Equals(state.Id));
                     foreach (var macro in listMacroregion)
                     {
-                        var listMicroregion = microregions.Where(x => x.MacroregionId.Equals(macro.Id));
+                        var listMicroregion = countryCaching.Microregions.Where(x => x.MacroregionId.Equals(macro.Id));
                         foreach (var micro in listMicroregion)
                         {
-                            var listMunicipality = municipalities.Where(x => x.MicroregionId.Equals(micro.Id));
+                            var listMunicipality = countryCaching.Municipalities.Where(x => x.MicroregionId.Equals(micro.Id));
                             if (visits is null || visits.Count.Equals(0))
                                 micro.Municipalities = listMunicipality.ToList();
                             else 
@@ -101,10 +74,10 @@ namespace JaVisitei.Brasil.Business.Service.Services
                             macro.Microregions.Add(micro);
                         }
 
-                        var listArchipelago = archipelagos.Where(x => x.MacroregionId.Equals(macro.Id));
+                        var listArchipelago = countryCaching.Archipelagos.Where(x => x.MacroregionId.Equals(macro.Id));
                         foreach (var archipelago in listArchipelago)
                         {
-                            var listIsland = islands.Where(x => x.ArchipelagoId.Equals(archipelago.Id));
+                            var listIsland = countryCaching.Islands.Where(x => x.ArchipelagoId.Equals(archipelago.Id));
                             if (visits is null || visits.Count.Equals(0))
                                 archipelago.Islands = listIsland.ToList();
                             else

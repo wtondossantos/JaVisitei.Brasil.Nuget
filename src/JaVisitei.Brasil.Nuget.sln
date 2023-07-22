@@ -33,9 +33,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaVisitei.Brasil.Business.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaVisitei.Brasil.Business.Validation.Test", "JaVisitei.Brasil.Business.Validation.Test\JaVisitei.Brasil.Business.Validation.Test.csproj", "{53648A44-5000-4894-9923-60A2B9570D9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaVisitei.Brasil.Helper.Test", "JaVisitei.Brasil.Helper.Test\JaVisitei.Brasil.Helper.Test.csproj", "{112379F5-7D05-4B67-AC1A-3DAEAA81D8B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaVisitei.Brasil.Helper.Test", "JaVisitei.Brasil.Helper.Test\JaVisitei.Brasil.Helper.Test.csproj", "{112379F5-7D05-4B67-AC1A-3DAEAA81D8B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaVisitei.Brasil.Security.Test", "JaVisitei.Brasil.Security.Test\JaVisitei.Brasil.Security.Test.csproj", "{F3EAAAA4-CA39-4B77-A53B-2265DE5E00DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaVisitei.Brasil.Security.Test", "JaVisitei.Brasil.Security.Test\JaVisitei.Brasil.Security.Test.csproj", "{F3EAAAA4-CA39-4B77-A53B-2265DE5E00DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaVisitei.Brasil.Caching.Service", "JaVisitei.Brasil.Caching.Service\JaVisitei.Brasil.Caching.Service.csproj", "{FBC45F30-2EB0-4DBE-90A5-7B6ADEAC0612}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,10 @@ Global
 		{F3EAAAA4-CA39-4B77-A53B-2265DE5E00DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3EAAAA4-CA39-4B77-A53B-2265DE5E00DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3EAAAA4-CA39-4B77-A53B-2265DE5E00DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBC45F30-2EB0-4DBE-90A5-7B6ADEAC0612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBC45F30-2EB0-4DBE-90A5-7B6ADEAC0612}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBC45F30-2EB0-4DBE-90A5-7B6ADEAC0612}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBC45F30-2EB0-4DBE-90A5-7B6ADEAC0612}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +114,7 @@ Global
 		{53648A44-5000-4894-9923-60A2B9570D9F} = {509245FF-9A39-4F8D-9D4C-D72AE0521AD7}
 		{112379F5-7D05-4B67-AC1A-3DAEAA81D8B8} = {509245FF-9A39-4F8D-9D4C-D72AE0521AD7}
 		{F3EAAAA4-CA39-4B77-A53B-2265DE5E00DD} = {509245FF-9A39-4F8D-9D4C-D72AE0521AD7}
+		{FBC45F30-2EB0-4DBE-90A5-7B6ADEAC0612} = {0DE933E1-07F9-479B-AF24-703193912153}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A9C053D-9786-4D01-8ED7-3E89720211E9}
