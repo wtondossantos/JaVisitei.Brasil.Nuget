@@ -61,5 +61,9 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request.User
         [MaxLength(50, ErrorMessage = "A senha não pode exceder {1} caracteres.")]
         [Display(Name = "OldPassword")]
         public string OldPassword { get; set; }
+
+        [Required(ErrorMessage = "Informe se deseja receber Newsletter.")]
+        [Display(Name = "Newsletter")]
+        public bool Newsletter { get; set; }
     }
 }
