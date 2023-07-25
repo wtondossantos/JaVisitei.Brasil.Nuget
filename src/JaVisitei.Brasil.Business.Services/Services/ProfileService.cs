@@ -335,6 +335,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
 
                 user.Password = Encrypt.Sha256encrypt(request.Password);
                 user.SecurityStamp = Guid.NewGuid().ToString();
+                user.Actived = true;
 
                 if (await _userService.UpdateAsync(user))
                 {

@@ -13,7 +13,7 @@ namespace JaVisitei.Brasil.Business.Profiles
         public UserProfile()
         {
             CreateMap<InsertUserRequest, InsertFullUserRequest>()
-                .AfterMap((src, dest) => dest.UserRoleId = 3);
+                .AfterMap((src, dest) => { dest.UserRoleId = (int)UserRoleEnum.Basic; });
 
             CreateMap<InsertFullUserRequest, User>()
                 .BeforeMap((src, dest) => {
@@ -50,7 +50,8 @@ namespace JaVisitei.Brasil.Business.Profiles
                     dest.Password = string.Empty;
                 });
 
-            CreateMap<UpdateUserRequest, UpdateFullUserRequest>();
+            CreateMap<UpdateUserRequest, UpdateFullUserRequest>()
+                .AfterMap((src, dest) => { dest.UserRoleId = (int)UserRoleEnum.Basic; });
 
             CreateMap<UpdateFullUserRequest, User>()
                 .BeforeMap((src, dest) => {
