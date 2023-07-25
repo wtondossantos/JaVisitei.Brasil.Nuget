@@ -37,5 +37,8 @@ namespace JaVisitei.Brasil.Business.ViewModels.Response.User
 
         [JsonPropertyName("refresh_token")]
         public string RefreshToken { get; set; }
+
+        [JsonPropertyName("newsletter")]
+        public bool Newsletter { get; set; }
     }
 }
