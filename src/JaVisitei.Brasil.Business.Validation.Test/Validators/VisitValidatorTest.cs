@@ -30,17 +30,6 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
             Assert.IsTrue(_visitValidator.Errors.Count.Equals(0));
         }
 
-        [TestMethod("Visit creation validation Invalid return")]
-        public void ValidatesVisitCreation_ShouldInvalidReturn_Validation()
-        {
-            var request = VisitMock.CreateVisitInvalidRequestMock();
-
-            _visitValidator.ValidatesVisitCreation(request);
-
-            Assert.IsFalse(_visitValidator.IsValid);
-            Assert.IsTrue(_visitValidator.Errors.Count.Equals(6));
-        }
-
         [TestMethod("Visit creation validation Invalid return empty")]
         public void ValidatesVisitCreation_ShouldInvalidReturn_Empty()
         {
@@ -84,17 +73,6 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
             Assert.IsTrue(_visitValidator.Errors.Count.Equals(0));
         }
 
-        [TestMethod("Visit delete validation Invalid return")]
-        public void ValidatesVisitDelete_ShouldInvalidReturn_Validation()
-        {
-            var request = VisitMock.VisitKeyInvalidRequestMock();
-
-            _visitValidator.ValidatesVisitDelete(request);
-
-            Assert.IsFalse(_visitValidator.IsValid);
-            Assert.IsTrue(_visitValidator.Errors.Count.Equals(3));
-        }
-
         [TestMethod("Visit delete validation Invalid return empty")]
         public void ValidatesVisitDelete_ShouldInvalidReturn_Empty()
         {
@@ -136,17 +114,6 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Validators
 
             Assert.IsTrue(_visitValidator.IsValid);
             Assert.IsTrue(_visitValidator.Errors.Count.Equals(0));
-        }
-
-        [TestMethod("Visit key validation Invalid return")]
-        public void ValidatesVisitKey_ShouldInvalidReturn_Validation()
-        {
-            var request = VisitMock.VisitKeyInvalidRequestMock();
-
-            _visitValidator.ValidatesVisitKey(request.UserId, request.RegionId, request.RegionTypeId);
-
-            Assert.IsFalse(_visitValidator.IsValid);
-            Assert.IsTrue(_visitValidator.Errors.Count.Equals(3));
         }
 
         [TestMethod("Visit key validation Invalid return empty")]

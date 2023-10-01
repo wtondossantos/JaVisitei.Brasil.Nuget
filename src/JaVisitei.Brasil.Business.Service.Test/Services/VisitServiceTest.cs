@@ -32,6 +32,8 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             _mockMunicipalityService = new Mock<IMunicipalityService>();
             _mockIslandService = new Mock<IIslandService>();
             _mockUserService = new Mock<IUserService>();
+            _mockStateService = new Mock<IStateService>();
+            _mockCountryService = new Mock<ICountryService>();
             _mockMapper = new Mock<IMapper>();
 
             _visitService = new VisitService(_mockVisitRepository.Object, 
