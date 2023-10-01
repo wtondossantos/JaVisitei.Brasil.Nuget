@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <BaseOutputPath>..\..\artifacts</BaseOutputPath>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.0.0</Version>
+    <Version>2.0.0</Version>
     <Authors>$(AssemblyName)</Authors>
     <Company>Wtondossantos</Company>
     <Description>Nuget para API Já Visitei</Description>
