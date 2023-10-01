@@ -12,6 +12,9 @@ namespace JaVisitei.Brasil.Data.Entities
 
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Canvas { get; set; }
+        public short MapTypeId { get; set; }
+        public virtual MapType MapType { get; set; }
 
         public virtual ICollection<State> States { get; set; }
     }

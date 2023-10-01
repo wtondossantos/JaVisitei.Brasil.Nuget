@@ -1,17 +1,15 @@
-﻿using JaVisitei.Brasil.Business.ViewModels.Response.State;
+﻿using JaVisitei.Brasil.Business.ViewModels.Response.Base;
+using JaVisitei.Brasil.Business.ViewModels.Response.State;
 using JaVisitei.Brasil.Business.ViewModels.Response.Visit;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace JaVisitei.Brasil.Business.ViewModels.Response.Country
 {
-    public class CountryResponse
+    public class CountryResponse : BasicResponse
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
-
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
+        [JsonPropertyName("canvas")]
+        public string Canvas { get; set; }
 
         [JsonPropertyName("states")]
         public List<StateResponse> States { get; set; }

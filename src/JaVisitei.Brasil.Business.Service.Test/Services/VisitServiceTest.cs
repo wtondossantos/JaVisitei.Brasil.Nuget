@@ -21,6 +21,8 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         private readonly Mock<IVisitRepository> _mockVisitRepository;
         private readonly Mock<IMunicipalityService> _mockMunicipalityService;
         private readonly Mock<IIslandService> _mockIslandService;
+        private readonly Mock<IStateService> _mockStateService;
+        private readonly Mock<ICountryService> _mockCountryService;
         private readonly Mock<IUserService> _mockUserService;
         private readonly Mock<IMapper> _mockMapper;
 
@@ -35,7 +37,9 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
             _visitService = new VisitService(_mockVisitRepository.Object, 
                 _mockMunicipalityService.Object,
                 _mockIslandService.Object,
-                _mockUserService.Object, 
+                _mockUserService.Object,
+                _mockStateService.Object,
+                _mockCountryService.Object,
                 new VisitValidator(), 
                 _mockMapper.Object);
         }
@@ -383,7 +387,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         {
             var request = VisitMock.CreateVisitRegionNotExistsRequestMock();
             var visitValidationInvalid = VisitMock.VisitValidatorErrorMock();
-            var visitService = new VisitService(null, null, null, null, visitValidationInvalid, null);
+            var visitService = new VisitService(null, null, null, null, null, null, visitValidationInvalid, null);
 
             var result = await visitService.InsertAsync(request);
 
@@ -524,7 +528,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
         {
             var request = VisitMock.CreateVisitRegionNotExistsRequestMock();
             var visitValidationInvalid = VisitMock.VisitValidatorErrorMock();
-            var visitService = new VisitService(null, null, null, null, visitValidationInvalid, null);
+            var visitService = new VisitService(null, null, null, null, null, null, visitValidationInvalid, null);
 
             var result = await visitService.DeleteAsync(request);
 

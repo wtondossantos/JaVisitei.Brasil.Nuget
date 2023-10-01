@@ -1,13 +1,8 @@
-﻿using System.Text.Json.Serialization;
+﻿using JaVisitei.Brasil.Business.ViewModels.Response.Base;
 
 namespace JaVisitei.Brasil.Business.ViewModels.Response.RegionType
 {
-    public class RegionTypeResponse
+    public class RegionTypeResponse : BasicResponse
     {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
-
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
     }
 }

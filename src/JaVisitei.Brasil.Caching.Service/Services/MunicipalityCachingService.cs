@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JaVisitei.Brasil.Business.Constants;
+using JaVisitei.Brasil.Business.ViewModels.Response.Base;
 using JaVisitei.Brasil.Business.ViewModels.Response.Municipality;
 using JaVisitei.Brasil.Caching.Service.Base;
 using JaVisitei.Brasil.Caching.Service.Interfaces;
@@ -24,24 +25,28 @@ namespace JaVisitei.Brasil.Caching.Service.Services
             _cachingService = cachingService;
         }
 
-        public async Task<List<MunicipalityBasicResponse>> GetByCountryIdAsync(string countryId)
+        public async Task<List<BasicResponse>> GetNamesByCountryAsync(string countryId, List<MunicipalityResponse> municipalities)
         {
             var countryIdKey = $"{ countryId }_municipality";
             var municipalityCache = await _cachingService.GetAsync(countryIdKey);
             
             if (string.IsNullOrEmpty(municipalityCache))
             {
-                var municipalities = await _municipalityRepository.GetAsync();
-                if (municipalities is null) return new List<MunicipalityBasicResponse>();
+                var municipalitiesCaching = new List<BasicResponse>();
 
-                var municipalitiesCaching = _mapper.Map<List<MunicipalityBasicResponse>>(municipalities);
+                if (municipalities is null)
+                    municipalitiesCaching = _mapper.Map<List<BasicResponse>>(await _municipalityRepository.GetAsync());
+                else
+                    municipalitiesCaching = _mapper.Map<List<BasicResponse>>(municipalities);
+
+                if (municipalitiesCaching is null || municipalitiesCaching.Count.Equals(0)) return new List<BasicResponse>();
 
                 await _cachingService.SetAsync(countryIdKey, JsonConvert.SerializeObject(municipalitiesCaching), Constant.REDIS_LOW_FREQUENCY);
 
                 return municipalitiesCaching;
             }
 
-            return JsonConvert.DeserializeObject<List<MunicipalityBasicResponse>>(municipalityCache) ?? new List<MunicipalityBasicResponse>();
+            return JsonConvert.DeserializeObject<List<BasicResponse>>(municipalityCache) ?? new List<BasicResponse>();
         }
 
     }

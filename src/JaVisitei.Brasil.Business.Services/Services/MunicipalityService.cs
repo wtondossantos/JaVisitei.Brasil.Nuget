@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using System.Linq;
 using JaVisitei.Brasil.Caching.Service.Interfaces;
-using JaVisitei.Brasil.Business.ViewModels.Response.Municipality;
+using JaVisitei.Brasil.Business.ViewModels.Response.Base;
 
 namespace JaVisitei.Brasil.Business.Service.Services
 {
@@ -26,9 +26,9 @@ namespace JaVisitei.Brasil.Business.Service.Services
             _mapper = mapper;
         }
 
-        public async Task<List<MunicipalityBasicResponse>> GetByCountryIdAsync(string countryId)
+        public async Task<List<BasicResponse>> GetNamesByCountryAsync(string countryId)
         {
-            return await _municipalityCachingService.GetByCountryIdAsync(countryId);
+            return await _municipalityCachingService.GetNamesByCountryAsync(countryId, null);
         }
 
         public async Task<IEnumerable<M>> GetByStateAsync<M>(string stateId)

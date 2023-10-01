@@ -76,14 +76,14 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
             else if(userId.Length != 36)
                 Errors.Add("Informe o código do usuário válido.");
 
+            if (regionTypeId.Equals(0))
+                Errors.Add("Informe um tipo de região válido.");
+
             if (string.IsNullOrEmpty(regionId))
                 Errors.Add("Informe o código da região.");
 
-            else if (!RegionIdRegex.ValidateRegionId(regionId))
+            else if (!RegionIdRegex.ValidateRegionId(regionId) && (regionTypeId.Equals(6) || regionTypeId.Equals(7)))
                 Errors.Add("Informe um código de região válido.");
-
-            if (regionTypeId.Equals(0))
-                Errors.Add("Informe um tipo de região válido.");
         }
     }
 }

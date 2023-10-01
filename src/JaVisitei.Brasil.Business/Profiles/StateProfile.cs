@@ -9,6 +9,10 @@ namespace JaVisitei.Brasil.Business.Profiles
         public StateProfile()
         {
             CreateMap<State, StateResponse>();
+            CreateMap<State, StateSearchResponse>()
+                .AfterMap((src, dest) => {
+                    dest.NameCountry = src.Country?.Name;
+                });
         }
     }
 }

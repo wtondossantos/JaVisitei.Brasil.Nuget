@@ -1,18 +1,13 @@
-﻿using JaVisitei.Brasil.Business.ViewModels.Response.Macroregion;
+﻿using JaVisitei.Brasil.Business.ViewModels.Response.Base;
+using JaVisitei.Brasil.Business.ViewModels.Response.Macroregion;
 using JaVisitei.Brasil.Business.ViewModels.Response.Visit;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace JaVisitei.Brasil.Business.ViewModels.Response.State
 {
-    public class StateResponse
+    public class StateResponse : BasicResponse
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
-
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
-
         [JsonPropertyName("canvas")]
         public string Canvas { get; set; }
 
