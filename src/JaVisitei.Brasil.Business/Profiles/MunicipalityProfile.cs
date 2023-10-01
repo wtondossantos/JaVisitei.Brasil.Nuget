@@ -1,6 +1,7 @@
 ﻿using JaVisitei.Brasil.Business.ViewModels.Response.Municipality;
 using JaVisitei.Brasil.Data.Entities;
 using AutoMapper;
+using JaVisitei.Brasil.Business.ViewModels.Response.Base;
 
 namespace JaVisitei.Brasil.Business.Profiles
 {
@@ -9,7 +10,7 @@ namespace JaVisitei.Brasil.Business.Profiles
         public MunicipalityProfile()
         {
             CreateMap<Municipality, MunicipalityResponse>();
-            CreateMap<Municipality, MunicipalityBasicResponse>();
+            CreateMap<Municipality, BasicResponse>();
         }
     }
 }

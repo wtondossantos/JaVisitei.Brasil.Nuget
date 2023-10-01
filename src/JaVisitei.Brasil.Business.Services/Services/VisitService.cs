@@ -6,7 +6,6 @@ using JaVisitei.Brasil.Business.Service.Base;
 using JaVisitei.Brasil.Business.Enums;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
 using JaVisitei.Brasil.Data.Entities;
-
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -19,6 +18,8 @@ namespace JaVisitei.Brasil.Business.Service.Services
         private readonly IVisitRepository _visitRepository;
         private readonly IMunicipalityService _municipalityService;
         private readonly IIslandService _islandService;
+        private readonly IStateService _stateService;
+        private readonly ICountryService _countryService;
         private readonly IUserService _userService;
         private readonly VisitValidator _visitValidator;
         private readonly IMapper _mapper;
@@ -27,6 +28,8 @@ namespace JaVisitei.Brasil.Business.Service.Services
             IMunicipalityService municipalityService,
             IIslandService islService,
             IUserService userService,
+            IStateService stateService,
+            ICountryService countryService,
             VisitValidator visitValidator,
             IMapper mapper) : base(visitRepository, mapper)
         {
@@ -34,6 +37,8 @@ namespace JaVisitei.Brasil.Business.Service.Services
             _municipalityService = municipalityService;
             _islandService = islService;
             _userService = userService;
+            _stateService = stateService;
+            _countryService = countryService;
             _visitValidator = visitValidator;   
             _mapper = mapper;
         }
@@ -59,22 +64,9 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 if (!_visitValidator.IsValid)
                     return _visitValidator;
 
-                switch ((RegionTypeEnum)request.RegionTypeId)
-                {
-                    case RegionTypeEnum.Municipality:
-                        if (!await _municipalityService.AnyAsync(x => x.Id.Equals(request.RegionId)))
-                            _visitValidator.Errors.Add("Município não encontrado.");
-
-                        break;
-                    case RegionTypeEnum.Island:
-                        if (!await _islandService.AnyAsync(x => x.Id.Equals(request.RegionId)))
-                            _visitValidator.Errors.Add("Ilha não encontrada.");
-
-                        break;
-                    default:
-                        _visitValidator.Errors.Add("Tipo de região inválida. Código do tipo de região disponível: (6) para município e (7) para ilha.");
-                        break;
-                }
+                var visitExists = await ValidadeRegionExists(request.RegionTypeId, request.RegionId);
+                if (!string.IsNullOrEmpty(visitExists))
+                    _visitValidator.Errors.Add(visitExists);
 
                 if (!_visitValidator.IsValid)
                     return _visitValidator;
@@ -119,22 +111,9 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 if (!_visitValidator.IsValid)
                     return _visitValidator;
 
-                switch ((RegionTypeEnum)request.RegionTypeId)
-                {
-                    case RegionTypeEnum.Municipality:
-                        if (!await _municipalityService.AnyAsync(x => x.Id.Equals(request.RegionId)))
-                            _visitValidator.Errors.Add("Município não encontrado.");
-
-                        break;
-                    case RegionTypeEnum.Island:
-                        if (!await _islandService.AnyAsync(x => x.Id.Equals(request.RegionId)))
-                            _visitValidator.Errors.Add("Ilha não encontrada.");
-
-                        break;
-                    default:
-                        _visitValidator.Errors.Add("Tipo de região inválida. Código do tipo de região disponível: (6) para município e (7) para ilha.");
-                        break;
-                }
+                var visitExists = await ValidadeRegionExists(request.RegionTypeId, request.RegionId);
+                if (!string.IsNullOrEmpty(visitExists))
+                    _visitValidator.Errors.Add(visitExists);
 
                 if (!_visitValidator.IsValid)
                     return _visitValidator;
@@ -203,8 +182,36 @@ namespace JaVisitei.Brasil.Business.Service.Services
 
             return _visitValidator;
         }
-    
-    
-    
+
+        private async Task<string> ValidadeRegionExists(short regionTypeId, string regionId) 
+        {
+            switch ((RegionTypeEnum)regionTypeId)
+            {
+                case RegionTypeEnum.Municipality:
+                    if (!await _municipalityService.AnyAsync(x => x.Id.Equals(regionId)))
+                        return "Município não encontrado.";
+
+                    break;
+                case RegionTypeEnum.Island:
+                    if (!await _islandService.AnyAsync(x => x.Id.Equals(regionId)))
+                        return "Ilha não encontrada.";
+
+                    break;
+                case RegionTypeEnum.State:
+                    if (!await _stateService.AnyAsync(x => x.Id.Equals(regionId)))
+                        return "Divisão do pais não encontrado.";
+
+                    break;
+                case RegionTypeEnum.Country:
+                    if (!await _countryService.AnyAsync(x => x.Id.Equals(regionId)))
+                        return "Pais não encontrado.";
+
+                    break;
+                default:
+                    return "Tipo de região inválida.";
+            }
+
+            return null;
+        }
     }
 }

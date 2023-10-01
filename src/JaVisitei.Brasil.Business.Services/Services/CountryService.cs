@@ -1,15 +1,16 @@
-﻿using JaVisitei.Brasil.Business.Service.Interfaces;
+﻿using JaVisitei.Brasil.Business.ViewModels.Response.Country;
+using JaVisitei.Brasil.Business.ViewModels.Response.Visit;
+using JaVisitei.Brasil.Business.ViewModels.Response.State;
+using JaVisitei.Brasil.Business.Service.Interfaces;
+using JaVisitei.Brasil.Caching.Service.Interfaces;
 using JaVisitei.Brasil.Data.Repository.Interfaces;
 using JaVisitei.Brasil.Business.Service.Base;
 using JaVisitei.Brasil.Data.Entities;
-using AutoMapper;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
-using JaVisitei.Brasil.Business.ViewModels.Response.Country;
-using JaVisitei.Brasil.Business.ViewModels.Response.Visit;
-using JaVisitei.Brasil.Business.CacheModels;
-using JaVisitei.Brasil.Caching.Service.Interfaces;
+using AutoMapper;
+using JaVisitei.Brasil.Business.ViewModels.Response.Base;
 
 namespace JaVisitei.Brasil.Business.Service.Services
 {
@@ -29,23 +30,117 @@ namespace JaVisitei.Brasil.Business.Service.Services
             _countryCachingService = countryCachingService;
         }
 
-        public async Task<CountryResponse> GetFullByIdAsync(string countryId) 
+        public async Task<List<CountryResponse>> GetByMapTypeIdAsync(short mapTypeId)
         {
-            return await GetFullByIdAndUserIdAsync(countryId, string.Empty);
+            var countryCaching = await _countryCachingService.GetByMapTypeIdAsync(mapTypeId);
+            if (countryCaching is null) return null;
+
+            return countryCaching.Countries;
+        }
+
+        public async Task<List<CountryResponse>> GetFullByMapTypeIdAsync(short mapTypeId)
+        {
+            var countriesfullCaching = await _countryCachingService.GetFullByMapTypeIdAsync(mapTypeId);
+            if (countriesfullCaching is null) return null;
+
+            return countriesfullCaching.Countries;
+        }
+
+        public async Task<List<CountryResponse>> GetByMapTypeIdAndUserIdAsync(short mapTypeId, string userId)
+        {
+            var countriesfullCaching = await _countryCachingService.GetByMapTypeIdAsync(mapTypeId);
+            if (countriesfullCaching is null) return null;
+
+            List<VisitResponse> visits = null;
+            if (!string.IsNullOrEmpty(userId))
+                visits = _mapper.Map<List<VisitResponse>>(await _visitRepository.GetAsync(x => x.UserId.Equals(userId)));
+
+            if (visits is null)
+                return countriesfullCaching.Countries;
+
+            var countries = new List<CountryResponse>();
+            foreach (var country in countriesfullCaching.Countries)
+            {
+                var visit = visits.Where(x => x.RegionId.Equals(country.Id)).FirstOrDefault();
+                if (visit != null)
+                {
+                    country.Visit = visit;
+                    visits.Remove(visit);
+                }
+
+                countries.Add(country);
+            }
+
+            return countries;
+        }
+
+        public async Task<List<CountryResponse>> GetFullByMapTypeIdAndUserIdAsync(short mapTypeId, string userId)
+        {
+            try
+            {
+                var countriesCaching = await _countryCachingService.GetFullByMapTypeIdAsync(mapTypeId);
+                if (countriesCaching is null) return null;
+
+                List<VisitResponse> visits = null;
+                if (!string.IsNullOrEmpty(userId))
+                    visits = _mapper.Map<List<VisitResponse>>(await _visitRepository.GetAsync(x => x.UserId.Equals(userId)));
+
+                if (visits is null)
+                    return countriesCaching.Countries;
+
+                var countries = new List<CountryResponse>();
+                foreach (var country in countriesCaching.Countries)
+                {
+                    var states = country.States;
+                    country.States = new List<StateResponse>();
+
+                    foreach (var state in states)
+                    {
+                        var visit = visits.Where(x => x.RegionId.Equals(state.Id)).FirstOrDefault();
+                        if (visit != null)
+                        {
+                            state.Visit = visit;
+                            visits.Remove(visit);
+                        }
+
+                        country.States.Add(state);
+                    }
+
+                    countries.Add(country);
+                }
+
+                return countries;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<CountryResponse> GetFullByIdAsync(string countryId)
+        {
+            var countryCaching = await _countryCachingService.GetAsync(countryId);
+            if (countryCaching is null) return null;
+
+            return countryCaching.Country;
         }
 
         public async Task<CountryResponse> GetFullByIdAndUserIdAsync(string countryId, string userId)
         {
             try
             {
-                CountryCaching countryCaching = await _countryCachingService.GetAsync(countryId);
+                var countryCaching = await _countryCachingService.GetAsync(countryId);
                 if (countryCaching is null) return null;
 
-                CountryResponse country = countryCaching.Country;
                 List<VisitResponse> visits = null;
                 if(!string.IsNullOrEmpty(userId))
                     visits = _mapper.Map<List<VisitResponse>>(await _visitRepository.GetAsync(x => x.UserId.Equals(userId)));
 
+                if (visits is null)
+                    return countryCaching.Country;
+
+                var country = new CountryResponse();
+                country.States = new List<StateResponse>();
                 foreach (var state in countryCaching.States)
                 {
                     var listMacroregion = countryCaching.Macroregions.Where(x => x.StateId.Equals(state.Id));
@@ -108,6 +203,11 @@ namespace JaVisitei.Brasil.Business.Service.Services
             {
                 throw;
             }
+        }
+
+        public async Task<List<BasicResponse>> GetNamesAsync(short mapTypeId)
+        {
+            return await _countryCachingService.GetNamesAsync(mapTypeId, null);
         }
     }
 }

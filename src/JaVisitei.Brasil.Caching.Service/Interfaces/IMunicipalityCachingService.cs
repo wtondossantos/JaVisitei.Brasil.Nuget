@@ -1,9 +1,10 @@
-﻿using JaVisitei.Brasil.Business.ViewModels.Response.Municipality;
+﻿using JaVisitei.Brasil.Business.ViewModels.Response.Base;
+using JaVisitei.Brasil.Business.ViewModels.Response.Municipality;
 
 namespace JaVisitei.Brasil.Caching.Service.Interfaces
 {
     public interface IMunicipalityCachingService
     {
-        Task<List<MunicipalityBasicResponse>> GetByCountryIdAsync(string countryId);
+        Task<List<BasicResponse>> GetNamesByCountryAsync(string countryId, List<MunicipalityResponse> municipalities);
     }
 }

@@ -32,6 +32,7 @@ namespace JaVisitei.Brasil.Data.Base
         public virtual DbSet<UserManager> UserManagers { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<Visit> Visits { get; set; }
+        public virtual DbSet<MapType> MapTypes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -98,6 +99,17 @@ namespace JaVisitei.Brasil.Data.Base
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.Canvas)
+                    .IsRequired();
+
+                entity.HasOne(d => d.MapType)
+                    .WithMany(p => p.Countries)
+                    .HasForeignKey(d => d.MapTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CountryMapTypeId_MapTypeId");
+
+                entity.HasIndex(e => e.MapTypeId, "FK_CountryMapTypeId_MapTypeId");
             });
 
             modelBuilder.Entity<Email>(entity =>
@@ -340,6 +352,23 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasConstraintName("FK_MunicipalityMicroregionId_MicroregionId");
             });
 
+            modelBuilder.Entity<MapType>(entity =>
+            {
+                entity.ToTable("MapType");
+
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_unicode_ci");
+
+                entity.HasIndex(e => e.Name, "UQ_MapTypeName")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(60);
+            });
+
             modelBuilder.Entity<RegionType>(entity =>
             {
                 entity.ToTable("RegionType");
@@ -374,8 +403,7 @@ namespace JaVisitei.Brasil.Data.Base
                     .HasDefaultValueSql("''");
 
                 entity.Property(e => e.Canvas)
-                    .IsRequired()
-                    .HasMaxLength(2500);
+                    .IsRequired();
 
                 entity.Property(e => e.CountryId)
                     .IsRequired()

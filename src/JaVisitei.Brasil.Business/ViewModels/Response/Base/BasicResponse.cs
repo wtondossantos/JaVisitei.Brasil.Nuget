@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace JaVisitei.Brasil.Business.ViewModels.Response.Municipality
+namespace JaVisitei.Brasil.Business.ViewModels.Response.Base
 {
-    public class MunicipalityBasicResponse
+    public class BasicResponse
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }

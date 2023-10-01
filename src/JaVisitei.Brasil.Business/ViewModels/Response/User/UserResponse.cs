@@ -1,16 +1,11 @@
-﻿using System;
+﻿using JaVisitei.Brasil.Business.ViewModels.Response.Base;
+using System;
 using System.Text.Json.Serialization;
 
 namespace JaVisitei.Brasil.Business.ViewModels.Response.User
 {
-    public class UserResponse
+    public class UserResponse : BasicResponse
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
-
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
-
         [JsonPropertyName("username")]
         public string Username { get; set; }
 

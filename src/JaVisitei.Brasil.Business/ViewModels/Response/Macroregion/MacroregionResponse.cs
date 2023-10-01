@@ -1,4 +1,5 @@
 ﻿using JaVisitei.Brasil.Business.ViewModels.Response.Archipelago;
+using JaVisitei.Brasil.Business.ViewModels.Response.Base;
 using JaVisitei.Brasil.Business.ViewModels.Response.Microregion;
 using JaVisitei.Brasil.Business.ViewModels.Response.Visit;
 using System.Collections.Generic;
@@ -6,14 +7,8 @@ using System.Text.Json.Serialization;
 
 namespace JaVisitei.Brasil.Business.ViewModels.Response.Macroregion
 {
-    public class MacroregionResponse
+    public class MacroregionResponse : BasicResponse
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
-
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
-
         [JsonPropertyName("state_id")]
         public string StateId { get; set; }
 
