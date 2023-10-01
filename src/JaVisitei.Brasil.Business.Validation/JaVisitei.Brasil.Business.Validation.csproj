@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>6.1.1</Version>
+    <Version>7.0.0</Version>
     <Company>Wtondossantos</Company>
     <Description>Nuget para API Já Visitei</Description>
     <Copyright>Copyright 2022</Copyright>
