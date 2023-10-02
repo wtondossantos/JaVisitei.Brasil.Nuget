@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BaseOutputPath>..\..\artifacts</BaseOutputPath>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>2.0.0</Version>
+    <Authors>$(AssemblyName)</Authors>
+    <Company>Wtondossantos</Company>
+    <Description>Nuget para API Já Visitei</Description>
+    <Copyright>Copyright 2023</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://javisitei.com.br/api/documentacao.htm</PackageProjectUrl>
+    <PackageTags>JaVisitei;Brasil</PackageTags>
+    <NeutralLanguage>pt-BR</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JaVisitei.Brasil.Business\JaVisitei.Brasil.Business.csproj" />
+    <ProjectReference Include="..\JaVisitei.Brasil.Data.Repository\JaVisitei.Brasil.Data.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

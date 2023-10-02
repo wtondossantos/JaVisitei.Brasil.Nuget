@@ -1,11 +1,60 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Description>Nuget para API Já Visitei</Description>
+		<PackageTags>JaVisitei;Brasil</PackageTags>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Authos>Wellington dos Santos Castor</Authos>
+		<Company>Wtondossantos</Company>
+		<Copyright>Copyright 2021</Copyright>
+		<PackageProjectUrl>https://javisitei.com.br/api/documentacao.htm</PackageProjectUrl>
+		<NeutralLanguage>pt-BR</NeutralLanguage>
+		<FileVersion></FileVersion>
+		<AssemblyVersion></AssemblyVersion>
+		<Version>7.0.1</Version>
+		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+		<EmbedUntrackedSources>True</EmbedUntrackedSources>
+		<ContinuousIntegrationBuild>True</ContinuousIntegrationBuild>
+		<DebugType>embedded</DebugType>
+		<Deterministic>True</Deterministic>
+		<SignAssembly>False</SignAssembly>
+		<AllowedOutputExtesionsInPackageBuildOutputFolder>$(AllowedOutputExtesionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtesionsInPackageBuildOutputFolder>
+		<PublishRepositoryURL>True</PublishRepositoryURL>
+		<BaseOutputPath>..\..\artifacts</BaseOutputPath>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\JaVisitei.Brasil.Helper\JaVisitei.Brasil.Helper.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="bin\**" />
+	  <EmbeddedResource Remove="bin\**" />
+	  <None Remove="bin\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\JaVisitei.Brasil.Data\JaVisitei.Brasil.Data.csproj" />
+	  <ProjectReference Include="..\JaVisitei.Brasil.Helper\JaVisitei.Brasil.Helper.csproj" />
+	  <ProjectReference Include="..\JaVisitei.Brasil.Security\JaVisitei.Brasil.Security.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="AutoMapper" Version="11.0.1" />
+	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
 
 </Project>
