@@ -13,7 +13,7 @@
 		<NeutralLanguage>pt-BR</NeutralLanguage>
 		<FileVersion></FileVersion>
 		<AssemblyVersion></AssemblyVersion>
-		<Version>7.0.1</Version>
+		<Version>7.0.2</Version>
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 		<EmbedUntrackedSources>True</EmbedUntrackedSources>
 		<ContinuousIntegrationBuild>True</ContinuousIntegrationBuild>

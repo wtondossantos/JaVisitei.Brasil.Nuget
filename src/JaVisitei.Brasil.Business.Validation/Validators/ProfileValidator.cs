@@ -14,7 +14,8 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            ValidatesEmail(request.Email);
+            if (string.IsNullOrEmpty(request.Email))
+                Errors.Add("Informe o e-mail ou usuário.");
 
             if (string.IsNullOrEmpty(request.Password))
                 Errors.Add("Informe a senha.");
