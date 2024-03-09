@@ -16,7 +16,7 @@ namespace JaVisitei.Brasil.Data.Repository.Repositories
         {
             return await (from user in _context.Users
                           join userRoles in _context.UserRoles on user.UserRoleId equals userRoles.Id
-                          where user.Password.Equals(password) && user.Email.Equals(email)
+                          where user.Password.Equals(password) && (user.Email.Equals(email) || user.Username.Equals(email))
                           select new User
                           {
                               Id = user.Id,

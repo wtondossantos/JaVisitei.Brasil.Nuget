@@ -17,7 +17,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
         {
             return new LoginRequest
             {
-                Email = "testetestecom",
+                Email = "",
                 Password = ""
             };
         }

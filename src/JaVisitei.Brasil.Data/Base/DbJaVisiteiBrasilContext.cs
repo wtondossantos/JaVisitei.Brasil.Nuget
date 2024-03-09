@@ -98,7 +98,7 @@ namespace JaVisitei.Brasil.Data.Base
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(60);
 
                 entity.Property(e => e.Canvas)
                     .IsRequired();
