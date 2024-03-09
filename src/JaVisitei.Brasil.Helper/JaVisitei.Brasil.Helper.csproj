@@ -15,7 +15,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<FileVersion></FileVersion>
 		<AssemblyVersion></AssemblyVersion>
-		<Version>4.0.3</Version>
+		<Version>4.0.4</Version>
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 		<EmbedUntrackedSources>True</EmbedUntrackedSources>
 		<ContinuousIntegrationBuild>True</ContinuousIntegrationBuild>
@@ -41,7 +41,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.1" />
 	</ItemGroup>
 
 	<ItemGroup>
