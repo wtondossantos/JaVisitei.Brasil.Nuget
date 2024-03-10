@@ -13,7 +13,7 @@
 		<NeutralLanguage>pt-BR</NeutralLanguage>
 		<FileVersion></FileVersion>
 		<AssemblyVersion></AssemblyVersion>
-		<Version>7.0.3</Version>
+		<Version>7.0.4</Version>
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 		<EmbedUntrackedSources>True</EmbedUntrackedSources>
 		<ContinuousIntegrationBuild>True</ContinuousIntegrationBuild>
@@ -52,8 +52,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="AutoMapper" Version="13.0.1" />
-	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+	  <PackageReference Include="AutoMapper" Version="11.0.1" />
+	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
