@@ -31,31 +31,10 @@ namespace JaVisitei.Brasil.Security.Test
             Assert.IsNotNull(result);
             Assert.IsFalse(string.IsNullOrEmpty(result));
             
-            //var jsonToken = new JsonWebTokenHandler().ReadToken(result);
             var id = TokenString.ValidateJwtToken(result);
 
-            //var tokenS = jsonToken as JwtSecurityToken;
-            //jsonToken.
             Assert.IsNotNull(id);
             Assert.AreEqual(user.Id, id);
-
-            //var claims = tokenS.Claims as List<Claim>;
-
-            //Assert.IsNotNull(claims);
-            //Assert.IsFalse(string.IsNullOrEmpty(claims[0].Value));
-            //Assert.AreEqual(claims[0].Value, tokenS.Subject);
-            //Assert.IsFalse(string.IsNullOrEmpty(claims[1].Value));
-            //Assert.IsFalse(string.IsNullOrEmpty(claims[2].Value));
-            //Assert.AreEqual(user.Username, claims[3].Value);
-            //Assert.AreEqual(user.UserRole.Name, claims[4].Value);
-            //Assert.IsFalse(string.IsNullOrEmpty(claims[5].Value));
-            //Assert.IsFalse(string.IsNullOrEmpty(claims[6].Value));
-            //Assert.IsFalse(string.IsNullOrEmpty(claims[7].Value));
-
-            //var audiences = tokenS.Audiences as List<string>;
-
-            //Assert.IsNotNull(audiences);
-            //Assert.IsFalse(string.IsNullOrEmpty(audiences[0]));
         }
 
         [TestMethod("Return invalid Generate authentication token nullable username")]
