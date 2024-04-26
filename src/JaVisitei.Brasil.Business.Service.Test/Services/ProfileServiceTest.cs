@@ -47,7 +47,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 loginValidation, null, null, null, null, null, null);
 
             _ = _mockUserService
-                .Setup(x => x.LoginAsync<User>(loginRequest.Email, Encrypt.Sha256encrypt(loginRequest.Password)))
+                .Setup(x => x.LoginAsync<User>(loginRequest.Input, Encrypt.Sha256encrypt(loginRequest.Password)))
                 .ReturnsAsync(userResponse);
 
             var result = await _profileService.LoginAsync(loginRequest);
@@ -87,7 +87,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 loginValidation, null, null, null, null, null, null);
 
             _ = _mockUserService
-                .Setup(x => x.LoginAsync<User>(loginRequest.Email, loginRequest.Password))
+                .Setup(x => x.LoginAsync<User>(loginRequest.Input, loginRequest.Password))
                 .ReturnsAsync((User)null);
 
             var result = await _profileService.LoginAsync(loginRequest);
@@ -109,7 +109,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 loginValidation, null, null, null, null, null, null);
 
             _ = _mockUserService
-                .Setup(x => x.LoginAsync<User>(loginRequest.Email, loginRequest.Password))
+                .Setup(x => x.LoginAsync<User>(loginRequest.Input, loginRequest.Password))
                 .ReturnsAsync(userResponse);
 
             var result = await _profileService.LoginAsync(loginRequest);
@@ -131,7 +131,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 loginValidation, null, null, null, null, null, null);
 
             _ = _mockUserService
-                .Setup(x => x.LoginAsync<User>(loginRequest.Email, loginRequest.Password))
+                .Setup(x => x.LoginAsync<User>(loginRequest.Input, loginRequest.Password))
                 .ReturnsAsync(userResponse);
 
             var result = await _profileService.LoginAsync(loginRequest);
@@ -152,7 +152,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Services
                 new ProfileValidator<LoginResponse>(), null, null, null, null, null, null);
 
             _ = _mockUserService
-                .Setup(x => x.LoginAsync<User>(loginRequest.Email, Encrypt.Sha256encrypt(loginRequest.Password)))
+                .Setup(x => x.LoginAsync<User>(loginRequest.Input, Encrypt.Sha256encrypt(loginRequest.Password)))
                 .Throws(new Exception(message));
 
             try

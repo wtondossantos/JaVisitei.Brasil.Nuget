@@ -5,8 +5,8 @@ namespace JaVisitei.Brasil.Business.ViewModels.Request.Profile
     public class LoginRequest
     {
         [Required(ErrorMessage = "Informe E-mail ou Usuário e Senha")]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Input")]
+        public string Input { get; set; }
 
         [Required(ErrorMessage = "Informe E-mail ou Usuário e Senha")]
         [MaxLength(255, ErrorMessage = "A senha não pode exceder {1} caracteres.")]

@@ -79,7 +79,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
         {
             return new LoginRequest
             {
-                Email = "teste@teste.com.zz",
+                Input = "teste@teste.com.zz",
                 Password = "!Abc5678"
             };
         }
@@ -88,7 +88,7 @@ namespace JaVisitei.Brasil.Business.Service.Test.Mocks
         {
             return new LoginRequest
             {
-                Email = "testetestecom",
+                Input = "testetestecom",
                 Password = "123456"
             };
         }

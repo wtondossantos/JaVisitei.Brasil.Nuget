@@ -12,11 +12,11 @@ namespace JaVisitei.Brasil.Data.Repository.Repositories
     {
         public UserRepository(DbJaVisiteiBrasilContext context) : base(context) { }
 
-        public async Task<User> LoginAsync(string email, string password)
+        public async Task<User> LoginAsync(string input, string password)
         {
             return await (from user in _context.Users
                           join userRoles in _context.UserRoles on user.UserRoleId equals userRoles.Id
-                          where user.Password.Equals(password) && (user.Email.Equals(email) || user.Username.Equals(email))
+                          where user.Password.Equals(password) && (user.Email.Equals(input) || user.Username.Equals(input))
                           select new User
                           {
                               Id = user.Id,
@@ -51,11 +51,11 @@ namespace JaVisitei.Brasil.Data.Repository.Repositories
                           }).FirstOrDefaultAsync();
         }
 
-        public async Task<User> GetRefreshTokenAsync(string email, string refreshToken)
+        public async Task<User> GetRefreshTokenAsync(string id, string refreshToken)
         {
             return await (from user in _context.Users
                             join userRoles in _context.UserRoles on user.UserRoleId equals userRoles.Id
-                            where user.Email.Equals(email) && user.RefreshToken.Equals(refreshToken)
+                            where user.Id.Equals(id) && user.RefreshToken.Equals(refreshToken)
                             select new User
                             {
                                 Id = user.Id,

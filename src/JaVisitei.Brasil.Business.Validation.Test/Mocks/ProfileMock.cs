@@ -8,7 +8,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
         {
             return new LoginRequest
             {
-                Email = "teste@teste.com.zz",
+                Input = "teste@teste.com.zz",
                 Password = "!Abc5678"
             };
         }
@@ -17,7 +17,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
         {
             return new LoginRequest
             {
-                Email = "",
+                Input = "",
                 Password = ""
             };
         }
@@ -26,7 +26,7 @@ namespace JaVisitei.Brasil.Business.Validation.Test.Mocks
         {
             return new LoginRequest
             {
-                Email = "",
+                Input = "",
                 Password = ""
             };
         }

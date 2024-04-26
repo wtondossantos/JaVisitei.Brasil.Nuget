@@ -13,7 +13,7 @@ namespace JaVisitei.Brasil.Business.Profiles
             CreateMap<LoginRequest, User>()
                 .BeforeMap((src, dest) => {
                     src.Password = Encrypt.Sha256encrypt(src.Password);
-                    src.Email = src.Email.ToLower();
+                    src.Input = src.Input.ToLower();
                     })
                     .AfterMap((src, dest) => {
                         dest.SecurityStamp = Guid.NewGuid().ToString();
