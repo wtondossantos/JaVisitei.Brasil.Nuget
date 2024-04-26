@@ -1,5 +1,4 @@
-﻿using JaVisitei.Brasil.Business.Constants;
-using JaVisitei.Brasil.Business.Validation.Expressions;
+﻿using JaVisitei.Brasil.Business.Validation.Expressions;
 using JaVisitei.Brasil.Business.Validation.Models;
 using JaVisitei.Brasil.Business.ViewModels.Request.Profile;
 
@@ -14,8 +13,11 @@ namespace JaVisitei.Brasil.Business.Validation.Validators
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            if (string.IsNullOrEmpty(request.Email))
+            if (string.IsNullOrEmpty(request.Input))
                 Errors.Add("Informe o e-mail ou usuário.");
+
+            else if (request.Input.Contains('@'))
+                ValidatesEmail(request.Input);
 
             if (string.IsNullOrEmpty(request.Password))
                 Errors.Add("Informe a senha.");

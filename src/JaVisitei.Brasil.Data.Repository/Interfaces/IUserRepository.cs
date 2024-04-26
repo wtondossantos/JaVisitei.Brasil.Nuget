@@ -6,7 +6,7 @@ namespace JaVisitei.Brasil.Data.Repository.Interfaces
 {
     public interface IUserRepository : IRepository<User>
     {
-        Task<User> LoginAsync(string email, string password);
-        Task<User> GetRefreshTokenAsync(string email, string refreshToen);
+        Task<User> LoginAsync(string input, string password);
+        Task<User> GetRefreshTokenAsync(string id, string refreshToen);
     }
 }

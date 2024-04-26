@@ -1,9 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text.RegularExpressions;
 using JaVisitei.Brasil.Data.Entities;
-using System.IdentityModel.Tokens.Jwt;
-using System.Collections.Generic;
-using System.Security.Claims;
 using Moq;
 using System;
 
@@ -18,7 +15,7 @@ namespace JaVisitei.Brasil.Security.Test
             Environment.SetEnvironmentVariable("JWT_EXPIDED_MINUTE", "2");
             Environment.SetEnvironmentVariable("JWT_AUDIENCE", "audience");
             Environment.SetEnvironmentVariable("JWT_ISSUER", "issuer");
-            Environment.SetEnvironmentVariable("JWT_KEY", "teste@teste.com.zz");
+            Environment.SetEnvironmentVariable("JWT_KEY", "WE7BI5lcAW3jlmv35xTbfVbgGGWzgZ7Mo+fgJNSgVnk=");
             Environment.SetEnvironmentVariable("JWT_SUBJECT", "subject");
         }
 
@@ -33,29 +30,11 @@ namespace JaVisitei.Brasil.Security.Test
 
             Assert.IsNotNull(result);
             Assert.IsFalse(string.IsNullOrEmpty(result));
-
-            var jsonToken = new JwtSecurityTokenHandler().ReadToken(result);
-            var tokenS = jsonToken as JwtSecurityToken;
             
-            Assert.IsNotNull(tokenS);
+            var id = TokenString.ValidateJwtToken(result);
 
-            var claims = tokenS.Claims as List<Claim>;
-
-            Assert.IsNotNull(claims);
-            Assert.IsFalse(string.IsNullOrEmpty(claims[0].Value));
-            Assert.AreEqual(claims[0].Value, tokenS.Subject);
-            Assert.IsFalse(string.IsNullOrEmpty(claims[1].Value));
-            Assert.IsFalse(string.IsNullOrEmpty(claims[2].Value));
-            Assert.AreEqual(user.Username, claims[3].Value);
-            Assert.AreEqual(user.UserRole.Name, claims[4].Value);
-            Assert.IsFalse(string.IsNullOrEmpty(claims[5].Value));
-            Assert.IsFalse(string.IsNullOrEmpty(claims[6].Value));
-            Assert.IsFalse(string.IsNullOrEmpty(claims[7].Value));
-
-            var audiences = tokenS.Audiences as List<string>;
-
-            Assert.IsNotNull(audiences);
-            Assert.IsFalse(string.IsNullOrEmpty(audiences[0]));
+            Assert.IsNotNull(id);
+            Assert.AreEqual(user.Id, id);
         }
 
         [TestMethod("Return invalid Generate authentication token nullable username")]

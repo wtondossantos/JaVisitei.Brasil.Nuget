@@ -49,7 +49,7 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 if (!_profileLoginValidator.IsValid)
                     return _profileLoginValidator;
 
-                var result = await _userService.LoginAsync<User>(request.Email, Encrypt.Sha256encrypt(request.Password));
+                var result = await _userService.LoginAsync<User>(request.Input, Encrypt.Sha256encrypt(request.Password));
 
                 if (result is null || string.IsNullOrEmpty(result.Password))
                 {
@@ -92,9 +92,15 @@ namespace JaVisitei.Brasil.Business.Service.Services
                 if (!_profileLoginValidator.IsValid)
                     return _profileLoginValidator;
 
-                var account = TokenString.ValidateJwtToken(request.RToken);
+                var id = TokenString.ValidateJwtToken(request.RToken);
 
-                var result = await _userService.RefreshTokenAsync<User>(account, request.RefreshToken);
+                if (id is null)
+                {
+                    _profileLoginValidator.Errors.Add("Efetue o login novamente.");
+                    return _profileLoginValidator;
+                }
+
+                var result = await _userService.RefreshTokenAsync<User>(id, request.RefreshToken);
 
                 if (result is null)
                 {

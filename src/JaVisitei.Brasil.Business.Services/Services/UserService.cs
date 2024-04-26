@@ -207,15 +207,15 @@ namespace JaVisitei.Brasil.Business.Service.Services
             return _userValidator;
         }
 
-        public async Task<M> LoginAsync<M>(string email, string password)
+        public async Task<M> LoginAsync<M>(string input, string password)
         {
-            var item = await _userRepository.LoginAsync(email, password);
+            var item = await _userRepository.LoginAsync(input, password);
             return item is null ? default : _mapper.Map<M>(item);
         }
 
-        public async Task<M> RefreshTokenAsync<M>(string email, string refreshToken)
+        public async Task<M> RefreshTokenAsync<M>(string id, string refreshToken)
         {
-            var item = await _userRepository.GetRefreshTokenAsync(email, refreshToken);
+            var item = await _userRepository.GetRefreshTokenAsync(id, refreshToken);
             return item is null ? default : _mapper.Map<M>(item);
         }
     }

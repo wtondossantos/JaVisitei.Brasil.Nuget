@@ -12,7 +12,7 @@ namespace JaVisitei.Brasil.Business.Service.Interfaces
         Task<UserValidator> InsertAsync(InsertFullUserRequest request);
         Task<UserValidator> UpdateAsync(UpdateUserRequest request);
         Task<UserValidator> UpdateAsync(UpdateFullUserRequest request);
-        Task<M> LoginAsync<M>(string email, string password);
-        Task<M> RefreshTokenAsync<M>(string email, string refreshToken);
+        Task<M> LoginAsync<M>(string input, string password);
+        Task<M> RefreshTokenAsync<M>(string id, string refreshToken);
     }
 }

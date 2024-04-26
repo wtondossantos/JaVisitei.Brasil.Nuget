@@ -1,10 +1,12 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using JaVisitei.Brasil.Data.Entities;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System;
 using System.Linq;
+using Microsoft.IdentityModel.JsonWebTokens;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace JaVisitei.Brasil.Security
 {
@@ -21,26 +23,23 @@ namespace JaVisitei.Brasil.Security
             if (user.UserRole is null)
                 throw new ArgumentNullException(nameof(user.UserRole));
 
+            if (user.Email is null)
+                throw new ArgumentNullException(nameof(user.Email));
+
             if (user.UserRole.Name is null)
                 throw new ArgumentNullException(nameof(user.UserRole.Name));
-
-            var claims = new[] {
-                new Claim(JwtRegisteredClaimNames.Sub, Environment.GetEnvironmentVariable("JWT_SUBJECT")),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                new Claim("username", user.Username),
-                new Claim("role", user.UserRole.Name)
-                };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY")));
-            var credenciais = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-            var token = new JwtSecurityToken(
-                Environment.GetEnvironmentVariable("JWT_ISSUER"),
-                Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
-                claims,
-                expires: DateTime.UtcNow.AddMinutes(Convert.ToInt32(Environment.GetEnvironmentVariable("JWT_EXPIDED_MINUTE"))),
-                signingCredentials: credenciais);
             
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var claims = new Dictionary<string, object> {
+                [JwtRegisteredClaimNames.Sub] = Environment.GetEnvironmentVariable("JWT_SUBJECT"),
+                [JwtRegisteredClaimNames.Jti] = Guid.NewGuid().ToString(),
+                [JwtRegisteredClaimNames.Iat] = DateTime.UtcNow.ToString(),
+                ["id"] = user.Id.ToString(),
+                ["username"] = user.Username,
+                ["role"] = user.UserRole.Name,
+                [ClaimTypes.Email] = user.Email
+            };
+
+            return GenerateToken(claims);
         }
 
         public static string GenerateAuthenticationRefreshToken(User user)
@@ -51,31 +50,46 @@ namespace JaVisitei.Brasil.Security
             if (user.Email is null)
                 throw new ArgumentNullException(nameof(user.Email));
 
-            var claims = new[] {
-                new Claim(JwtRegisteredClaimNames.Sub, Environment.GetEnvironmentVariable("JWT_SUBJECT")),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                new Claim("email", user.Email)
-                };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY")));
-            var credenciais = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-            var token = new JwtSecurityToken(
-                Environment.GetEnvironmentVariable("JWT_ISSUER"),
-                Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
-                claims,
-                expires: DateTime.UtcNow.AddDays(Convert.ToInt32(Environment.GetEnvironmentVariable("JWT_EXPIDED_TIME"))),
-                signingCredentials: credenciais);
+            var claims = new Dictionary<string, object>
+            {
+                [JwtRegisteredClaimNames.Sub] = Environment.GetEnvironmentVariable("JWT_SUBJECT"),
+                [JwtRegisteredClaimNames.Jti] = Guid.NewGuid().ToString(),
+                [JwtRegisteredClaimNames.Iat] = DateTime.UtcNow.ToString(),
+                ["id"] = user.Id.ToString(),
+                [ClaimTypes.Email] = user.Email
+            };
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return GenerateToken(claims);
+        }
+
+        private static string GenerateToken(Dictionary<string, object> claims)
+        {
+            var descriptor = new SecurityTokenDescriptor
+            {
+                Issuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
+                Audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
+                Claims = claims,
+                IssuedAt = DateTime.UtcNow,
+                NotBefore = DateTime.UtcNow,
+                Expires = DateTime.UtcNow.AddMinutes(Convert.ToInt32(Environment.GetEnvironmentVariable("JWT_EXPIDED_MINUTE"))),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY"))), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var handler = new JsonWebTokenHandler
+            {
+                SetDefaultTimesOnTokenCreation = false
+            };
+
+            return handler.CreateToken(descriptor);
         }
 
         public static string ValidateJwtToken(string token)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenHandler = new JsonWebTokenHandler();
             
             try
             {
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                var jwtToken = tokenHandler.ValidateTokenAsync(token, new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
@@ -86,12 +100,12 @@ namespace JaVisitei.Brasil.Security
                     ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
                     ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
                     RequireExpirationTime = true
-                }, out SecurityToken validatedToken);
+                });
 
-                var jwtToken = (JwtSecurityToken)validatedToken;
-                var account = jwtToken.Claims.First(x => x.Type == "email").Value;
+                if(jwtToken.Result.IsValid)
+                    return jwtToken.Result.Claims["id"].ToString();
 
-                return account;
+                return null;
             }
             catch
             {
